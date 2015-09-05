@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     public void Init(Vector3 trg,Weapon weapon)
     {
         this.weapon = weapon;
-        this.trg = trg;
+        this.trg = trg.normalized * 5;
         start = transform.position;
         time = 0;
     }
