@@ -21,10 +21,10 @@ public class MoveAction : BaseAction
         var sqrM = dir.sqrMagnitude;
     //    Debug.DrawRay(owner.transform.position, dir, Color.yellow, 5);
   //      Debug.Log("dir " + sqrM + "  " + trg + "   " + owner.transform.position);
-        owner.Control.Move(dir.normalized, false, false);
+        owner.Control.Move(trg, false, false);
         if (sqrM < 1f)
         {
-            owner.Control.Move(Vector3.zero, false, false);
+            //owner.Control.Move(Vector3.zero, false, false);
             End("dir " + sqrM);
         }
     }

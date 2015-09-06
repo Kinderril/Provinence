@@ -57,8 +57,8 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         var endDrag = eventData.position;
         var sqrDist = (endDrag - startDrag).sqrMagnitude;
         var hit = RayCast(eventData);
-        Debug.Log("On up " + sqrDist);
-        if (sqrDist > 200)
+        //Debug.Log("On up " + sqrDist);
+        if (sqrDist > 3200)
         {
             if (hit != Vector3.zero)
                 mainHero.TryAttack(hit);

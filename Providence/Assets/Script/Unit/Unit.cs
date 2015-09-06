@@ -81,12 +81,12 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private void Dead()
+    protected virtual void Dead()
     {
-        Destroy(gameObject);
         if (OnDead != null)
         {
             OnDead(this);
         }
+        Destroy(gameObject);
     }
 }

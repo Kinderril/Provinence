@@ -28,10 +28,12 @@ public class Character : MonoBehaviour
 	Vector3 m_CapsuleCenter;
 	CapsuleCollider m_Capsule;
 	bool m_Crouching;
+    NavMeshAgent agent;
 
 
 	void Start()
 	{
+	    agent = GetComponent<NavMeshAgent>();
 		m_Animator = GetComponent<Animator>();
 		m_Rigidbody = GetComponent<Rigidbody>();
 		m_Capsule = GetComponent<CapsuleCollider>();
@@ -45,10 +47,11 @@ public class Character : MonoBehaviour
 
 	public void Move(Vector3 move, bool crouch, bool jump)
 	{
+	    agent.SetDestination(move);
 		// convert the world relative moveInput vector into a local-relative
 		// turn amount and forward amount required to head in the desired
 		// direction.
-        
+        /*
 		if (move.magnitude > 1f) 
             move.Normalize();
             
@@ -71,11 +74,11 @@ public class Character : MonoBehaviour
 
 		ScaleCapsuleForCrouching(crouch);
 		PreventStandingInLowHeadroom();
-
+        */
 		// send input and other state parameters to the animator
         UpdateAnimator(move);
          
-        m_Rigidbody.velocity = move;
+        //m_Rigidbody.velocity = move;
         //Debug.Log(m_Rigidbody.velocity);
 	}
 

@@ -7,10 +7,14 @@ public class MainController : Singleton<MainController>
     public Unit MainHero;
     public UIMain uiMain;
     public TimerManager TimerManager;
+    public Level level;
+    public InGameUI InGameUi;
 
 	// Use this for initialization
 	void Start () {
         TimerManager = new TimerManager();
+        level = new Level();
+        InGameUi.Init();
         Map.Instance.Init();
         MainHero.Init();
 	    uiMain.Init();
@@ -20,5 +24,8 @@ public class MainController : Singleton<MainController>
 	void Update () {
         if (TimerManager != null)
 	        TimerManager.Update();
+	    if (level != null)
+	        level.Update();
 	}
+
 }

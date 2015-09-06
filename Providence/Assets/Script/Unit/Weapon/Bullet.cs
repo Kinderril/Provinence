@@ -6,23 +6,26 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 0.00001f;
+    public float speed = 0.000001f;
     private float time = 0;
     public Vector3 trg;
     public Vector3 start;
     private Weapon weapon;
 
-    public void Init(Vector3 trg,Weapon weapon)
+    public void Init(Vector3 target,Weapon weapon)
     {
         this.weapon = weapon;
-        this.trg = trg.normalized * 5;
+        //trg = target.normalized * 5;
+
         start = transform.position;
+        var dir = target - start;
+        trg = dir.normalized * 5 + start;
+        Debug.Log(" Target final =  " + trg + " dir:" + dir);
         time = 0;
     }
     void OnTriggerEnter(Collider other)
     {
         var unit = other.GetComponent<Unit>();
-        Debug.Log(" Trigger " + unit + "   " + weapon.owner);
         if (unit != null && unit != weapon.owner)
         {
             unit.GetHit(this);

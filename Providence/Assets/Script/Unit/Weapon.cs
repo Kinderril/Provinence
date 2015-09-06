@@ -25,6 +25,7 @@ public class Weapon : MonoBehaviour
 
     public void DoShoot(Vector3 v)
     {
+        v = new Vector3(v.x,owner.transform.position.y,v.z);
         var b = CanShoot();
         if (b)
         {

@@ -22,7 +22,7 @@ public class BaseAction
 
     public void End(string msg = " end action ")
     {
-        Debug.Log(msg);
+        //Debug.Log(msg);
         endCallback();
     }
 }
