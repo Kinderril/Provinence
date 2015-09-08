@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     public Weapon curWeapon;
     public List<Weapon> InventoryWeapons;
     public Character Control;
-    private BaseAction action;
+    protected BaseAction action;
     public UnitType unitType;
     private Transform weaponsContainer;
     public event Action<Unit> OnDead;
@@ -30,7 +30,7 @@ public class Unit : MonoBehaviour
     {
     }
 
-    public void Init()
+    public virtual void Init()
     {
         weaponsContainer = transform.Find("Weapons");
         curHp = maxHp = 100;

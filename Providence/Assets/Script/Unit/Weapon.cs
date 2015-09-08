@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour
 {
     private float nexAttackTime;
     private float attackCooldown;
+    public float range;
     public int power;
     public Bullet bullet;
     public Unit owner;
