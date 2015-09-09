@@ -15,21 +15,25 @@ public class BaseMonster : Unit
 {
     public AttackType AttackType;
     private const int isHomeDist = 10;
-    private int attackDist = 90;
-    private int targetDist = 0;
-    private Vector3 bornPosition;
+    private float attackDist = 90;
+    private float targetDist = 0;
+    public Vector3 bornPosition;
     private AIStatus aiStatus = AIStatus.walk;
+    public float attackPeriod;
+    private Unit mainHero;
 
     protected override void Dead()
     {
         base.Dead();
         MainController.Instance.level.PowerLeft -= 1f;
+        mainHero = MainController.Instance.MainHero;
     }
 
 
     public void CheckDistance()
     {
-        bool isTargetClose = (targetDist >= attackDist);
+        targetDist = (mainHero.transform.position - transform.position).sqrMagnitude;
+        bool isTargetClose = (targetDist > attackDist);
         switch (aiStatus)
         {
             case AIStatus.attack:

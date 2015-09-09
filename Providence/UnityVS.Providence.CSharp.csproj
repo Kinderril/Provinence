@@ -83,6 +83,9 @@
     <Compile Include="Assets\Script\Map\Map.cs" />
     <Compile Include="Assets\Script\UI\InGameUI.cs" />
     <Compile Include="Assets\Script\Unit\Actions\AttackAction.cs" />
+    <Compile Include="Assets\Script\Unit\Actions\AttackCloseCombat.cs" />
+    <Compile Include="Assets\Script\Unit\Actions\AttackDistance.cs" />
+    <Compile Include="Assets\Script\Unit\Actions\AttackHitAndRun.cs" />
     <Compile Include="Assets\Script\Unit\Actions\BaseAction.cs" />
     <Compile Include="Assets\Script\Unit\Actions\MoveAction.cs" />
     <Compile Include="Assets\Script\Unit\Character.cs" />
