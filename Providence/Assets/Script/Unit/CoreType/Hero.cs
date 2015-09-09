@@ -6,5 +6,9 @@ using System.Text;
 
 public class Hero : Unit
 {
-
+    void FixedUpdate()
+    {
+        if (action != null)
+            action.Update();
+    }
 }

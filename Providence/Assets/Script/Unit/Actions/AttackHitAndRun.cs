@@ -14,6 +14,13 @@ public class AttackHitAndRun : AttackAction
     {
     }
 
+    public override void Update()
+    {
+        base.Update();
+        UpdateHitAndRun();
+        Debug.Log(this);
+    }
+
     public void UpdateHitAndRun()
     {
         if (status == AttackStatus.comeIn)
@@ -23,8 +30,8 @@ public class AttackHitAndRun : AttackAction
             if (isInRange)
             {
                 DoShoot();
-                status = AttackStatus.comeOut;
                 backPosition = ((BaseMonster)owner).bornPosition;
+                status = AttackStatus.comeOut;
             }
             else
             {
@@ -41,10 +48,15 @@ public class AttackHitAndRun : AttackAction
             }
             else
             {
-                MoveToTarget();
+                owner.Control.Move(backPosition, false, false);
             }
 
         }
+    }
+
+    public override string ToString()
+    {
+        return "H&R: " + status + " Back:" + backPosition + "  isInRange:" + isInRange;
     }
 }
 

@@ -16,24 +16,39 @@ public class BaseMonster : Unit
     public AttackType AttackType;
     private const int isHomeDist = 10;
     private float attackDist = 90;
-    private float targetDist = 0;
+    public float targetDist = 0;
     public Vector3 bornPosition;
-    private AIStatus aiStatus = AIStatus.walk;
+    public AIStatus aiStatus = AIStatus.walk;
     public float attackPeriod;
     private Unit mainHero;
+    private BaseAction attackBehaviour;
 
     protected override void Dead()
     {
         base.Dead();
         MainController.Instance.level.PowerLeft -= 1f;
+
+    }
+
+    public override void Init()
+    {
+        base.Init();
         mainHero = MainController.Instance.MainHero;
+        bornPosition = transform.position;
+    }
+
+    void FixedUpdate()
+    {
+        CheckDistance();
+        if (action != null)
+            action.Update();
     }
 
 
     public void CheckDistance()
     {
         targetDist = (mainHero.transform.position - transform.position).sqrMagnitude;
-        bool isTargetClose = (targetDist > attackDist);
+        bool isTargetClose = (targetDist < attackDist);
         switch (aiStatus)
         {
             case AIStatus.attack:
@@ -75,8 +90,20 @@ public class BaseMonster : Unit
 
     private void StartAttack()
     {
+        Debug.Log("Start attack " + this);
         aiStatus = AIStatus.attack;
-        action = new AttackAction(this, MainController.Instance.MainHero, StartAttack);
+        switch (AttackType)
+        {
+            case AttackType.hitAndRun:
+                action = new AttackHitAndRun(this, MainController.Instance.MainHero, StartAttack);
+                break;
+            case AttackType.distanceFight:
+                action = new AttackDistance(this, MainController.Instance.MainHero, StartAttack);
+                break;
+            case AttackType.closeCombat:
+                action = new AttackCloseCombat(this, MainController.Instance.MainHero, StartAttack);
+                break;
+        }
     }
 
     private void EndAttack()

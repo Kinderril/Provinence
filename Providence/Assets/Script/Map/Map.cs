@@ -10,7 +10,7 @@ public class Map : Singleton<Map>
     private Transform enemiesContainer;
     private TimerManager.ITimer timer;
     private List<Unit> enemies = new List<Unit>();
-    public int maxEnemies = 3;
+    private int maxEnemies = 1;
 
     public void Init()
     {
@@ -20,7 +20,7 @@ public class Map : Singleton<Map>
         {
             appearPos.Add(bornPosition.position);
         }
-        timer = MainController.Instance.TimerManager.MakeTimer(TimeSpan.FromSeconds(10), true);
+        timer = MainController.Instance.TimerManager.MakeTimer(TimeSpan.FromSeconds(1), true);
         timer.OnTimer += OnTimerSpawn;
     }
 
@@ -38,6 +38,7 @@ public class Map : Singleton<Map>
         var pos = appearPos.RandomElement();
         var m = (GameObject.Instantiate(monster.gameObject, pos, Quaternion.identity) as GameObject).GetComponent<Unit>();
         enemies.Add(m);
+        m.Init();
         m.transform.SetParent(enemiesContainer);
         m.OnDead += OnEnemyDead;
     }

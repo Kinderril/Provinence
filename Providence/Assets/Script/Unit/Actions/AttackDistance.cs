@@ -16,7 +16,7 @@ public class AttackDistance : AttackAction
         farRange = owner.curWeapon.range * 1.25f;
     }
 
-    public override void Update()
+    public void UpdateDistance()
     {
         base.Update();
         isInRange = curRange > closeRange && curRange < farRange;
