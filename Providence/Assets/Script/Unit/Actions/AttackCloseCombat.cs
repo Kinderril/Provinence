@@ -24,7 +24,7 @@ public class AttackCloseCombat :AttackAction
         }
         else
         {
-            MoveToTarget();
+            MoveToTarget(target.transform.position);
         }
 
     }

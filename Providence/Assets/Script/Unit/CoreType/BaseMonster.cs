@@ -14,11 +14,11 @@ public enum AIStatus
 public class BaseMonster : Unit
 {
     public AttackType AttackType;
-    private const int isHomeDist = 10;
-    private float attackDist = 90;
+    private const float isHomeDist = 2;
+    private float attackDist = 40;
     public float targetDist = 0;
     public Vector3 bornPosition;
-    public AIStatus aiStatus = AIStatus.walk;
+    public AIStatus aiStatus = AIStatus.returnHome;
     public float attackPeriod;
     private Unit mainHero;
     private BaseAction attackBehaviour;
@@ -47,7 +47,7 @@ public class BaseMonster : Unit
 
     public void CheckDistance()
     {
-        targetDist = (mainHero.transform.position - transform.position).sqrMagnitude;
+        targetDist = (mainHero.transform.position - bornPosition).sqrMagnitude;
         bool isTargetClose = (targetDist < attackDist);
         switch (aiStatus)
         {

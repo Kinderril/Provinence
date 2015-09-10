@@ -20,20 +20,17 @@ public class Unit : MonoBehaviour
     public UnitType unitType;
     private Transform weaponsContainer;
     public event Action<Unit> OnDead;
+    public event Action<int,int> OnGetHit;
 
     void Start()
     {
         Control = GetComponent<Character>();
     }
     
-    public void Attack()
-    {
-    }
-
     public virtual void Init()
     {
         weaponsContainer = transform.Find("Weapons");
-        curHp = maxHp = 100;
+        curHp = maxHp;
         List<Weapon> weapons = new List<Weapon>();
         foreach (var inventoryWeapon in InventoryWeapons)
         {
@@ -74,7 +71,10 @@ public class Unit : MonoBehaviour
     public void GetHit(Bullet bullet)
     {
         curHp -= 1;
-        Debug.Log("Get hit " + curHp);
+        if (OnGetHit != null)
+        {
+            OnGetHit(curHp, maxHp);
+        }
         if (curHp <= 0)
         {
             Dead();

@@ -45,9 +45,8 @@ public class Character : MonoBehaviour
 	}
 
 
-	public void Move(Vector3 move, bool crouch, bool jump)
+	public bool Move(Vector3 move, bool crouch, bool jump)
 	{
-	    agent.SetDestination(move);
 		// convert the world relative moveInput vector into a local-relative
 		// turn amount and forward amount required to head in the desired
 		// direction.
@@ -76,11 +75,21 @@ public class Character : MonoBehaviour
 		PreventStandingInLowHeadroom();
         */
 		// send input and other state parameters to the animator
-        UpdateAnimator(move);
+        return agent.SetDestination(move);
          
         //m_Rigidbody.velocity = move;
         //Debug.Log(m_Rigidbody.velocity);
 	}
+
+    public bool IsPathComplete()
+    {
+        return agent.remainingDistance < 1;
+    }
+
+    void Update()
+    {
+        UpdateAnimator(agent.velocity);
+    }
 
 
 	void ScaleCapsuleForCrouching(bool crouch)

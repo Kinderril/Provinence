@@ -15,6 +15,7 @@ public class MoveAction : BaseAction
     {
         this.trg = new Vector3(trg.x, owner.transform.position.y, trg.z);
         //GameObject.Instantiate(DataBaseController.Instance.debugCube, this.trg, Quaternion.identity);
+        owner.Control.Move(trg, false, false);
     }
     public override void Update()
     {
@@ -22,7 +23,6 @@ public class MoveAction : BaseAction
         var sqrM = dir.sqrMagnitude;
     //    Debug.DrawRay(owner.transform.position, dir, Color.yellow, 5);
   //      Debug.Log("dir " + sqrM + "  " + trg + "   " + owner.transform.position);
-        owner.Control.Move(trg, false, false);
         if (sqrM < 1f)
         {
             //owner.Control.Move(Vector3.zero, false, false);

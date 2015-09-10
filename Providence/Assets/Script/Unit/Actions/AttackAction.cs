@@ -24,6 +24,8 @@ public class AttackAction : BaseAction
     protected float curRange;
     protected float lastHitTime;
     protected bool isInRange;
+    private bool isMoving = false;
+    private Vector3 moveTarget;
 
     public AttackAction(BaseMonster owner, Unit target ,Action endCallback)
         : base(owner, endCallback)
@@ -33,20 +35,33 @@ public class AttackAction : BaseAction
     }
 
 
-    protected void MoveToTarget()
+    protected void MoveToTarget(Vector3 trg)
     {
-        owner.Control.Move(target.transform.position, false, false);
+
+        if (((moveTarget-trg).sqrMagnitude > 1 || !isMoving) && owner.Control.Move(trg, false, false))
+        {
+            moveTarget = trg;
+            isMoving = true;
+        }
     }
 
 
     public override void Update()
     {
+        if (isMoving)
+        {
+            isMoving = !owner.Control.IsPathComplete();
+            if (!isMoving)
+            {
+                Debug.Log("move END");
+            }
+        }
         curRange = (owner.transform.position - target.transform.position).magnitude;
     }
 
     protected void DoShoot()
     {
-
+        owner.TryAttack(target.transform.position);
     }
 }
 

@@ -18,39 +18,39 @@ public class AttackHitAndRun : AttackAction
     {
         base.Update();
         UpdateHitAndRun();
-        Debug.Log(this);
+//        Debug.Log(this);
     }
 
     public void UpdateHitAndRun()
     {
-        if (status == AttackStatus.comeIn)
+        switch (status)
         {
-            curRange = (owner.transform.position - target.transform.position).magnitude;
-            isInRange = (curRange < rangeAttack);
-            if (isInRange)
-            {
-                DoShoot();
-                backPosition = ((BaseMonster)owner).bornPosition;
-                status = AttackStatus.comeOut;
-            }
-            else
-            {
-                MoveToTarget();
-            }
-        }
-        else
-        {
-            curRange = (owner.transform.position - backPosition).magnitude;
-            isInRange = (curRange < rangeAttack);
-            if (isInRange)
-            {
-                status = AttackStatus.comeIn;
-            }
-            else
-            {
-                owner.Control.Move(backPosition, false, false);
-            }
-
+            case AttackStatus.comeIn:
+                curRange = (owner.transform.position - target.transform.position).magnitude;
+                isInRange = (curRange < rangeAttack);
+                if (isInRange)
+                {
+                    DoShoot();
+                    backPosition = ((BaseMonster)owner).bornPosition;
+                    status = AttackStatus.comeOut;
+                }
+                else
+                {
+                    MoveToTarget(target.transform.position);
+                }
+                break;
+            case AttackStatus.comeOut:
+                curRange = (owner.transform.position - backPosition).magnitude;
+                isInRange = (curRange < rangeAttack);
+                if (isInRange)
+                {
+                    status = AttackStatus.comeIn;
+                }
+                else
+                {
+                    MoveToTarget(backPosition);
+                }
+                break;
         }
     }
 
