@@ -16,6 +16,7 @@ public class BaseMonster : Unit
     public AttackType AttackType;
     private const float isHomeDist = 2;
     private float attackDist = 40;
+    private float aiDist = 140;
     public float targetDist = 0;
     public Vector3 bornPosition;
     public AIStatus aiStatus = AIStatus.returnHome;
@@ -48,35 +49,39 @@ public class BaseMonster : Unit
     public void CheckDistance()
     {
         targetDist = (mainHero.transform.position - bornPosition).sqrMagnitude;
-        bool isTargetClose = (targetDist < attackDist);
-        switch (aiStatus)
+        if (targetDist < aiDist)
         {
-            case AIStatus.attack:
-                if (!isTargetClose)
-                {
-                    EndAttack();
-                }
-                break;
-            case AIStatus.returnHome:
-                if (isTargetClose)
-                {
-                    StartAttack();
-                }
-                else
-                {
-                    var isHome = (transform.position - bornPosition).sqrMagnitude < isHomeDist;
-                    if (isHome)
+            Debug.Log("close => calc");
+            bool isTargetClose = (targetDist < attackDist);
+            switch (aiStatus)
+            {
+                case AIStatus.attack:
+                    if (!isTargetClose)
                     {
-                        StartWalk();
+                        EndAttack();
                     }
-                }
-                break;
-            case AIStatus.walk:
-                if (isTargetClose)
-                {
-                    StartAttack();
-                }
-                break;
+                    break;
+                case AIStatus.returnHome:
+                    if (isTargetClose)
+                    {
+                        StartAttack();
+                    }
+                    else
+                    {
+                        var isHome = (transform.position - bornPosition).sqrMagnitude < isHomeDist;
+                        if (isHome)
+                        {
+                            StartWalk();
+                        }
+                    }
+                    break;
+                case AIStatus.walk:
+                    if (isTargetClose)
+                    {
+                        StartAttack();
+                    }
+                    break;
+            }
         }
     }
 

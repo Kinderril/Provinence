@@ -10,7 +10,7 @@ public class Map : Singleton<Map>
     private Transform enemiesContainer;
     private TimerManager.ITimer timer;
     private List<Unit> enemies = new List<Unit>();
-    private int maxEnemies = 5;
+    private int maxEnemies = 15;
 
     public void Init()
     {
