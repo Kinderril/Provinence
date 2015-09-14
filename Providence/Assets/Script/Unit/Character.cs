@@ -242,6 +242,8 @@ public class Character : MonoBehaviour
 
     public void SetSpped(float speed)
     {
+        if (agent == null)
+            agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
     }
 }

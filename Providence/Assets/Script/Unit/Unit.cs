@@ -23,13 +23,10 @@ public class Unit : MonoBehaviour
     public event Action<float, float> OnGetHit;
     public float speed = 6f;
 
-    void Start()
-    {
-        Control = GetComponent<Character>();
-    }
     
     public virtual void Init()
     {
+        Control = GetComponent<Character>();
         weaponsContainer = transform.Find("Weapons");
         curHp = maxHp;
         List<Weapon> weapons = new List<Weapon>();
@@ -38,7 +35,10 @@ public class Unit : MonoBehaviour
             var w = GameObject.Instantiate(inventoryWeapon.gameObject).GetComponent<Weapon>();
             weapons.Add(w);
             w.Init(this);
-            w.transform.SetParent(weaponsContainer);
+            if (weaponsContainer != null)
+                w.transform.SetParent(weaponsContainer,false);
+            else
+                w.transform.SetParent(transform, false);
         }
         Control.SetSpped(speed);
         InventoryWeapons = weapons;

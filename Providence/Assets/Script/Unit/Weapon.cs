@@ -14,9 +14,11 @@ public class Weapon : MonoBehaviour
     public Bullet bullet;
     public Unit owner;
     public bool isHoming = false;
+    private ParticleSystem pSystem;
 
     public void Init(Unit owner)
     {
+        pSystem = GetComponentInChildren<ParticleSystem>();
         this.owner = owner;
     }
 

@@ -57,7 +57,6 @@ public class BaseMonster : Unit
         targetDist = (mainHero.transform.position - bornPosition).sqrMagnitude;
         if (targetDist < aiDist)
         {
-            Debug.Log("close => calc");
             bool isTargetClose = (targetDist < attackDist);
             switch (aiStatus)
             {
@@ -88,6 +87,10 @@ public class BaseMonster : Unit
                     }
                     break;
             }
+        }
+        else
+        {
+            action = null;
         }
     }
 

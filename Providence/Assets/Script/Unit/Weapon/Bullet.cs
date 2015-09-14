@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 0.000001f;
+    public float speed = 0.002f;
     private float time = 0;
     public Vector3 trg;
     public Vector3 start;

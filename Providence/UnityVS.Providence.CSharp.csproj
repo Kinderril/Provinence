@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Analytics">
       <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
@@ -88,11 +82,14 @@
     <Compile Include="Assets\Script\Unit\Actions\MoveAction.cs" />
     <Compile Include="Assets\Script\Unit\Character.cs" />
     <Compile Include="Assets\Script\Unit\CoreType\BaseMonster.cs" />
+    <Compile Include="Assets\Script\Unit\CoreType\Chest.cs" />
     <Compile Include="Assets\Script\Unit\CoreType\Hero.cs" />
     <Compile Include="Assets\Script\Unit\Unit.cs" />
     <Compile Include="Assets\Script\Unit\Weapon.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\Bullet.cs" />
     <Compile Include="Assets\Script\Utils\CameraFollow.cs" />
+    <Compile Include="Assets\Script\Utils\GreatRandom.cs" />
+    <Compile Include="Assets\Script\Utils\SerializableDictionary.cs" />
     <Compile Include="Assets\Script\Utils\Singleton.cs" />
     <Compile Include="Assets\Script\Utils\TimerManager.cs" />
     <Compile Include="Assets\Script\Utils\UIMain.cs" />
