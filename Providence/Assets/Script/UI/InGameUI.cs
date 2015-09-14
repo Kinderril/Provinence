@@ -14,9 +14,9 @@ public class InGameUI : MonoBehaviour
         MainController.Instance.MainHero.OnGetHit += OnHeroHit;
     }
 
-    private void OnHeroHit(int arg1, int arg2)
+    private void OnHeroHit(float arg1, float arg2)
     {
-        HealthSlider.value = (float) arg1/(float) arg2;
+        HealthSlider.value =  arg1/ arg2;
     }
 
     private void OnLeft(float arg1, float arg2)

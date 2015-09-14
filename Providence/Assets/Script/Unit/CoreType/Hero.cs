@@ -11,4 +11,9 @@ public class Hero : Unit
         if (action != null)
             action.Update();
     }
+
+    public void GetChest(Chest chest)
+    {
+
+    }
 }

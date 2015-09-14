@@ -239,5 +239,10 @@ public class Character : MonoBehaviour
 			m_Animator.applyRootMotion = false;
 		}
 	}
+
+    public void SetSpped(float speed)
+    {
+        agent.speed = speed;
+    }
 }
 

@@ -10,9 +10,10 @@ public class Weapon : MonoBehaviour
     private float nexAttackTime;
     public float attackCooldown;
     public float range;
-    public int power;
+    public float power = 1;
     public Bullet bullet;
     public Unit owner;
+    public bool isHoming = false;
 
     public void Init(Unit owner)
     {
@@ -30,11 +31,24 @@ public class Weapon : MonoBehaviour
         var b = CanShoot();
         if (b)
         {
-            nexAttackTime = Time.time + attackCooldown;
-            Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
-            bullet1.transform.position = owner.transform.position;
-            Debug.Log("DoShoot " + v + "  can:" + b + "   " + bullet1 + "from:" + bullet1.transform.position + " to:" + v);
-            bullet1.Init(v,this);
+            if (isHoming)
+            {
+                Unit potentialTarget = Map.Instance.FindClosesEnemy(v);
+                if (potentialTarget != null && (owner.transform.position - potentialTarget.transform.position).sqrMagnitude < 4)
+                {
+                    nexAttackTime = Time.time + attackCooldown;
+                    Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
+                    bullet1.transform.position = owner.transform.position;
+                    bullet1.Init(potentialTarget, this);
+                }
+            }
+            else
+            {
+                nexAttackTime = Time.time + attackCooldown;
+                Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
+                bullet1.transform.position = owner.transform.position;
+                bullet1.Init(v, this);
+            }
         }
     }
 }

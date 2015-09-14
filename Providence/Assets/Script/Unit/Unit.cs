@@ -11,8 +11,8 @@ public enum UnitType
 }
 public class Unit : MonoBehaviour
 {
-    public int maxHp = 100;
-    public int curHp;
+    public float maxHp = 15f;
+    public float curHp;
     public Weapon curWeapon;
     public List<Weapon> InventoryWeapons;
     public Character Control;
@@ -20,7 +20,8 @@ public class Unit : MonoBehaviour
     public UnitType unitType;
     private Transform weaponsContainer;
     public event Action<Unit> OnDead;
-    public event Action<int,int> OnGetHit;
+    public event Action<float, float> OnGetHit;
+    public float speed = 6f;
 
     void Start()
     {
@@ -39,6 +40,7 @@ public class Unit : MonoBehaviour
             w.Init(this);
             w.transform.SetParent(weaponsContainer);
         }
+        Control.SetSpped(speed);
         InventoryWeapons = weapons;
         curWeapon = InventoryWeapons[0];
     }
@@ -70,7 +72,7 @@ public class Unit : MonoBehaviour
 
     public void GetHit(Bullet bullet)
     {
-        curHp -= 1;
+        curHp -= bullet.weapon.power;
         if (OnGetHit != null)
         {
             OnGetHit(curHp, maxHp);
@@ -89,4 +91,5 @@ public class Unit : MonoBehaviour
         }
         Destroy(gameObject);
     }
+
 }

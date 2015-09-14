@@ -11,6 +11,7 @@ public class Map : Singleton<Map>
     private TimerManager.ITimer timer;
     private List<Unit> enemies = new List<Unit>();
     private int maxEnemies = 15;
+    public Transform effectsContainer;
 
     public void Init()
     {
@@ -47,6 +48,22 @@ public class Map : Singleton<Map>
     {
         obj.OnDead -= OnEnemyDead;
         enemies.Remove(obj);
+    }
+
+    public Unit FindClosesEnemy(Vector3 v)
+    {
+        float curDist = 999999;
+        Unit unit = null;
+        foreach (var enemy in enemies)
+        {
+            var pDist = (enemy.transform.position - v).sqrMagnitude;
+            if (pDist < curDist)
+            {
+                curDist = pDist;
+                unit = enemy;
+            }
+        }
+        return unit;
     }
 }
 

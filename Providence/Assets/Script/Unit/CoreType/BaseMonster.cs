@@ -15,27 +15,33 @@ public class BaseMonster : Unit
 {
     public AttackType AttackType;
     private const float isHomeDist = 2;
-    private float attackDist = 40;
+    public float attackDist = 40;
+    private float runAwayDist = 0;
     private float aiDist = 140;
     public float targetDist = 0;
     public Vector3 bornPosition;
     public AIStatus aiStatus = AIStatus.returnHome;
-    public float attackPeriod;
     private Unit mainHero;
+    public int moneyCollect;
+    public float energyadd = 4f;
     private BaseAction attackBehaviour;
 
     protected override void Dead()
     {
         base.Dead();
-        MainController.Instance.level.PowerLeft -= 1f;
-
+        MainController.Instance.level.PowerLeft -= energyadd;
     }
 
     public override void Init()
     {
+        runAwayDist = attackDist * 1.4f;
+        speed = GreatRandom.RandomizeValue(speed);
         base.Init();
         mainHero = MainController.Instance.MainHero;
         bornPosition = transform.position;
+        curWeapon.power = GreatRandom.RandomizeValue(curWeapon.power);
+        moneyCollect = GreatRandom.RandomizeValue(moneyCollect);
+        energyadd = GreatRandom.RandomizeValue(energyadd);
     }
 
     void FixedUpdate()
@@ -56,7 +62,7 @@ public class BaseMonster : Unit
             switch (aiStatus)
             {
                 case AIStatus.attack:
-                    if (!isTargetClose)
+                    if ((targetDist > runAwayDist))
                     {
                         EndAttack();
                     }
@@ -115,7 +121,6 @@ public class BaseMonster : Unit
     {
         aiStatus = AIStatus.returnHome;
         action = new MoveAction(this, bornPosition, StartWalk);
-
     }
 }
 
