@@ -59,7 +59,7 @@ public class Level
     private float powerLeft;
     private float maxpower = 120;
     public Action<float, float> OnLeft;
-    public Action<float> OnMoneyCollected;
+    public Action<ItemId,float> OnItemCollected;
     private DictionaryOfItemAndInt inventory; 
 
     public void Init()
@@ -85,16 +85,21 @@ public class Level
         }
     }
 
-    public int AddMoneyCollected
+    public void AddItem(ItemId type, int value)
     {
-        set
+        Debug.Log("OnItemCollected");
+        inventory[type] += value;
+        ActivaAction(type);
+        
+    }
+
+    private void ActivaAction(ItemId i)
+    {
+        if (OnItemCollected != null)
         {
-            inventory[ItemId.money] += value;
-            if (OnMoneyCollected != null)
-            {
-                OnMoneyCollected(inventory[ItemId.money]);
-            }
+            OnItemCollected(i, inventory[i]);
         }
+        
     }
 
 

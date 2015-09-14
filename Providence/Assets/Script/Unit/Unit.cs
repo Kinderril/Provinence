@@ -42,6 +42,11 @@ public class Unit : MonoBehaviour
         }
         Control.SetSpped(speed);
         InventoryWeapons = weapons;
+        if (InventoryWeapons.Count == 0)
+        {
+            Debug.LogWarning("NO WEAPON!!! " + gameObject.name);
+            return;
+        }
         curWeapon = InventoryWeapons[0];
     }
     

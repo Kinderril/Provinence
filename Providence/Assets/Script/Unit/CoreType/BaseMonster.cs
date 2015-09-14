@@ -8,7 +8,8 @@ public enum AIStatus
 {
     attack,
     returnHome,
-    walk
+    walk,
+    disable,
 }
 
 public class BaseMonster : Unit
@@ -17,14 +18,15 @@ public class BaseMonster : Unit
     private const float isHomeDist = 2;
     public float attackDist = 40;
     private float runAwayDist = 0;
-    private float aiDist = 140;
+    private float aiDist = 180;
     public float targetDist = 0;
     public Vector3 bornPosition;
-    public AIStatus aiStatus = AIStatus.returnHome;
+    public AIStatus aiStatus;
     private Unit mainHero;
     public int moneyCollect;
     public float energyadd = 4f;
     private BaseAction attackBehaviour;
+    public bool haveAction;
 
     protected override void Dead()
     {
@@ -42,12 +44,13 @@ public class BaseMonster : Unit
         curWeapon.power = GreatRandom.RandomizeValue(curWeapon.power);
         moneyCollect = GreatRandom.RandomizeValue(moneyCollect);
         energyadd = GreatRandom.RandomizeValue(energyadd);
+        aiStatus = AIStatus.disable;
     }
 
     void FixedUpdate()
     {
         CheckDistance();
-        if (action != null)
+        if ( action != null)
             action.Update();
     }
 
@@ -60,6 +63,9 @@ public class BaseMonster : Unit
             bool isTargetClose = (targetDist < attackDist);
             switch (aiStatus)
             {
+                case AIStatus.disable:
+                    StartWalk();
+                    break;
                 case AIStatus.attack:
                     if ((targetDist > runAwayDist))
                     {
@@ -90,6 +96,7 @@ public class BaseMonster : Unit
         }
         else
         {
+            aiStatus = AIStatus.disable;
             action = null;
         }
     }

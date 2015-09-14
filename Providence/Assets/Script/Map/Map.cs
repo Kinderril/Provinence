@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Map : Singleton<Map>
 {
-    public List<Vector3> appearPos;
+    public List<BornPosition> appearPos;
     private Transform bornPositions;
-    private Transform enemiesContainer;
+    public Transform enemiesContainer;
     private TimerManager.ITimer timer;
-    private List<Unit> enemies = new List<Unit>();
+    public List<Unit> enemies = new List<Unit>();
     private int maxEnemies = 15;
     public Transform effectsContainer;
 
@@ -19,29 +19,10 @@ public class Map : Singleton<Map>
         enemiesContainer = transform.Find("Enemies");
         foreach (Transform bornPosition in bornPositions)
         {
-            appearPos.Add(bornPosition.position);
+            var bp = bornPosition.GetComponent<BornPosition>();
+            appearPos.Add(bp);
+            bp.Init(this, OnEnemyDead);
         }
-        timer = MainController.Instance.TimerManager.MakeTimer(TimeSpan.FromSeconds(1), true);
-        timer.OnTimer += OnTimerSpawn;
-    }
-
-    private void OnTimerSpawn()
-    {
-        if (enemies.Count < maxEnemies)
-        {
-            BornEnemy();
-        }
-    }
-
-    public void BornEnemy()
-    {
-        var monster = DataBaseController.Instance.Monsters.RandomElement();
-        var pos = appearPos.RandomElement();
-        var m = (GameObject.Instantiate(monster.gameObject, pos, Quaternion.identity) as GameObject).GetComponent<Unit>();
-        enemies.Add(m);
-        m.Init();
-        m.transform.SetParent(enemiesContainer);
-        m.OnDead += OnEnemyDead;
     }
 
     private void OnEnemyDead(Unit obj)

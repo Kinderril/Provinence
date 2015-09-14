@@ -17,7 +17,6 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     {
         mainHero = MainController.Instance.MainHero;
         MainCamera = MainController.Instance.MainCamera;
-        Debug.Log("Init UI");
     }
 
 
@@ -50,7 +49,6 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("OnPointerDown " + eventData);
         startDrag = eventData.position;
     }
 
@@ -59,7 +57,6 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         var endDrag = eventData.position;
         var sqrDist = (endDrag - startDrag).sqrMagnitude;
         var hit = RayCast(eventData);
-        Debug.Log("On up " + sqrDist);
         if (sqrDist >4200)
         {
             if (hit != Vector3.zero)

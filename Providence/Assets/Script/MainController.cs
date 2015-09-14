@@ -14,6 +14,7 @@ public class MainController : Singleton<MainController>
 	void Start () {
         TimerManager = new TimerManager();
         level = new Level();
+        level.Init();
         InGameUi.Init();
         Map.Instance.Init();
         MainHero.Init();

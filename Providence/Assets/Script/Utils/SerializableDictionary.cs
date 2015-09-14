@@ -23,9 +23,9 @@ public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     int _FreeList;
     [SerializeField, HideInInspector]
     int _FreeCount;
-    [SerializeField]
+    [SerializeField, HideInInspector]
     TKey[] _Keys;
-    [SerializeField]
+    [SerializeField, HideInInspector]
     TValue[] _Values;
 
     readonly IEqualityComparer<TKey> _Comparer;

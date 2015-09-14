@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Script\DataBaseController.cs" />
      <Compile Include="Assets\Script\MainController.cs" />
+     <Compile Include="Assets\Script\Map\BornPosition.cs" />
      <Compile Include="Assets\Script\Map\Level.cs" />
      <Compile Include="Assets\Script\Map\Map.cs" />
      <Compile Include="Assets\Script\UI\InGameUI.cs" />

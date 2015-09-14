@@ -6,15 +6,24 @@ namespace UnityStandardAssets.Effects
     public class ParticleSystemMultiplier : MonoBehaviour
     {
         // a simple script to scale the size, speed and lifetime of a particle system
-
+        private ParticleSystem[] systems;
         public float multiplier = 1;
 
-
-        private void Start()
+        void Awake()
         {
-            var systems = GetComponentsInChildren<ParticleSystem>();
+
+            systems = GetComponentsInChildren<ParticleSystem>();
             foreach (ParticleSystem system in systems)
             {
+                system.enableEmission = false;
+            }
+
+        }
+        public void StartPlay()
+        {
+            foreach (ParticleSystem system in systems)
+            {
+                system.enableEmission = true;
                 system.startSize *= multiplier;
                 system.startSpeed *= multiplier;
                 system.startLifetime *= Mathf.Lerp(multiplier, 1, 0.5f);
