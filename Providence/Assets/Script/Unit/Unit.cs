@@ -61,7 +61,7 @@ public class Unit : MonoBehaviour
             action.Update();
     }
 
-    public void MoveTo(Vector3 vector3)
+    public void MoveToPosition(Vector3 vector3)
     {
         Debug.Log("MOve to: " + vector3);
         if (action != null)
@@ -97,4 +97,9 @@ public class Unit : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void MoveToDirection(Vector3 dir)
+    {
+        Debug.Log(dir);
+        Control.MoveToDir(dir*speed);
+    }
 }

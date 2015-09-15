@@ -29,7 +29,7 @@ public class Weapon : MonoBehaviour
 
     public void DoShoot(Vector3 v)
     {
-        v = new Vector3(v.x,owner.transform.position.y,v.z);
+        v = new Vector3(v.x,transform.position.y, v.z);
         var b = CanShoot();
         if (b)
         {
@@ -48,7 +48,7 @@ public class Weapon : MonoBehaviour
             {
                 nexAttackTime = Time.time + attackCooldown;
                 Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
-                bullet1.transform.position = owner.transform.position;
+                bullet1.transform.position = transform.position;
                 bullet1.Init(v, this);
             }
         }

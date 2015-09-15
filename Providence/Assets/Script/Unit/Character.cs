@@ -81,6 +81,11 @@ public class Character : MonoBehaviour
         //Debug.Log(m_Rigidbody.velocity);
 	}
 
+    public void MoveToDir(Vector3 dir)
+    {
+        m_Rigidbody.velocity = dir;
+    }
+
     public bool IsPathComplete()
     {
         return agent.remainingDistance < 1;
