@@ -13,10 +13,9 @@ public class Hero : Unit
             action.Update();
     }
 
-    public void GetChest(Chest chest)
+    public void GetItems(Dictionary<ItemId,int> chest)
     {
-        Debug.Log("Get chest " + chest.items.Count );
-        foreach (var item in chest.items)
+        foreach (var item in chest)
         {
             MainController.Instance.level.AddItem(item.Key, item.Value);
         }

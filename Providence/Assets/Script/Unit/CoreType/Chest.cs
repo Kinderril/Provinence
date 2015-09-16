@@ -8,13 +8,13 @@ using UnityStandardAssets.Effects;
 
 public class Chest : MonoBehaviour
 {
-    public DictionaryOfItemAndInt items = new DictionaryOfItemAndInt();
+    public Dictionary<ItemId, int> items = new Dictionary<ItemId, int>();
     private bool isOpen = false;
     public ParticleSystemMultiplier SystemMultiplier;
 
     void Start()
     {
-        items.Add(ItemId.money,25);
+        items.Add(ItemId.money,25);//STUB
     }
     void OnTriggerEnter(Collider other)
     {
@@ -23,7 +23,7 @@ public class Chest : MonoBehaviour
             var unit = other.GetComponent<Hero>();
             if (unit != null)
             {
-                unit.GetChest(this);
+                unit.GetItems(items);
                 PlayOpen();
                 SystemMultiplier.StartPlay();
             }

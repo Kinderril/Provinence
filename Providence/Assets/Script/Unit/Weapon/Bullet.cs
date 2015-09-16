@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,16 @@ public class Bullet : MonoBehaviour
     public Unit targetUnit;
     public Weapon weapon;
     private Action updateAction;
+    public ParticleSystem TrailParticleSystem;
+    public ParticleSystem HitParticleSystem;
 
+    void Awake()
+    {
+        if (HitParticleSystem != null)
+        {
+            HitParticleSystem.Stop();
+        }
+    }
     public void Init(Vector3 target,Weapon weapon)
     {
         this.weapon = weapon;
@@ -38,10 +48,25 @@ public class Bullet : MonoBehaviour
         var unit = other.GetComponent<Unit>();
         if (unit != null && unit != weapon.owner)
         {
-            unit.GetHit(this);
-            Destroy(gameObject);
+            Hit(unit);
         }
         
+    }
+
+    private void Hit(Unit unit)
+    {
+        unit.GetHit(this);
+        Destroy(gameObject);
+        if (HitParticleSystem != null)
+        {
+            HitParticleSystem.Play();
+            Map.Instance.LeaveEffect(HitParticleSystem);
+        }
+        if (TrailParticleSystem != null)
+        {
+            TrailParticleSystem.Stop();
+            Map.Instance.LeaveEffect(TrailParticleSystem);
+        }
     }
 
     private void updateVector()

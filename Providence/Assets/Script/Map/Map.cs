@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,5 +47,17 @@ public class Map : Singleton<Map>
         }
         return unit;
     }
+
+    public void LeaveEffect(ParticleSystem ps)
+    {
+        ps.transform.SetParent(effectsContainer, true);
+        StartCoroutine(DestroyPS(ps));
+    }
+    public IEnumerator DestroyPS(ParticleSystem ps)
+    {
+        yield return new WaitForSeconds(10);
+        Destroy(ps.gameObject);
+    }
+
 }
 

@@ -14,11 +14,15 @@ public class Weapon : MonoBehaviour
     public Bullet bullet;
     public Unit owner;
     public bool isHoming = false;
-    private ParticleSystem pSystem;
+    private ParticleSystem pSystemOnShot;
 
     public void Init(Unit owner)
     {
-        pSystem = GetComponentInChildren<ParticleSystem>();
+        pSystemOnShot = GetComponentInChildren<ParticleSystem>();
+        if (pSystemOnShot != null)
+        {
+            pSystemOnShot.Stop();
+        }
         this.owner = owner;
     }
 
@@ -51,6 +55,10 @@ public class Weapon : MonoBehaviour
                 bullet1.transform.position = transform.position;
                 bullet1.Init(v, this);
             }
+        }
+        if (pSystemOnShot != null)
+        {
+            pSystemOnShot.Play();
         }
     }
 }
