@@ -51,11 +51,23 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
@@ -87,6 +99,8 @@
     <Compile Include="Assets\Script\Map\Map.cs" />
     <Compile Include="Assets\Script\UI\InGameUI.cs" />
     <Compile Include="Assets\Script\UI\PanelWithDragTest.cs" />
+    <Compile Include="Assets\Script\UI\SubUIMain.cs" />
+    <Compile Include="Assets\Script\UI\UIMain.cs" />
     <Compile Include="Assets\Script\Unit\Actions\AttackAction.cs" />
     <Compile Include="Assets\Script\Unit\Actions\AttackCloseCombat.cs" />
     <Compile Include="Assets\Script\Unit\Actions\AttackDistance.cs" />
@@ -105,7 +119,6 @@
     <Compile Include="Assets\Script\Utils\SerializableDictionary.cs" />
     <Compile Include="Assets\Script\Utils\Singleton.cs" />
     <Compile Include="Assets\Script\Utils\TimerManager.cs" />
-    <Compile Include="Assets\Script\Utils\UIMain.cs" />
     <Compile Include="Assets\Script\Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
