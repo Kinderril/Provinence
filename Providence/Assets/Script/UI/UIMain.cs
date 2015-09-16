@@ -10,7 +10,7 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
 {
     private Camera MainCamera;
     private int layerMask = 1;
-    private Unit mainHero;
+    private Hero mainHero;
     private Vector2 startDrag;
     public SubUIMain subUI;
     public void Init()
@@ -27,7 +27,11 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         }
     }
 
-
+    public void OnCrouch()
+    {
+        mainHero.DoCrouch();
+    }
+    
     private Vector3 RayCast(PointerEventData eventData)
     {
 

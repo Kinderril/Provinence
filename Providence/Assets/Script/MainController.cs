@@ -4,7 +4,7 @@ using System.Collections;
 public class MainController : Singleton<MainController>
 {
     public Camera MainCamera;
-    public Unit MainHero;
+    public Hero MainHero;
     public UIMain uiMain;
     public TimerManager TimerManager;
     public Level level;

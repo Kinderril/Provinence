@@ -22,7 +22,7 @@ public class BaseMonster : Unit
     public float targetDist = 0;
     public Vector3 bornPosition;
     public AIStatus aiStatus;
-    private Unit mainHero;
+    private Hero mainHero;
     public int moneyCollect;
     public float energyadd = 4f;
     private BaseAction attackBehaviour;
@@ -58,6 +58,7 @@ public class BaseMonster : Unit
     public void CheckDistance()
     {
         targetDist = (mainHero.transform.position - bornPosition).sqrMagnitude;
+        
         if (targetDist < aiDist)
         {
             bool isTargetClose = (targetDist < attackDist);
