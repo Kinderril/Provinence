@@ -22,7 +22,7 @@ public class BaseMonster : Unit
     public float targetDist = 0;
     public Vector3 bornPosition;
     public AIStatus aiStatus;
-    private Hero mainHero;
+    public Hero mainHero;
     public int moneyCollect;
     public float energyadd = 4f;
     private BaseAction attackBehaviour;

@@ -56,6 +56,11 @@ public class Bullet : MonoBehaviour
     private void Hit(Unit unit)
     {
         unit.GetHit(this);
+        Death();
+    }
+
+    private void Death()
+    {
         Destroy(gameObject);
         if (HitParticleSystem != null)
         {
@@ -67,6 +72,7 @@ public class Bullet : MonoBehaviour
             TrailParticleSystem.Stop();
             Map.Instance.LeaveEffect(TrailParticleSystem);
         }
+        
     }
 
     private void updateVector()
@@ -75,7 +81,7 @@ public class Bullet : MonoBehaviour
         transform.position = Vector3.Lerp(start, trg, time);
         if (time > 1)
         {
-            Destroy(gameObject);
+            Death();
         }
     }
 
@@ -85,7 +91,7 @@ public class Bullet : MonoBehaviour
         transform.position = Vector3.Lerp(start, targetUnit.transform.position, time);
         if (time > 1)
         {
-            Destroy(gameObject);
+            Death();
         }
     }
 

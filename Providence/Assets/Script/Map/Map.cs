@@ -55,7 +55,7 @@ public class Map : Singleton<Map>
     }
     public IEnumerator DestroyPS(ParticleSystem ps)
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(4);
         Destroy(ps.gameObject);
     }
 

@@ -14,7 +14,7 @@ public class Weapon : MonoBehaviour
     public Bullet bullet;
     public Unit owner;
     public bool isHoming = false;
-    private ParticleSystem pSystemOnShot;
+    public ParticleSystem pSystemOnShot;
 
     public void Init(Unit owner)
     {
