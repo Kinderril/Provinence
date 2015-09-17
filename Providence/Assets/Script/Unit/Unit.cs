@@ -22,6 +22,7 @@ public class Unit : MonoBehaviour
     public event Action<Unit> OnDead;
     public event Action<float, float> OnGetHit;
     public float speed = 6f;
+    protected bool isDead = false;
 
     
     public virtual void Init()
@@ -56,6 +57,14 @@ public class Unit : MonoBehaviour
     }
 
     void FixedUpdate()
+    {
+        if (!isDead)
+        {
+            UpdateUnit();
+        }
+    }
+
+    protected virtual void UpdateUnit()
     {
         if (action != null)
             action.Update();
@@ -94,12 +103,25 @@ public class Unit : MonoBehaviour
         {
             OnDead(this);
         }
+        var collider = GetComponent<Collider>();
+        if (collider != null)
+            collider.enabled = false;
+        var rigbody = GetComponent<Rigidbody>();
+        if (rigbody != null)
+            rigbody.isKinematic = true;
+        isDead = true;
+        Control.SetDeath();
+        StartCoroutine(PLayDeath());
+    }
+
+    private IEnumerator PLayDeath()
+    {
+        yield return new WaitForSeconds(5);
         Destroy(gameObject);
     }
 
     public void MoveToDirection(Vector3 dir)
     {
-        Debug.Log(dir);
         Control.MoveToDir(dir*speed);
     }
 }

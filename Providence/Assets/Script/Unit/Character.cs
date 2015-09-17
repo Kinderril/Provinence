@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    private const string ANIM_WALK = "walk";
+    private const string ANIM_DEATH = "death";
+    private const float WALK = 0.000001f;
+
 	[SerializeField] float m_MovingTurnSpeed = 360;
 	[SerializeField] float m_StationaryTurnSpeed = 180;
 	[SerializeField] float m_JumpPower = 12f;
@@ -16,7 +20,7 @@ public class Character : MonoBehaviour
 	[SerializeField] float m_GroundCheckDistance = 0.1f;
 
 	Rigidbody m_Rigidbody;
-	public Animator m_Animator;
+	public Animator Animator;
 	bool m_IsGrounded;
 	float m_OrigGroundCheckDistance;
 	const float k_Half = 0.5f;
@@ -28,12 +32,13 @@ public class Character : MonoBehaviour
 	CapsuleCollider m_Capsule;
 	bool m_Crouching;
     NavMeshAgent agent;
-
+    private bool moving = false;
 
 	void Start()
 	{
 	    agent = GetComponent<NavMeshAgent>();
-		m_Animator = GetComponent<Animator>();
+        if (Animator == null)
+		    Animator = GetComponent<Animator>();
 		m_Rigidbody = GetComponent<Rigidbody>();
 		m_Capsule = GetComponent<CapsuleCollider>();
 		m_CapsuleHeight = m_Capsule.height;
@@ -42,8 +47,7 @@ public class Character : MonoBehaviour
 		m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 		m_OrigGroundCheckDistance = m_GroundCheckDistance;
 	}
-
-
+    
 	public bool Move(Vector3 move, bool crouch, bool jump)
 	{
 		// convert the world relative moveInput vector into a local-relative
@@ -83,6 +87,13 @@ public class Character : MonoBehaviour
     public void MoveToDir(Vector3 dir)
     {
         m_Rigidbody.velocity = dir;
+        UpdateAnimator(dir);
+
+        dir = transform.InverseTransformDirection(dir);
+        dir = Vector3.ProjectOnPlane(dir, m_GroundNormal);
+        m_TurnAmount = Mathf.Atan2(dir.x, dir.z);
+        m_ForwardAmount = dir.z;
+        ApplyExtraTurnRotation();
     }
 
     public bool IsPathComplete()
@@ -92,7 +103,8 @@ public class Character : MonoBehaviour
 
     void Update()
     {
-        UpdateAnimator(agent.velocity);
+        if (agent != null)
+            UpdateAnimator(agent.velocity);
     }
 
 
@@ -137,42 +149,23 @@ public class Character : MonoBehaviour
 
 	void UpdateAnimator(Vector3 move)
 	{
-            return;
-		// update the animator parameters
-		m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
-		m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
-		m_Animator.SetBool("Crouch", m_Crouching);
-		m_Animator.SetBool("OnGround", m_IsGrounded);
-		if (!m_IsGrounded)
-		{
-			m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
-		}
+        float speed = move.magnitude;
+	    moving = speed > WALK;
+        Animator.SetBool(ANIM_WALK, moving);
 
-		// calculate which leg is behind, so as to leave that leg trailing in the jump animation
-		// (This code is reliant on the specific run cycle offset in our animations,
-		// and assumes one leg passes the other at the normalized clip times of 0.0 and 0.5)
-		float runCycle =
-			Mathf.Repeat(
-				m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + m_RunCycleLegOffset, 1);
-		float jumpLeg = (runCycle < k_Half ? 1 : -1) * m_ForwardAmount;
-		if (m_IsGrounded)
-		{
-			m_Animator.SetFloat("JumpLeg", jumpLeg);
-		}
 
-		// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
-		// which affects the movement speed because of the root motion.
-		if (m_IsGrounded && move.magnitude > 0)
-		{
-			m_Animator.speed = m_AnimSpeedMultiplier;
-		}
-		else
-		{
-			// don't use that while airborne
-			m_Animator.speed = 1;
-		}
 	}
+    void ApplyExtraTurnRotation()
+    {
+        // help the character turn faster (this is in addition to root rotation in the animation)
+        float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
+        transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
+    }
 
+    public void SetDeath()
+    {
+        Animator.SetBool(ANIM_DEATH,true);
+    }
 
 	void HandleAirborneMovement()
 	{
@@ -187,23 +180,17 @@ public class Character : MonoBehaviour
 	void HandleGroundedMovement(bool crouch, bool jump)
 	{
 		// check whether conditions are right to allow a jump:
-		if (jump && !crouch && m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
+		if (jump && !crouch && Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
 		{
 			// jump!
 			m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
             Debug.Log(m_Rigidbody.velocity);
 			m_IsGrounded = false;
-			m_Animator.applyRootMotion = false;
+			Animator.applyRootMotion = false;
 			m_GroundCheckDistance = 0.1f;
 		}
 	}
 
-	void ApplyExtraTurnRotation()
-	{
-		// help the character turn faster (this is in addition to root rotation in the animation)
-		float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
-		transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
-	}
 
 
 	public void OnAnimatorMove()
@@ -212,7 +199,7 @@ public class Character : MonoBehaviour
 		// this allows us to modify the positional speed before it's applied.
 		if (m_IsGrounded && Time.deltaTime > 0)
 		{
-			Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+			Vector3 v = (Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
 
 			// we preserve the existing y part of the current velocity.
 			v.y = m_Rigidbody.velocity.y;
@@ -234,13 +221,13 @@ public class Character : MonoBehaviour
 		{
 			m_GroundNormal = hitInfo.normal;
 			m_IsGrounded = true;
-			m_Animator.applyRootMotion = true;
+			Animator.applyRootMotion = true;
 		}
 		else
 		{
 			m_IsGrounded = false;
 			m_GroundNormal = Vector3.up;
-			m_Animator.applyRootMotion = false;
+			Animator.applyRootMotion = false;
 		}
 	}
 
@@ -248,7 +235,8 @@ public class Character : MonoBehaviour
     {
         if (agent == null)
             agent = GetComponent<NavMeshAgent>();
-        agent.speed = speed;
+        if (agent != null)
+            agent.speed = speed;
     }
 }
 

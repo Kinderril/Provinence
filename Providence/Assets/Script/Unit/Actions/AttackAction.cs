@@ -53,7 +53,7 @@ public class AttackAction : BaseAction
             isMoving = !owner.Control.IsPathComplete();
             if (!isMoving)
             {
-                Debug.Log("move END");
+             //   Debug.Log("move END");
             }
         }
         curRange = (owner.transform.position - target.transform.position).magnitude;

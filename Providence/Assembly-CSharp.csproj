@@ -60,6 +60,7 @@
      <Compile Include="Assets\Script\Unit\Actions\AttackHitAndRun.cs" />
      <Compile Include="Assets\Script\Unit\Actions\BaseAction.cs" />
      <Compile Include="Assets\Script\Unit\Actions\MoveAction.cs" />
+     <Compile Include="Assets\Script\Unit\Actions\StayAction.cs" />
      <Compile Include="Assets\Script\Unit\Character.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\BaseMonster.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\Bush.cs" />

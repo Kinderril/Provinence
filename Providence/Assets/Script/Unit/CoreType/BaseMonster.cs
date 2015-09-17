@@ -47,11 +47,11 @@ public class BaseMonster : Unit
         aiStatus = AIStatus.disable;
     }
 
-    void FixedUpdate()
+
+    protected override void UpdateUnit()
     {
         CheckDistance();
-        if ( action != null)
-            action.Update();
+        base.UpdateUnit();
     }
 
 
@@ -104,22 +104,26 @@ public class BaseMonster : Unit
 
     private void StartWalk()
     {
-        aiStatus = AIStatus.walk;
-        int coef = 60;
-        if (action is MoveAction)
+        if (!isDead)
         {
-            coef = 30;
-        }
-        var shalgo = UnityEngine.Random.Range(0, 100) < coef;
-        if (shalgo)
-        {
-            var randPos = new Vector3(bornPosition.x + UnityEngine.Random.Range(-isHomeDist, isHomeDist), bornPosition.y,
-                bornPosition.z + UnityEngine.Random.Range(-isHomeDist, isHomeDist));
-            action = new MoveAction(this, randPos, StartWalk);
-        }
-        else
-        {
-            action = new StayAction(this, StartWalk);
+            aiStatus = AIStatus.walk;
+            int coef = 60;
+            if (action is MoveAction)
+            {
+                coef = 30;
+            }
+            var shalgo = UnityEngine.Random.Range(0, 100) < coef;
+            if (shalgo)
+            {
+                var randPos = new Vector3(bornPosition.x + UnityEngine.Random.Range(-isHomeDist, isHomeDist),
+                    bornPosition.y,
+                    bornPosition.z + UnityEngine.Random.Range(-isHomeDist, isHomeDist));
+                action = new MoveAction(this, randPos, StartWalk);
+            }
+            else
+            {
+                action = new StayAction(this, StartWalk);
+            }
         }
     }
 
