@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 0.002f;
+    private float speed = 0.002f;
     private float time = 0;
     public Vector3 trg;
     public Vector3 start;
@@ -26,10 +26,11 @@ public class Bullet : MonoBehaviour
     }
     public void Init(Vector3 target,Weapon weapon)
     {
+        speed = weapon.Parameters.bulletSpeed;
         this.weapon = weapon;
         start = transform.position;
         var dir = target - start;
-        trg = dir.normalized * weapon.range + start;
+        trg = dir.normalized * weapon.Parameters.range + start;
         Debug.Log(" Target final =  " + trg + " dir:" + dir);
         time = 0;
         updateAction = updateVector;

@@ -24,7 +24,7 @@ public class BaseMonster : Unit
     public AIStatus aiStatus;
     public Hero mainHero;
     public int moneyCollect;
-    public float energyadd = 4f;
+    public int energyadd = 4;
     private BaseAction attackBehaviour;
     public bool haveAction;
 
@@ -32,12 +32,19 @@ public class BaseMonster : Unit
     {
         base.Dead();
         MainController.Instance.level.PowerLeft -= energyadd;
+        var mapItem = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab, transform.position);
+        mapItem.Init(ItemId.energy, energyadd);
+        mapItem.StartFly();
+        var mapItem2 = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab, transform.position);
+        mapItem2.Init(ItemId.money, moneyCollect);
+        mapItem2.StartFly();
+
     }
 
     public override void Init()
     {
         runAwayDist = attackDist * 1.4f;
-        speed = GreatRandom.RandomizeValue(speed);
+        Parameters.Speed = GreatRandom.RandomizeValue(Parameters.Speed);
         base.Init();
         mainHero = MainController.Instance.MainHero;
         bornPosition = transform.position;

@@ -11,11 +11,8 @@ public class Chest : MonoBehaviour
     public Dictionary<ItemId, int> items = new Dictionary<ItemId, int>();
     private bool isOpen = false;
     public ParticleSystemMultiplier SystemMultiplier;
+    
 
-    void Start()
-    {
-        items.Add(ItemId.money,25);//STUB
-    }
     void OnTriggerEnter(Collider other)
     {
         if (!isOpen)
@@ -23,7 +20,13 @@ public class Chest : MonoBehaviour
             var unit = other.GetComponent<Hero>();
             if (unit != null)
             {
-                unit.GetItems(items);
+                foreach (var item in items)
+                {
+                    var mo = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab,
+                        transform.position);
+                    mo.Init(item.Key, item.Value);
+                    mo.StartFly();
+                }
                 PlayOpen();
                 SystemMultiplier.StartPlay();
             }
@@ -34,6 +37,11 @@ public class Chest : MonoBehaviour
     private void PlayOpen()
     {
         isOpen = true;
+    }
+
+    public void Init()
+    {
+
     }
 }
 

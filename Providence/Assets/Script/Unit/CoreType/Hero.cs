@@ -20,11 +20,16 @@ public class Hero : Unit
             action.Update();
     }
 
+    public void GetItems(ItemId type, int count)
+    {
+        MainController.Instance.level.AddItem(type, count);
+    }
+
     public void GetItems(Dictionary<ItemId,int> chest)
     {
         foreach (var item in chest)
         {
-            MainController.Instance.level.AddItem(item.Key, item.Value);
+            GetItems(item.Key, item.Value);
         }
     }
     

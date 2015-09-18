@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+
+public enum WeaponType
+{
+    magic,
+    physics,
+}
+
+public  class WeaponParameters : ScriptableObject
+{
+    public float bulletSpeed;
+    public float power;
+    public WeaponType type;
+    public float range;
+    public bool isHoming = false;
+    public float attackCooldown;
+}
+
