@@ -2,23 +2,15 @@
 using UnityEngine;
 using System.Collections;
 
-public class BornPosition : MonoBehaviour
+public class BornPosition : BaseBornPosition
 {
-    public float chanceToWork = 0.9f;
     public BaseMonster monsterPrebaf;
-    public float radius = 2;
-    private Map map;
-    public int unitsCout = 1;
+    private Level level;
 
-    public void Init(Map map, Action<Unit> OnEnemyDead)
+    public void Init(Map map, Action<Unit> OnEnemyDead,Level level)
     {
-        this.map = map;
-        var mesh = GetComponent<MeshRenderer>();
-        if (mesh != null)
-        {
-            mesh.enabled = false;
-        }
-        bool work = UnityEngine.Random.Range(0f, 1f) < chanceToWork;
+        this.level = level;
+        base.Init(map);
         if (work)
         {
             var p = transform.position;

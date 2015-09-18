@@ -11,7 +11,6 @@ public enum UnitType
 }
 public class Unit : MonoBehaviour
 {
-    public float maxHp = 15f;
     public float curHp;
     public Weapon curWeapon;
     public List<Weapon> InventoryWeapons;
@@ -21,15 +20,16 @@ public class Unit : MonoBehaviour
     private Transform weaponsContainer;
     public event Action<Unit> OnDead;
     public event Action<float, float> OnGetHit;
-    public float speed = 6f;
     protected bool isDead = false;
+    public UnitParameters Parameters;
 
     
     public virtual void Init()
     {
+        Parameters = Parameters.Copy();
         Control = GetComponent<Character>();
         weaponsContainer = transform.Find("Weapons");
-        curHp = maxHp;
+        curHp = Parameters.MaxHp;
         List<Weapon> weapons = new List<Weapon>();
         foreach (var inventoryWeapon in InventoryWeapons)
         {
@@ -41,7 +41,7 @@ public class Unit : MonoBehaviour
             else
                 w.transform.SetParent(transform, false);
         }
-        Control.SetSpped(speed);
+        Control.SetSpped(Parameters.Speed);
         InventoryWeapons = weapons;
         if (InventoryWeapons.Count == 0)
         {
@@ -86,10 +86,10 @@ public class Unit : MonoBehaviour
 
     public void GetHit(Bullet bullet)
     {
-        curHp -= bullet.weapon.power;
+        curHp -= bullet.weapon.Parameters.power;
         if (OnGetHit != null)
         {
-            OnGetHit(curHp, maxHp);
+            OnGetHit(curHp, Parameters.MaxHp);
         }
         if (curHp <= 0)
         {
@@ -122,6 +122,6 @@ public class Unit : MonoBehaviour
 
     public void MoveToDirection(Vector3 dir)
     {
-        Control.MoveToDir(dir*speed);
+        Control.MoveToDir(dir* Parameters.Speed);
     }
 }

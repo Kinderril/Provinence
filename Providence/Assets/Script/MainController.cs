@@ -16,7 +16,7 @@ public class MainController : Singleton<MainController>
         level = new Level();
         level.Init();
         InGameUi.Init();
-        Map.Instance.Init();
+        Map.Instance.Init(level);
         MainHero.Init();
 	    uiMain.Init();
 	}

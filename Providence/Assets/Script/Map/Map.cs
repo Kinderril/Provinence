@@ -13,16 +13,30 @@ public class Map : Singleton<Map>
     public List<Unit> enemies = new List<Unit>();
     private int maxEnemies = 15;
     public Transform effectsContainer;
+    public Transform miscContainer;
+    private Level level;
 
-    public void Init()
+    public void Init(Level lvl)
     {
+        level = lvl;
         bornPositions = transform.Find("BornPos");
         enemiesContainer = transform.Find("Enemies");
         foreach (Transform bornPosition in bornPositions)
         {
             var bp = bornPosition.GetComponent<BornPosition>();
-            appearPos.Add(bp);
-            bp.Init(this, OnEnemyDead);
+            if (bp != null)
+            {
+                appearPos.Add(bp);
+                bp.Init(this, OnEnemyDead, lvl);
+            }
+            else
+            {
+                var cbp = bornPosition.GetComponent<ChestBornPosition>();
+                if (cbp != null)
+                {
+                    cbp.Init(this);
+                }
+            }
         }
     }
 
