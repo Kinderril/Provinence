@@ -15,7 +15,7 @@ public class UnitParameters : ScriptableObject
 
     public UnitParameters Copy()
     {
-        var p = new UnitParameters();
+        var p = CreateInstance(typeof(UnitParameters)) as UnitParameters;// new ();
         p.Speed = Speed;
         p.Power = Power;
         p.MaxHp = MaxHp;

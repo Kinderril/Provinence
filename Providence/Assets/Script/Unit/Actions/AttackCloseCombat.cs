@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -11,6 +12,11 @@ public class AttackCloseCombat :AttackAction
     {
     }
 
+    public override void Update()
+    {
+        base.Update();
+        UpdateCloseCombat();
+    }
     public void UpdateCloseCombat()
     {
         curRange = (owner.transform.position - target.transform.position).magnitude;

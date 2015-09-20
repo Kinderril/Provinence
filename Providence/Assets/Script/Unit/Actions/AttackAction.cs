@@ -31,7 +31,7 @@ public class AttackAction : BaseAction
         : base(owner, endCallback)
     {
         this.target = target;
-        rangeAttack = owner.curWeapon.range;
+        rangeAttack = owner.curWeapon.Parameters.range;
     }
 
 

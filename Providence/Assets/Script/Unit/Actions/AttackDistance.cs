@@ -12,8 +12,8 @@ public class AttackDistance : AttackAction
     public AttackDistance(BaseMonster owner, Unit target, Action endCallback) 
         : base(owner, target, endCallback)
     {
-        closeRange = owner.curWeapon.range * 0.75f;
-        farRange = owner.curWeapon.range * 1.25f;
+        closeRange = owner.curWeapon.Parameters.range * 0.75f;
+        farRange = owner.curWeapon.Parameters.range * 1.25f;
     }
 
     public void UpdateDistance()

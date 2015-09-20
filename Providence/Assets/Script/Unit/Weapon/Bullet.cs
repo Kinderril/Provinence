@@ -39,6 +39,7 @@ public class Bullet : MonoBehaviour
     public void Init(Unit target, Weapon weapon)
     {
         targetUnit = target;
+        start = transform.position;
         this.weapon = weapon;
         time = 0;
         updateAction = updateTargetUnit;

@@ -10,7 +10,7 @@ public class ChestBornPosition : BaseBornPosition
     public override void Init(Map map)
     {
         base.Init(map);
-
+        BornChest();
     }
 
 
@@ -20,7 +20,7 @@ public class ChestBornPosition : BaseBornPosition
         var b = new Vector3(p.x + UnityEngine.Random.Range(-radius, radius), p.y, p.z + UnityEngine.Random.Range(-radius, radius));
         var chest = DataBaseController.Instance.GetItem<Chest>(DataBaseController.Instance.chestPrefab, b);
         chest.Init();
-        chest.transform.SetParent(map.miscContainer);
+        chest.transform.SetParent(map.miscContainer,true);
     }
 }
 

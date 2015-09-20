@@ -48,7 +48,7 @@ public class BaseMonster : Unit
         base.Init();
         mainHero = MainController.Instance.MainHero;
         bornPosition = transform.position;
-        curWeapon.power = GreatRandom.RandomizeValue(curWeapon.power);
+        //curWeapon.power = GreatRandom.RandomizeValue(curWeapon.power);
         moneyCollect = GreatRandom.RandomizeValue(moneyCollect);
         energyadd = GreatRandom.RandomizeValue(energyadd);
         aiStatus = AIStatus.disable;

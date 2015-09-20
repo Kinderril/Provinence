@@ -47,7 +47,12 @@
   <ItemGroup>
      <Compile Include="Assets\Script\DataBaseController.cs" />
      <Compile Include="Assets\Script\MainController.cs" />
+     <Compile Include="Assets\Script\Map\BaseBornPosition.cs" />
      <Compile Include="Assets\Script\Map\BornPosition.cs" />
+     <Compile Include="Assets\Script\Map\ChestBornPosition.cs" />
+     <Compile Include="Assets\Script\Map\Items\Bush.cs" />
+     <Compile Include="Assets\Script\Map\Items\Chest.cs" />
+     <Compile Include="Assets\Script\Map\Items\MapItem.cs" />
      <Compile Include="Assets\Script\Map\Level.cs" />
      <Compile Include="Assets\Script\Map\Map.cs" />
      <Compile Include="Assets\Script\UI\InGameUI.cs" />
@@ -63,13 +68,12 @@
      <Compile Include="Assets\Script\Unit\Actions\StayAction.cs" />
      <Compile Include="Assets\Script\Unit\Character.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\BaseMonster.cs" />
-     <Compile Include="Assets\Script\Unit\CoreType\Bush.cs" />
-     <Compile Include="Assets\Script\Unit\CoreType\Chest.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\Hero.cs" />
-     <Compile Include="Assets\Script\Unit\CoreType\MapItem.cs" />
+     <Compile Include="Assets\Script\Unit\CoreType\UnitParameters.cs" />
      <Compile Include="Assets\Script\Unit\Unit.cs" />
-     <Compile Include="Assets\Script\Unit\Weapon.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\Bullet.cs" />
+     <Compile Include="Assets\Script\Unit\Weapon\Weapon.cs" />
+     <Compile Include="Assets\Script\Unit\Weapon\WeaponParameters.cs" />
      <Compile Include="Assets\Script\Utils\CameraFollow.cs" />
      <Compile Include="Assets\Script\Utils\GreatRandom.cs" />
      <Compile Include="Assets\Script\Utils\SerializableDictionary.cs" />
