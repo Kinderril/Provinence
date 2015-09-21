@@ -21,6 +21,7 @@ public class Map : Singleton<Map>
         level = lvl;
         bornPositions = transform.Find("BornPos");
         enemiesContainer = transform.Find("Enemies");
+        List<ChestBornPosition> chestPositions = new List<ChestBornPosition>();
         foreach (Transform bornPosition in bornPositions)
         {
             var bp = bornPosition.GetComponent<BornPosition>();
@@ -34,9 +35,15 @@ public class Map : Singleton<Map>
                 var cbp = bornPosition.GetComponent<ChestBornPosition>();
                 if (cbp != null)
                 {
-                    cbp.Init(this);
+                    chestPositions.Add(cbp);
                 }
             }
+        }
+        var rnd = chestPositions.RandomElement();
+        rnd.SetCrystal();
+        foreach (var chestBornPosition in chestPositions)
+        {
+            chestBornPosition.Init(this);
         }
     }
 

@@ -8,6 +8,7 @@ using UnityStandardAssets.Effects;
 
 public class Chest : MonoBehaviour
 {
+    public const int moneyCoef = 21; 
     public Dictionary<ItemId, int> items = new Dictionary<ItemId, int>();
     private bool isOpen = false;
     public ParticleSystemMultiplier SystemMultiplier;
@@ -25,7 +26,6 @@ public class Chest : MonoBehaviour
                     SystemMultiplier.StartPlay();
             }
         }
-
     }
 
     public void Release()//Name from event
@@ -53,7 +53,7 @@ public class Chest : MonoBehaviour
         }
     }
 
-    public void Init()
+    public void Init(bool withCrystal)
     {
 		float m_GroundCheckDistance = 9999f;
         animator = GetComponent<Animator>();
@@ -65,7 +65,11 @@ public class Chest : MonoBehaviour
             transform.position = new Vector3(t.x,t.y - groundOffset,t.z);
         }
         transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(-180,180), 0);
-        items.Add(ItemId.money, 22);
+        var rnd = MainController.Instance.level.difficult*moneyCoef;
+        items.Add(ItemId.money,GreatRandom.RandomizeValue(rnd));
+        if (withCrystal)
+            items.Add(ItemId.crystal, 1);
+
     }
 }
 
