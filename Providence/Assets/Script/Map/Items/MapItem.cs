@@ -14,6 +14,8 @@ public class MapItem : MonoBehaviour
 
     public void Init(ItemId type, int count)
     {
+        Utils.SetRandomRotation(transform);
+        this.type = type;
         this.count = count;
     }
     void OnTriggerEnter(Collider other)

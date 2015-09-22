@@ -32,11 +32,9 @@ public class BaseMonster : Unit
     {
         base.Dead();
         MainController.Instance.level.PowerLeft -= energyadd;
-        var mapItem = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab, transform.position);
-        mapItem.Init(ItemId.energy, energyadd);
-        mapItem.StartFly();
         var mapItem2 = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab, transform.position);
         mapItem2.Init(ItemId.money, moneyCollect);
+        mapItem2.transform.SetParent(Map.Instance.miscContainer,true);
         mapItem2.StartFly();
 
     }
@@ -57,8 +55,11 @@ public class BaseMonster : Unit
 
     protected override void UpdateUnit()
     {
-        CheckDistance();
-        base.UpdateUnit();
+        if (!isDead)
+        {
+            CheckDistance();
+            base.UpdateUnit();
+        }
     }
 
 
@@ -111,27 +112,25 @@ public class BaseMonster : Unit
 
     private void StartWalk()
     {
-        if (!isDead)
+        aiStatus = AIStatus.walk;
+        int coef = 60;
+        if (action is MoveAction)
         {
-            aiStatus = AIStatus.walk;
-            int coef = 60;
-            if (action is MoveAction)
-            {
-                coef = 30;
-            }
-            var shalgo = UnityEngine.Random.Range(0, 100) < coef;
-            if (shalgo)
-            {
-                var randPos = new Vector3(bornPosition.x + UnityEngine.Random.Range(-isHomeDist, isHomeDist),
-                    bornPosition.y,
-                    bornPosition.z + UnityEngine.Random.Range(-isHomeDist, isHomeDist));
-                action = new MoveAction(this, randPos, StartWalk);
-            }
-            else
-            {
-                action = new StayAction(this, StartWalk);
-            }
+            coef = 30;
         }
+        var shalgo = UnityEngine.Random.Range(0, 100) < coef;
+        if (shalgo)
+        {
+            var randPos = new Vector3(bornPosition.x + UnityEngine.Random.Range(-isHomeDist, isHomeDist),
+                bornPosition.y,
+                bornPosition.z + UnityEngine.Random.Range(-isHomeDist, isHomeDist));
+            action = new MoveAction(this, randPos, StartWalk);
+        }
+        else
+        {
+            action = new StayAction(this, StartWalk);
+        }
+        
     }
 
     private void StartAttack()

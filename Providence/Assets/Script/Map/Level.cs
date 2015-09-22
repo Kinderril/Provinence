@@ -24,7 +24,7 @@ public class Level
     private float powerLeft;
     private float maxpower = 120;
     public Action<float, float> OnLeft;
-    public Action<ItemId,float> OnItemCollected;
+    public Action<ItemId,float,float> OnItemCollected;
     private DictionaryOfItemAndInt inventory;
     public int difficult = 1;
 
@@ -55,15 +55,15 @@ public class Level
     {
         Debug.Log("OnItemCollected");
         inventory[type] += value;
-        ActivaAction(type);
+        ActivaAction(type, value);
         
     }
 
-    private void ActivaAction(ItemId i)
+    private void ActivaAction(ItemId i,int delta)
     {
         if (OnItemCollected != null)
         {
-            OnItemCollected(i, inventory[i]);
+            OnItemCollected(i, inventory[i], delta);
         }
         
     }

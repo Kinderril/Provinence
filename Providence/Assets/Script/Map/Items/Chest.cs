@@ -64,7 +64,7 @@ public class Chest : MonoBehaviour
             float groundOffset = hitInfo.distance;
             transform.position = new Vector3(t.x,t.y - groundOffset,t.z);
         }
-        transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(-180,180), 0);
+        Utils.SetRandomRotation(transform);
         var rnd = MainController.Instance.level.difficult*moneyCoef;
         items.Add(ItemId.money,GreatRandom.RandomizeValue(rnd));
         if (withCrystal)

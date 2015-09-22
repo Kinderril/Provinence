@@ -17,20 +17,24 @@ public class InGameUI : MonoBehaviour
         MainController.Instance.MainHero.OnGetHit += OnHeroHit;
     }
 
-    private void OnItemCollected(ItemId arg1, float arg2)
+    private void OnItemCollected(ItemId arg1, float arg2,float delta)
     {
         switch (arg1)
         {
             case ItemId.money:
                 moneyField.text = arg2.ToString("00");
+                var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, moneyField.transform.position);
+                item.Init(delta, Color.cyan, (delta>0)?"+":"-");
                 break;
             case ItemId.crystal:
                 break;
         }
     }
 
-    private void OnHeroHit(float arg1, float arg2)
+    private void OnHeroHit(float arg1, float arg2,float delta)
     {
+        var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, HealthSlider.transform.position);
+        item.Init(delta, Color.cyan, (delta > 0) ? "+" : "-");
         HealthSlider.value =  arg1/ arg2;
     }
 

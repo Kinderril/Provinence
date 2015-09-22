@@ -19,6 +19,7 @@ public class DataBaseController : Singleton<DataBaseController>
     public GameObject debugCube;
     public MapItem MapItemPrefab;
     public Chest chestPrefab;
+    public FlyingNumbers FlyingNumber;
 
     public T GetItem<T>(T item,Vector3 pos) where T : MonoBehaviour
     {

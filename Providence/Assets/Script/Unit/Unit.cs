@@ -2,6 +2,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using System.Runtime.Remoting.Channels;
 using UnityStandardAssets.Characters.ThirdPerson;
 
 public enum UnitType
@@ -19,7 +21,7 @@ public class Unit : MonoBehaviour
     public UnitType unitType;
     private Transform weaponsContainer;
     public event Action<Unit> OnDead;
-    public event Action<float, float> OnGetHit;
+    public event Action<float, float,float> OnGetHit;
     protected bool isDead = false;
     public UnitParameters Parameters;
 
@@ -84,12 +86,28 @@ public class Unit : MonoBehaviour
         action = moveAction;
     }
 
+    private float calcResist(float curResist)
+    {
+        return curResist/(100 + curResist);
+    }
+
     public void GetHit(Bullet bullet)
     {
-        curHp -= bullet.weapon.Parameters.power;
+        float power = bullet.weapon.Parameters.power;
+        switch (bullet.weapon.Parameters.type)
+        {
+            case WeaponType.magic:
+                power *= calcResist(Parameters.magicResist);
+                break;
+            case WeaponType.physics:
+                power *= calcResist(Parameters.physicResist);
+                break;
+        }
+
+        curHp -= power;
         if (OnGetHit != null)
         {
-            OnGetHit(curHp, Parameters.MaxHp);
+            OnGetHit(curHp, Parameters.MaxHp, power);
         }
         if (curHp <= 0)
         {
