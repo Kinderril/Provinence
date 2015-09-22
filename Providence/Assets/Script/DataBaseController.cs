@@ -10,6 +10,14 @@ public enum ItemId
     money,
     crystal,
     energy,
+    health
+}
+
+[Serializable]
+public struct ColorUI
+{
+    public Color color;
+    public ItemId type;
 }
 
 public class DataBaseController : Singleton<DataBaseController>
@@ -20,11 +28,16 @@ public class DataBaseController : Singleton<DataBaseController>
     public MapItem MapItemPrefab;
     public Chest chestPrefab;
     public FlyingNumbers FlyingNumber;
+    public ColorUI[] ColorsOfUI;
 
     public T GetItem<T>(T item,Vector3 pos) where T : MonoBehaviour
     {
         return (GameObject.Instantiate(item.gameObject, pos, Quaternion.identity) as GameObject).GetComponent<T>();
     }
 
+    public Color GetColor(ItemId f)
+    {
+        return ColorsOfUI.FirstOrDefault(x => x.type == f).color;
+    }
 }
 

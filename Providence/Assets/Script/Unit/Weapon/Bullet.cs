@@ -38,6 +38,7 @@ public class Bullet : MonoBehaviour
 
     public void Init(Unit target, Weapon weapon)
     {
+        speed = weapon.Parameters.bulletSpeed;
         targetUnit = target;
         start = transform.position;
         this.weapon = weapon;
@@ -90,6 +91,7 @@ public class Bullet : MonoBehaviour
     private void updateTargetUnit()
     {
         time += speed;
+        Debug.Log("update vector " + time + "   " + transform.position + "   " + targetUnit  +  "   s:" + start);
         transform.position = Vector3.Lerp(start, targetUnit.transform.position, time);
         if (time > 1)
         {

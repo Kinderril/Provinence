@@ -30,8 +30,8 @@ public class MapItem : MonoBehaviour
                 {
                     OpenEffect.Play();
                     Map.Instance.LeaveEffect(OpenEffect);
-                    Destroy(gameObject);
                 }
+                Destroy(gameObject);
             }
         }
 
@@ -39,7 +39,7 @@ public class MapItem : MonoBehaviour
 
     public void StartFly()
     {
-
+        canBeTaken = true;//STUB
     }
 }
 

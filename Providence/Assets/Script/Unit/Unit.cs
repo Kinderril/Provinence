@@ -19,7 +19,7 @@ public class Unit : MonoBehaviour
     public Character Control;
     protected BaseAction action;
     public UnitType unitType;
-    private Transform weaponsContainer;
+    public Transform weaponsContainer;
     public event Action<Unit> OnDead;
     public event Action<float, float,float> OnGetHit;
     protected bool isDead = false;
@@ -30,7 +30,6 @@ public class Unit : MonoBehaviour
     {
         Parameters = Parameters.Copy();
         Control = GetComponent<Character>();
-        weaponsContainer = transform.Find("Weapons");
         curHp = Parameters.MaxHp;
         List<Weapon> weapons = new List<Weapon>();
         foreach (var inventoryWeapon in InventoryWeapons)
@@ -39,9 +38,10 @@ public class Unit : MonoBehaviour
             weapons.Add(w);
             w.Init(this);
             if (weaponsContainer != null)
-                w.transform.SetParent(weaponsContainer,false);
+                w.transform.SetParent(weaponsContainer,true);
             else
-                w.transform.SetParent(transform, false);
+                w.transform.SetParent(transform, true);
+            w.transform.localPosition = Vector3.zero;
         }
         Control.SetSpped(Parameters.Speed);
         InventoryWeapons = weapons;
@@ -88,7 +88,7 @@ public class Unit : MonoBehaviour
 
     private float calcResist(float curResist)
     {
-        return curResist/(100 + curResist);
+        return 1 - curResist/(100 + curResist);
     }
 
     public void GetHit(Bullet bullet)
@@ -103,6 +103,7 @@ public class Unit : MonoBehaviour
                 power *= calcResist(Parameters.physicResist);
                 break;
         }
+        Debug.Log("Get hit:" + bullet.weapon.Parameters.power + " => " + power);
 
         curHp -= power;
         if (OnGetHit != null)

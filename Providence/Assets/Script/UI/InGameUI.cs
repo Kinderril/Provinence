@@ -24,7 +24,9 @@ public class InGameUI : MonoBehaviour
             case ItemId.money:
                 moneyField.text = arg2.ToString("00");
                 var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, moneyField.transform.position);
-                item.Init(delta, Color.cyan, (delta>0)?"+":"-");
+        item.transform.SetParent(transform);
+        Color color = DataBaseController.Instance.GetColor(arg1);
+        item.Init(delta, color, (delta > 0) ? "+" : "-");
                 break;
             case ItemId.crystal:
                 break;
@@ -34,7 +36,9 @@ public class InGameUI : MonoBehaviour
     private void OnHeroHit(float arg1, float arg2,float delta)
     {
         var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, HealthSlider.transform.position);
-        item.Init(delta, Color.cyan, (delta > 0) ? "+" : "-");
+        item.transform.SetParent(transform);
+        Color color = DataBaseController.Instance.GetColor(ItemId.health);
+        item.Init(delta, color, (delta > 0) ? "-" : "+");
         HealthSlider.value =  arg1/ arg2;
     }
 

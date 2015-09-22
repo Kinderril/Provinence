@@ -55,6 +55,7 @@
      <Compile Include="Assets\Script\Map\Items\MapItem.cs" />
      <Compile Include="Assets\Script\Map\Level.cs" />
      <Compile Include="Assets\Script\Map\Map.cs" />
+     <Compile Include="Assets\Script\UI\FlyingNumbers.cs" />
      <Compile Include="Assets\Script\UI\InGameUI.cs" />
      <Compile Include="Assets\Script\UI\PanelWithDragTest.cs" />
      <Compile Include="Assets\Script\UI\SubUIMain.cs" />

@@ -36,7 +36,15 @@ public class Weapon : MonoBehaviour
         {
             if (Parameters.isHoming)
             {
-                Unit potentialTarget = Map.Instance.FindClosesEnemy(v);
+                Unit potentialTarget = null;
+                if (owner is Hero)
+                {
+                    potentialTarget = Map.Instance.FindClosesEnemy(v);
+                }
+                else
+                {
+                    potentialTarget = MainController.Instance.MainHero;
+                }
                 if (potentialTarget != null && (owner.transform.position - potentialTarget.transform.position).sqrMagnitude < 4)
                 {
                     nexAttackTime = Time.time + Parameters.attackCooldown;
