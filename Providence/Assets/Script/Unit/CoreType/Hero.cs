@@ -72,4 +72,9 @@ public class Hero : Unit
             coefVisibility *= 1f/crouchBonus;
         }
     }
+
+    public void ChangeWeaponTo(Weapon weap)
+    {
+
+    }
 }
