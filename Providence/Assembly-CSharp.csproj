@@ -60,6 +60,9 @@
      <Compile Include="Assets\Script\UI\PanelWithDragTest.cs" />
      <Compile Include="Assets\Script\UI\SubUIMain.cs" />
      <Compile Include="Assets\Script\UI\UIMain.cs" />
+     <Compile Include="Assets\Script\UI\WeaponAnimation.cs" />
+     <Compile Include="Assets\Script\UI\WeaponButton.cs" />
+     <Compile Include="Assets\Script\UI\WeaponChooser.cs" />
      <Compile Include="Assets\Script\Unit\Actions\AttackAction.cs" />
      <Compile Include="Assets\Script\Unit\Actions\AttackCloseCombat.cs" />
      <Compile Include="Assets\Script\Unit\Actions\AttackDistance.cs" />

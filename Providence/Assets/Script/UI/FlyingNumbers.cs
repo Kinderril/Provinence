@@ -13,7 +13,7 @@ public class FlyingNumbers : MonoBehaviour
     {
         if (text == null)
             text = GetComponent<Text>();
-        text.text = add + Count.ToString("0");
+        text.text = add + (Mathf.Abs(Count)).ToString("0");
         text.color = textColor;
     }
 

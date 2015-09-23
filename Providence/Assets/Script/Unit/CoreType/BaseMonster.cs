@@ -31,7 +31,7 @@ public class BaseMonster : Unit
     protected override void Dead()
     {
         base.Dead();
-        MainController.Instance.level.PowerLeft -= energyadd;
+        MainController.Instance.level.AddItem(ItemId.energy, -energyadd);
         var mapItem2 = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab, transform.position);
         mapItem2.Init(ItemId.money, moneyCollect);
         mapItem2.transform.SetParent(Map.Instance.miscContainer,true);

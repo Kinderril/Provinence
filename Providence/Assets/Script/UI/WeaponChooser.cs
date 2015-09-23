@@ -8,14 +8,16 @@ using UnityEngine.EventSystems;
 
 public class WeaponChooser : MonoBehaviour, IPointerDownHandler,IPointerUpHandler
 {
-    public Transform animatedElement;
-    private bool isOpen = false;
+    public WeaponAnimation weaponAnimation;
+    public bool isOpen = false;
     private Animator animator;
     private const string p_animator = "isOpen";
-    private List<WeaponButton> weaponButons = new List<WeaponButton>(); 
+    public List<WeaponButton> weaponButons = new List<WeaponButton>(); 
 
     public void Init(List<Weapon> weapons)
     {
+        animator = weaponAnimation.GetComponent<Animator>();
+        weaponAnimation.Init(this);
         int i = 0;
         foreach (var weapon in weapons)
         {
@@ -40,8 +42,9 @@ public class WeaponChooser : MonoBehaviour, IPointerDownHandler,IPointerUpHandle
     {
         if (!isOpen)
         {
-            
         }
+        animator.SetBool(p_animator, true);
+        Debug.Log("OnPointerDown");
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -49,7 +52,9 @@ public class WeaponChooser : MonoBehaviour, IPointerDownHandler,IPointerUpHandle
         if (isOpen)
         {
             CheckPosition(eventData.hovered);
+            animator.SetBool(p_animator, false);
         }
+        Debug.Log(" UP up up " + eventData.hovered.Count);
     }
 
     private void CheckPosition(List<GameObject> hovered)

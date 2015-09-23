@@ -37,25 +37,25 @@ public class Level
         }
     }
 
-    public float PowerLeft
-    {
-        get { return powerLeft; }
-        set
-        {
-            powerLeft = Mathf.Clamp(PowerLeft, -1, maxpower);
-            powerLeft = value;
-            if (OnLeft != null)
-            {
-                OnLeft(powerLeft, maxpower);
-            }
-        }
-    }
 
     public void AddItem(ItemId type, int value)
     {
         Debug.Log("OnItemCollected");
-        inventory[type] += value;
-        ActivaAction(type, value);
+        switch (type)
+        {
+            case ItemId.money:
+            case ItemId.crystal:
+                inventory[type] += value;
+                ActivaAction(type, value);
+                break;
+            case ItemId.energy:
+                powerLeft = Mathf.Clamp(powerLeft + value, -1, maxpower);
+                ActionPOwerLeft();
+                ActivaAction(type, value);
+                break;
+            case ItemId.health:
+                break;
+        }
         
     }
 
@@ -68,11 +68,18 @@ public class Level
         
     }
 
-
+    private void ActionPOwerLeft()
+    {
+        if (OnLeft != null)
+        {
+            OnLeft(powerLeft, maxpower);
+        }
+    }
 
     public void Update()
     {
-        PowerLeft += Time.deltaTime;
+        powerLeft += Time.deltaTime;
+        ActionPOwerLeft();
     }
 }
 
