@@ -26,10 +26,10 @@ public class BornPosition : BaseBornPosition
     public void BornEnemy(Vector3 pos, Action<Unit> OnEnemyDead)
     {
         var monster = DataBaseController.Instance.Monsters.RandomElement();
-        var m = (GameObject.Instantiate(monster.gameObject, pos, Quaternion.identity) as GameObject).GetComponent<Unit>();
-        map.enemies.Add(m);
-        m.Init();
-        m.transform.SetParent(map.enemiesContainer);
-        m.OnDead += OnEnemyDead;
+        var unit = (GameObject.Instantiate(monster.gameObject, pos, Quaternion.identity) as GameObject).GetComponent<Unit>();
+        map.enemies.Add(unit);
+        unit.Init();
+        unit.transform.SetParent(map.enemiesContainer);
+        unit.OnDead += OnEnemyDead;
     }
 }

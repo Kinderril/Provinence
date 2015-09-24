@@ -14,6 +14,7 @@ public class WindowInGame : BaseWindow
 
     public override void Init()
     {
+        base.Init();
         UiControls.Init();
         MainController.Instance.level.OnLeft += OnLeft;
         MainController.Instance.level.OnItemCollected += OnItemCollected;

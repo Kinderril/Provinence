@@ -16,8 +16,16 @@ public class WindowManager : Singleton<WindowManager>
     public WindowT[] windows;
     private BaseWindow currentWindow;
 
+    public void Init()
+    {
+        foreach (var window in windows)
+        {
+            window.window.gameObject.SetActive(false);
+        }
+    }
     public void OpenWindow(MainState state)
     {
+        Debug.Log("OpenWindow " + state);
         if (currentWindow != null)
         {
             currentWindow.Close();

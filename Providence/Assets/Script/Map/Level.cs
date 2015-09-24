@@ -37,17 +37,8 @@ public class Level
         {
             inventory.Add(suit,0);
         }
-        Map.Instance.Init(this);
-        if (MainHero == null)
-        {
-            InitMainHero();
-        }
+        MainHero = Map.Instance.Init(this);
         MainHero.Init();
-    }
-
-    private void InitMainHero()
-    {
-        
     }
 
 

@@ -14,11 +14,18 @@ public class Map : Singleton<Map>
     private int maxEnemies = 15;
     public Transform effectsContainer;
     public Transform miscContainer;
+    public Transform heroBornPositions;
     private Level level;
 
-    public void Init(Level lvl)
+    public Hero Init(Level lvl)
     {
         level = lvl;
+        List<Vector3> vector3s = new List<Vector3>();
+        foreach (Transform var in heroBornPositions)
+        {
+            vector3s.Add(var.position);
+        }
+        var hero = DataBaseController.Instance.GetItem(DataBaseController.Instance.prefabHero, vector3s.RandomElement());
         bornPositions = transform.Find("BornPos");
         enemiesContainer = transform.Find("Enemies");
         List<ChestBornPosition> chestPositions = new List<ChestBornPosition>();
@@ -45,6 +52,7 @@ public class Map : Singleton<Map>
         {
             chestBornPosition.Init(this);
         }
+        return hero;
     }
 
     private void OnEnemyDead(Unit obj)

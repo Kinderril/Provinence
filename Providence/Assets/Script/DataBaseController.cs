@@ -27,6 +27,7 @@ public class DataBaseController : Singleton<DataBaseController>
     public GameObject debugCube;
     public MapItem MapItemPrefab;
     public Chest chestPrefab;
+    public Hero prefabHero;
     public FlyingNumbers FlyingNumber;
     public ColorUI[] ColorsOfUI;
 
