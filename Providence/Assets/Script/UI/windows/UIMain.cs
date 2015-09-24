@@ -13,9 +13,10 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     private Hero mainHero;
     private Vector2 startDrag;
     public SubUIMain subUI;
+    private bool enable;
     public void Init()
     {
-        mainHero = MainController.Instance.MainHero;
+        mainHero = MainController.Instance.level.MainHero;
         MainCamera = MainController.Instance.MainCamera;
         if (subUI != null)
         {
@@ -29,7 +30,8 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
 
     public void OnCrouch()
     {
-        mainHero.DoCrouch();
+        if (enable)
+            mainHero.DoCrouch();
     }
     
     private Vector3 RayCast(PointerEventData eventData)
@@ -59,7 +61,7 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         var hit = RayCast(eventData);
         if (sqrDist >4200)
         {
-            if (hit != Vector3.zero)
+            if (hit != Vector3.zero && enable)
                 mainHero.TryAttack(hit);
         }
         else
@@ -72,8 +74,14 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
 
     public void UpdateMoveArrow(Vector3 dir)
     {
-        mainHero.MoveToDirection(dir);
+        if (enable)
+            mainHero.MoveToDirection(dir);
 
+    }
+
+    public void Enable(bool val)
+    {
+        enable = val;
     }
 }
 

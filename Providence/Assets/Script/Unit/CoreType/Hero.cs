@@ -19,7 +19,7 @@ public class Hero : Unit
         if (action != null)
             action.Update();
     }
-
+    
     public void GetItems(ItemId type, int count)
     {
         MainController.Instance.level.AddItem(type, count);
@@ -60,7 +60,7 @@ public class Hero : Unit
     }
 
     public void DoCrouch()
-{
+    {
         if (!isCrouch)
         {
             isCrouch = true;
@@ -71,6 +71,12 @@ public class Hero : Unit
             isCrouch = false;
             coefVisibility *= 1f/crouchBonus;
         }
+    }
+
+    protected override void Dead()
+    {
+        base.Dead();
+        MainController.Instance.EndLevel();
     }
 
     public void ChangeWeaponTo(Weapon weap)

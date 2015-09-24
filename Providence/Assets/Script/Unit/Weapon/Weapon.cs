@@ -43,7 +43,7 @@ public class Weapon : MonoBehaviour
                 }
                 else
                 {
-                    potentialTarget = MainController.Instance.MainHero;
+                    potentialTarget = MainController.Instance.level.MainHero;
                 }
                 if (potentialTarget != null && (owner.transform.position - potentialTarget.transform.position).sqrMagnitude < 4)
                 {

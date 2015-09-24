@@ -22,19 +22,32 @@ public class DictionaryOfItemAndInt : SerializableDictionary<ItemId, int> { }
 public class Level
 {
     private float powerLeft;
+    public Hero MainHero;
     private float maxpower = 120;
     public Action<float, float> OnLeft;
     public Action<ItemId,float,float> OnItemCollected;
     private DictionaryOfItemAndInt inventory;
     public int difficult = 1;
+    public bool isPLaying = true;
 
-    public void Init()
+    public Level()
     {
         inventory = new DictionaryOfItemAndInt();
         foreach (ItemId suit in Enum.GetValues(typeof(ItemId)))
         {
             inventory.Add(suit,0);
         }
+        Map.Instance.Init(this);
+        if (MainHero == null)
+        {
+            InitMainHero();
+        }
+        MainHero.Init();
+    }
+
+    private void InitMainHero()
+    {
+        
     }
 
 
@@ -74,12 +87,27 @@ public class Level
         {
             OnLeft(powerLeft, maxpower);
         }
+
+        if (powerLeft > maxpower)
+        {
+            isPLaying = false;
+            MainController.Instance.EndLevel();
+        }
     }
 
     public void Update()
     {
-        powerLeft += Time.deltaTime;
-        ActionPOwerLeft();
+        if (isPLaying)
+        {
+            powerLeft += Time.deltaTime;
+            ActionPOwerLeft();
+        }
+    }
+
+    public void EndLevel(PlayerData PlayerData)
+    {
+        PlayerData.AddInventory(inventory);
+        PlayerData.Save();
     }
 }
 

@@ -3,20 +3,37 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class InGameUI : MonoBehaviour
+public class WindowInGame : BaseWindow
 {
 
     public Slider TImeSlider;
     public Slider HealthSlider;
     public Text moneyField;
     public WeaponChooser WeaponChooser;
+    public UIMain UiControls;
 
-    public void Init()
+    public override void Init()
     {
+        UiControls.Init();
         MainController.Instance.level.OnLeft += OnLeft;
         MainController.Instance.level.OnItemCollected += OnItemCollected;
-        MainController.Instance.MainHero.OnGetHit += OnHeroHit;
-        WeaponChooser.Init(MainController.Instance.MainHero.InventoryWeapons);
+        MainController.Instance.level.MainHero.OnGetHit += OnHeroHit;
+        WeaponChooser.Init(MainController.Instance.level.MainHero.InventoryWeapons);
+        UiControls.Enable(true);
+    }
+
+    public void EndGame()
+    {
+        UiControls.Enable(false);
+    }
+
+    public override void Close()
+    {
+        base.Close();
+        UiControls.Enable(false);
+        MainController.Instance.level.OnLeft -= OnLeft;
+        MainController.Instance.level.OnItemCollected -= OnItemCollected;
+        MainController.Instance.level.MainHero.OnGetHit -= OnHeroHit;
     }
 
     private void OnItemCollected(ItemId arg1, float arg2,float delta)
@@ -53,7 +70,6 @@ public class InGameUI : MonoBehaviour
     private void OnLeft(float arg1, float arg2)
     {
         var v = 1f - arg1/arg2;
-        //Debug.Log(" val: " + v + "  arg1:" + arg1 + "  " + arg2);
         TImeSlider.value = v;
     }
 

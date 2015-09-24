@@ -44,7 +44,7 @@ public class BaseMonster : Unit
         runAwayDist = attackDist * 1.4f;
         Parameters.Speed = GreatRandom.RandomizeValue(Parameters.Speed);
         base.Init();
-        mainHero = MainController.Instance.MainHero;
+        mainHero = MainController.Instance.level.MainHero;
         bornPosition = transform.position;
         //curWeapon.power = GreatRandom.RandomizeValue(curWeapon.power);
         moneyCollect = GreatRandom.RandomizeValue(moneyCollect);
@@ -140,13 +140,13 @@ public class BaseMonster : Unit
         switch (AttackType)
         {
             case AttackType.hitAndRun:
-                action = new AttackHitAndRun(this, MainController.Instance.MainHero, StartAttack);
+                action = new AttackHitAndRun(this, MainController.Instance.level.MainHero, StartAttack);
                 break;
             case AttackType.distanceFight:
-                action = new AttackDistance(this, MainController.Instance.MainHero, StartAttack);
+                action = new AttackDistance(this, MainController.Instance.level.MainHero, StartAttack);
                 break;
             case AttackType.closeCombat:
-                action = new AttackCloseCombat(this, MainController.Instance.MainHero, StartAttack);
+                action = new AttackCloseCombat(this, MainController.Instance.level.MainHero, StartAttack);
                 break;
         }
     }

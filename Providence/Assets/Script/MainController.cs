@@ -1,27 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum MainState
+{
+    start,
+    play,
+    mission,
+    pause,
+    shop,
+    end
+}
+
 public class MainController : Singleton<MainController>
 {
     public Camera MainCamera;
-    public Hero MainHero;
-    public UIMain uiMain;
+    //public UIMain uiMain;
     public TimerManager TimerManager;
     public Level level;
-    public InGameUI InGameUi;
+    //public WindowInGame WindowInGame;
+    public MainState MainState;
+    public PlayerData PlayerData;
+    
 
 	// Use this for initialization
 	void Start () {
         TimerManager = new TimerManager();
-        level = new Level();
-        level.Init();
-        InGameUi.Init();
-        Map.Instance.Init(level);
-        MainHero.Init();
-	    uiMain.Init();
+        WindowManager.Instance.OpenWindow(MainState.start);
 	}
-	
-	// Update is called once per frame
+
+    public void StartLevel()
+    {
+        level = new Level();
+        WindowManager.Instance.OpenWindow(MainState.play);
+    }
+
+    public void EndLevel()
+    {
+        level.EndLevel(PlayerData);
+        WindowManager.Instance.OpenWindow(MainState.end);
+    }
+    
+    // Update is called once per frame
 	void Update () {
         if (TimerManager != null)
 	        TimerManager.Update();
