@@ -38,7 +38,6 @@ public class Level
             inventory.Add(suit,0);
         }
         MainHero = Map.Instance.Init(this);
-        MainHero.Init();
     }
 
 
@@ -99,6 +98,11 @@ public class Level
     {
         PlayerData.AddInventory(inventory);
         PlayerData.Save();
+    }
+
+    public DictionaryOfItemAndInt GetAllCollectedItems()
+    {
+        return inventory;
     }
 }
 

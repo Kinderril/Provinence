@@ -23,7 +23,7 @@ public struct ColorUI
 public class DataBaseController : Singleton<DataBaseController>
 {
     public List<Weapon> Weapons;
-    public List<Unit> Monsters;
+    public List<BaseMonster> Monsters;
     public GameObject debugCube;
     public MapItem MapItemPrefab;
     public Chest chestPrefab;

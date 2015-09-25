@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.2.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -92,17 +90,20 @@
     <Compile Include="Assets\Script\Map\Items\MapItem.cs" />
     <Compile Include="Assets\Script\Map\Level.cs" />
     <Compile Include="Assets\Script\Map\Map.cs" />
-    <Compile Include="Assets\Script\UI\windows\BaseWindow.cs" />
     <Compile Include="Assets\Script\UI\FlyingNumbers.cs" />
-    <Compile Include="Assets\Script\UI\windows\WindowEndGame.cs" />
-    <Compile Include="Assets\Script\UI\windows\WindowInGame.cs" />
     <Compile Include="Assets\Script\UI\PanelWithDragTest.cs" />
-    <Compile Include="Assets\Script\UI\windows\SubUIMain.cs" />
-    <Compile Include="Assets\Script\UI\windows\UIMain.cs" />
     <Compile Include="Assets\Script\UI\WeaponAnimation.cs" />
     <Compile Include="Assets\Script\UI\WeaponButton.cs" />
     <Compile Include="Assets\Script\UI\WeaponChooser.cs" />
     <Compile Include="Assets\Script\UI\WindowManager.cs" />
+    <Compile Include="Assets\Script\UI\windows\BaseWindow.cs" />
+    <Compile Include="Assets\Script\UI\windows\SubUIMain.cs" />
+    <Compile Include="Assets\Script\UI\windows\UIMain.cs" />
+    <Compile Include="Assets\Script\UI\windows\WindowEndGame.cs" />
+    <Compile Include="Assets\Script\UI\windows\WindowInGame.cs" />
+    <Compile Include="Assets\Script\UI\windows\WindowMission.cs" />
+    <Compile Include="Assets\Script\UI\windows\WindowPause.cs" />
+    <Compile Include="Assets\Script\UI\windows\WindowShop.cs" />
     <Compile Include="Assets\Script\UI\windows\WindowStart.cs" />
     <Compile Include="Assets\Script\Unit\Actions\AttackAction.cs" />
     <Compile Include="Assets\Script\Unit\Actions\AttackCloseCombat.cs" />

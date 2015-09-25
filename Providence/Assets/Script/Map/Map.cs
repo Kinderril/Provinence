@@ -26,6 +26,7 @@ public class Map : Singleton<Map>
             vector3s.Add(var.position);
         }
         var hero = DataBaseController.Instance.GetItem(DataBaseController.Instance.prefabHero, vector3s.RandomElement());
+        hero.Init();
         bornPositions = transform.Find("BornPos");
         enemiesContainer = transform.Find("Enemies");
         List<ChestBornPosition> chestPositions = new List<ChestBornPosition>();
@@ -35,7 +36,7 @@ public class Map : Singleton<Map>
             if (bp != null)
             {
                 appearPos.Add(bp);
-                bp.Init(this, OnEnemyDead, lvl);
+                bp.Init(this, OnEnemyDead, lvl,hero);
             }
             else
             {

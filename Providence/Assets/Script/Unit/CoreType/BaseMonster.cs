@@ -30,13 +30,20 @@ public class BaseMonster : Unit
 
     protected override void Dead()
     {
-        base.Dead();
+        Control.Dead();
         MainController.Instance.level.AddItem(ItemId.energy, -energyadd);
         var mapItem2 = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab, transform.position);
         mapItem2.Init(ItemId.money, moneyCollect);
-        mapItem2.transform.SetParent(Map.Instance.miscContainer,true);
+        mapItem2.transform.SetParent(Map.Instance.miscContainer, true);
         mapItem2.StartFly();
+        base.Dead();
 
+    }
+
+    public void Init(Hero hero)
+    {
+        mainHero = hero;
+        Init();
     }
 
     public override void Init()
@@ -44,7 +51,6 @@ public class BaseMonster : Unit
         runAwayDist = attackDist * 1.4f;
         Parameters.Speed = GreatRandom.RandomizeValue(Parameters.Speed);
         base.Init();
-        mainHero = MainController.Instance.level.MainHero;
         bornPosition = transform.position;
         //curWeapon.power = GreatRandom.RandomizeValue(curWeapon.power);
         moneyCollect = GreatRandom.RandomizeValue(moneyCollect);

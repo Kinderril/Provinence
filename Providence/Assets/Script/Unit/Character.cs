@@ -238,5 +238,15 @@ public class Character : MonoBehaviour
         if (agent != null)
             agent.speed = speed;
     }
+
+    public void Dead()
+    {
+        if (agent == null)
+        {
+            agent.Stop();
+            agent.speed = 0;
+        }
+
+    }
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum WeaponType
 {
@@ -18,5 +19,6 @@ public  class WeaponParameters : ScriptableObject
     public float range;
     public bool isHoming = false;
     public float attackCooldown;
+    public Sprite icon;
 }
 
