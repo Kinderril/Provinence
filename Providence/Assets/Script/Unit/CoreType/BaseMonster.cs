@@ -28,17 +28,6 @@ public class BaseMonster : Unit
     private BaseAction attackBehaviour;
     public bool haveAction;
 
-    protected override void Dead()
-    {
-        Control.Dead();
-        MainController.Instance.level.AddItem(ItemId.energy, -energyadd);
-        var mapItem2 = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab, transform.position);
-        mapItem2.Init(ItemId.money, moneyCollect);
-        mapItem2.transform.SetParent(Map.Instance.miscContainer, true);
-        mapItem2.StartFly();
-        base.Dead();
-
-    }
 
     public void Init(Hero hero)
     {
@@ -49,8 +38,8 @@ public class BaseMonster : Unit
     public override void Init()
     {
         runAwayDist = attackDist * 1.4f;
-        Parameters.Speed = GreatRandom.RandomizeValue(Parameters.Speed);
         base.Init();
+        Parameters.Speed = GreatRandom.RandomizeValue(Parameters.Speed);
         bornPosition = transform.position;
         //curWeapon.power = GreatRandom.RandomizeValue(curWeapon.power);
         moneyCollect = GreatRandom.RandomizeValue(moneyCollect);
@@ -58,6 +47,18 @@ public class BaseMonster : Unit
         aiStatus = AIStatus.disable;
     }
 
+    protected override void Dead()
+    {
+        Control.Dead();
+        MainController.Instance.level.AddItem(ItemId.energy, -energyadd);
+        var mapItem2 = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab, transform.position);
+        mapItem2.Init(ItemId.money, moneyCollect);
+        mapItem2.transform.SetParent(Map.Instance.miscContainer, true);
+        mapItem2.StartFly(transform);
+        base.Dead();
+        action = null;
+
+    }
 
     protected override void UpdateUnit()
     {

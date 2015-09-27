@@ -40,7 +40,7 @@ public class Chest : MonoBehaviour
                 transform.position);
             mo.Init(item.Key, item.Value);
             mo.transform.SetParent(Map.Instance.miscContainer,true);
-            mo.StartFly();
+            mo.StartFly(transform);
         }
     }
 
@@ -53,7 +53,7 @@ public class Chest : MonoBehaviour
         }
     }
 
-    public void Init(bool withCrystal)
+    public void Init(bool withCrystal,int difficulty)
     {
 		float m_GroundCheckDistance = 9999f;
         animator = GetComponent<Animator>();
@@ -65,7 +65,7 @@ public class Chest : MonoBehaviour
             transform.position = new Vector3(t.x,t.y - groundOffset,t.z);
         }
         Utils.SetRandomRotation(transform);
-        var rnd = MainController.Instance.level.difficult*moneyCoef;
+        var rnd = difficulty * moneyCoef;
         items.Add(ItemId.money,GreatRandom.RandomizeValue(rnd));
         if (withCrystal)
             items.Add(ItemId.crystal, 1);

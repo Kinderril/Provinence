@@ -4,17 +4,18 @@ using System.Collections;
 public class CameraFollow : MonoBehaviour
 {
 
-    public GameObject target;
-    private Vector3 offset;
+    public Transform target;
+    public Vector3 offset;
 
-    void Start()
+    public void Init(Transform target)
     {
-        offset = transform.position - target.transform.position;
+        this.target = target;
     }
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	    transform.position = target.transform.position + offset;
+        if (target != null)
+	        transform.position = target.position + offset;
 	}
 }

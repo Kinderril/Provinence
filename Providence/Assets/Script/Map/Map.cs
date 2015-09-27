@@ -16,14 +16,16 @@ public class Map : Singleton<Map>
     public Transform miscContainer;
     public Transform heroBornPositions;
     private Level level;
+    public CameraFollow CameraFollow;
 
     public Hero Init(Level lvl)
     {
         level = lvl;
         List<Vector3> vector3s = new List<Vector3>();
-        foreach (Transform var in heroBornPositions)
+        foreach (Transform v in heroBornPositions)
         {
-            vector3s.Add(var.position);
+            v.GetComponent<MeshRenderer>().enabled = false;
+            vector3s.Add(v.position);
         }
         var hero = DataBaseController.Instance.GetItem(DataBaseController.Instance.prefabHero, vector3s.RandomElement());
         hero.Init();
@@ -51,8 +53,9 @@ public class Map : Singleton<Map>
         rnd.SetCrystal();
         foreach (var chestBornPosition in chestPositions)
         {
-            chestBornPosition.Init(this);
+            chestBornPosition.Init(this,lvl);
         }
+        CameraFollow.Init(hero.transform);
         return hero;
     }
 

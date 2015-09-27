@@ -34,6 +34,7 @@ public class Weapon : MonoBehaviour
         var b = CanShoot();
         if (b)
         {
+            
             if (Parameters.isHoming)
             {
                 Unit potentialTarget = null;

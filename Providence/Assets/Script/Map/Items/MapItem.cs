@@ -10,6 +10,7 @@ public class MapItem : MonoBehaviour
     private ItemId type;
     private int count;
     public ParticleSystem OpenEffect;
+    public Animator animator;
     private bool canBeTaken = false;
 
     public void Init(ItemId type, int count)
@@ -34,12 +35,29 @@ public class MapItem : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-
+    }
+    void OnTriggerStay(Collider other)
+    {
+        OnTriggerEnter(other);
+    }
+    public void EndAnimation()
+    {
+        Debug.Log("EndAnimation");
+        canBeTaken = true;//STUB
     }
 
-    public void StartFly()
+    public void StartFly(Transform parentTransform)
     {
-        canBeTaken = true;//STUB
+        transform.rotation = parentTransform.rotation;
+        if (animator != null)
+        {
+            Debug.Log("StartAnimation");
+            animator.SetBool("isOpen", true);
+        }
+        else
+        {
+            EndAnimation();
+        }
     }
 }
 

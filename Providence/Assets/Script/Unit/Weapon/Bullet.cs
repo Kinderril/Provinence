@@ -31,7 +31,6 @@ public class Bullet : MonoBehaviour
         start = transform.position;
         var dir = target - start;
         trg = dir.normalized * weapon.Parameters.range + start;
-        Debug.Log(" Target final =  " + trg + " dir:" + dir);
         time = 0;
         updateAction = updateVector;
     }

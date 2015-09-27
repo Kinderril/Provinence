@@ -24,12 +24,17 @@ public class Unit : MonoBehaviour
     public event Action<float, float,float> OnGetHit;
     protected bool isDead = false;
     public UnitParameters Parameters;
+    private AnimationController animationController;
 
     
     public virtual void Init()
     {
         Parameters = Parameters.Copy();
-        Control = GetComponent<Character>();
+        if (Control == null)
+            Control = GetComponent<Character>();
+        animationController = GetComponentInChildren<AnimationController>();
+        if(animationController == null)
+            Debug.LogError("NO ANImator Controller");
         curHp = Parameters.MaxHp;
         List<Weapon> weapons = new List<Weapon>();
         foreach (var inventoryWeapon in InventoryWeapons)
@@ -55,7 +60,12 @@ public class Unit : MonoBehaviour
     
     public void TryAttack(Vector3 target)
     {
-        curWeapon.DoShoot(target);
+        Control.PlayAttack();
+        animationController.StartPlayAttack(() =>
+        {
+            curWeapon.DoShoot(target);
+        });
+        ;
     }
 
     void FixedUpdate()
@@ -71,7 +81,11 @@ public class Unit : MonoBehaviour
         if (action != null)
             action.Update();
     }
-
+    public void MoveToDirection(Vector3 dir)
+    {
+        Control.MoveToDir(dir * Parameters.Speed);
+    }
+    
     public void MoveToPosition(Vector3 vector3)
     {
         Debug.Log("MOve to: " + vector3);
@@ -139,8 +153,4 @@ public class Unit : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void MoveToDirection(Vector3 dir)
-    {
-        Control.MoveToDir(dir* Parameters.Speed);
-    }
 }
