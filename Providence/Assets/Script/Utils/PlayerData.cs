@@ -9,6 +9,10 @@ public class PlayerData
 {
     public const string INVENTORY = "INVENTORY_";
     public DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
+
+    public int levelHp = 1;
+    public int levelPower = 1;
+    public int levelDef = 1;
     public void Load()
     {
         foreach (ItemId v in Enum.GetValues(typeof(ItemId)))

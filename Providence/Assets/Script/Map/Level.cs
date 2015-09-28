@@ -96,6 +96,7 @@ public class Level
 
     public void EndLevel(PlayerData PlayerData)
     {
+        GameObject.Destroy(MainHero.gameObject);
         PlayerData.AddInventory(inventory);
         PlayerData.Save();
     }

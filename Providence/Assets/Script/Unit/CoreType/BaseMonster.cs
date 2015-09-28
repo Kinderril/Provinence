@@ -39,7 +39,7 @@ public class BaseMonster : Unit
     {
         runAwayDist = attackDist * 1.4f;
         base.Init();
-        Parameters.Speed = GreatRandom.RandomizeValue(Parameters.Speed);
+        Parameters.Parameters[ParamType.Speed] = GreatRandom.RandomizeValue(Parameters.Parameters[ParamType.Speed]);
         bornPosition = transform.position;
         //curWeapon.power = GreatRandom.RandomizeValue(curWeapon.power);
         moneyCollect = GreatRandom.RandomizeValue(moneyCollect);
@@ -72,6 +72,9 @@ public class BaseMonster : Unit
 
     public void CheckDistance()
     {
+        if (mainHero == null)
+            return;
+
         targetDist = (mainHero.transform.position - bornPosition).sqrMagnitude;
         
         if (targetDist < aiDist)

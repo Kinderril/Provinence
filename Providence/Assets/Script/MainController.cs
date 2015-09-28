@@ -27,6 +27,8 @@ public class MainController : Singleton<MainController>
         WindowManager.Instance.Init();
         TimerManager = new TimerManager();
         WindowManager.Instance.OpenWindow(MainState.start);
+        PlayerData = new PlayerData();
+        PlayerData.Load();
 	}
 
     public void StartLevel()
@@ -37,7 +39,9 @@ public class MainController : Singleton<MainController>
 
     public void EndLevel()
     {
+        Debug.Log("EndLevel>>");
         level.EndLevel(PlayerData);
+        Map.Instance.EndLevel();
         WindowManager.Instance.OpenWindow(MainState.end);
     }
     

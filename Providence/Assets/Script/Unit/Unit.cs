@@ -35,7 +35,7 @@ public class Unit : MonoBehaviour
         animationController = GetComponentInChildren<AnimationController>();
         if(animationController == null)
             Debug.LogError("NO ANImator Controller");
-        curHp = Parameters.MaxHp;
+        curHp = Parameters.Parameters[ParamType.Hp];
         List<Weapon> weapons = new List<Weapon>();
         foreach (var inventoryWeapon in InventoryWeapons)
         {
@@ -48,7 +48,7 @@ public class Unit : MonoBehaviour
                 w.transform.SetParent(transform, true);
             w.transform.localPosition = Vector3.zero;
         }
-        Control.SetSpped(Parameters.Speed);
+        Control.SetSpped(Parameters.Parameters[ParamType.Speed]);
         InventoryWeapons = weapons;
         if (InventoryWeapons.Count == 0)
         {
@@ -83,7 +83,7 @@ public class Unit : MonoBehaviour
     }
     public void MoveToDirection(Vector3 dir)
     {
-        Control.MoveToDir(dir * Parameters.Speed);
+        Control.MoveToDir(dir * Parameters.Parameters[ParamType.Speed]);
     }
     
     public void MoveToPosition(Vector3 vector3)
@@ -111,10 +111,10 @@ public class Unit : MonoBehaviour
         switch (bullet.weapon.Parameters.type)
         {
             case WeaponType.magic:
-                power *= calcResist(Parameters.magicResist);
+                power *= calcResist(Parameters.Parameters[ParamType.MDef]);
                 break;
             case WeaponType.physics:
-                power *= calcResist(Parameters.physicResist);
+                power *= calcResist(Parameters.Parameters[ParamType.PDef]);
                 break;
         }
         Debug.Log("Get hit:" + bullet.weapon.Parameters.power + " => " + power);
@@ -122,7 +122,7 @@ public class Unit : MonoBehaviour
         curHp -= power;
         if (OnGetHit != null)
         {
-            OnGetHit(curHp, Parameters.MaxHp, power);
+            OnGetHit(curHp, Parameters.Parameters[ParamType.Hp], power);
         }
         if (curHp <= 0)
         {
@@ -153,4 +153,8 @@ public class Unit : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void DeInit()
+    {
+        isDead = true;
+    }
 }

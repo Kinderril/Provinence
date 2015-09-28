@@ -9,9 +9,7 @@ public class Map : Singleton<Map>
     public List<BornPosition> appearPos;
     private Transform bornPositions;
     public Transform enemiesContainer;
-    private TimerManager.ITimer timer;
     public List<Unit> enemies = new List<Unit>();
-    private int maxEnemies = 15;
     public Transform effectsContainer;
     public Transform miscContainer;
     public Transform heroBornPositions;
@@ -57,6 +55,22 @@ public class Map : Singleton<Map>
         }
         CameraFollow.Init(hero.transform);
         return hero;
+    }
+
+    public void EndLevel()
+    {
+        foreach (var enemy in enemies)
+        {
+            enemy.DeInit();
+        }
+        foreach (Transform v in enemiesContainer)
+        {
+            Destroy(v.gameObject);
+        }
+        foreach (Transform v in miscContainer)
+        {
+            Destroy(v.gameObject);
+        }
     }
 
     private void OnEnemyDead(Unit obj)
