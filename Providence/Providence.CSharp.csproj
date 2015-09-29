@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.2.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -81,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\DataBaseController.cs" />
+    <Compile Include="Assets\Script\Data\PlayerItem.cs" />
     <Compile Include="Assets\Script\MainController.cs" />
     <Compile Include="Assets\Script\Map\BaseBornPosition.cs" />
     <Compile Include="Assets\Script\Map\BornPosition.cs" />
@@ -123,7 +126,7 @@
     <Compile Include="Assets\Script\Unit\Weapon\WeaponParameters.cs" />
     <Compile Include="Assets\Script\Utils\CameraFollow.cs" />
     <Compile Include="Assets\Script\Utils\GreatRandom.cs" />
-    <Compile Include="Assets\Script\Utils\PlayerData.cs" />
+    <Compile Include="Assets\Script\Data\PlayerData.cs" />
     <Compile Include="Assets\Script\Utils\SerializableDictionary.cs" />
     <Compile Include="Assets\Script\Utils\Singleton.cs" />
     <Compile Include="Assets\Script\Utils\TimerManager.cs" />
