@@ -61,11 +61,11 @@ public class Unit : MonoBehaviour
     public void TryAttack(Vector3 target)
     {
         Control.PlayAttack();
+        curWeapon.SetNextTimeShoot();
         animationController.StartPlayAttack(() =>
         {
             curWeapon.DoShoot(target);
         });
-        ;
     }
 
     void FixedUpdate()

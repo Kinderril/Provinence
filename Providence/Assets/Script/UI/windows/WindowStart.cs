@@ -8,7 +8,7 @@ public class WindowStart : BaseWindow
 {
     public void OnStartClick()
     {
-        MainController.Instance.StartLevel();
+        WindowManager.Instance.OpenWindow(MainState.mission);
     }
 
     public void OnExitClick()

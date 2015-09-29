@@ -14,6 +14,15 @@ public class Hero : Unit
     public float coefVisibility = 1f;
     private bool isCrouch = false;
     private bool isBush = false;
+    public ParticleSystem OnGetItems;
+
+    public override void Init()
+    {
+        base.Init();
+        OnGetItems.Stop(true);
+        Utils.GroundTransform(transform);
+    }
+
     void FixedUpdate()
     {
         if (action != null)
@@ -22,6 +31,7 @@ public class Hero : Unit
     
     public void GetItems(ItemId type, int count)
     {
+        OnGetItems.Play();
         MainController.Instance.level.AddItem(type, count);
     }
 

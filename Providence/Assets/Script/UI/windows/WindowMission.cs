@@ -26,13 +26,13 @@ public class WindowMission : BaseWindow
                     break;
             }
             if (t != null)
-                t.text = "+" + item.Value;
+                t.text = item.Value.ToString();
         }
     }
 
     public void OnPlayClick()
     {
-        WindowManager.Instance.OpenWindow(MainState.play);
+        MainController.Instance.StartLevel();
     }
 
     public void OnShopClick()
