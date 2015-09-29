@@ -41,6 +41,7 @@ public class BaseMonster : Unit
         base.Init();
         Parameters.Parameters[ParamType.Speed] = GreatRandom.RandomizeValue(Parameters.Parameters[ParamType.Speed]);
         bornPosition = transform.position;
+        Utils.GroundTransform(transform, 999f);
         //curWeapon.power = GreatRandom.RandomizeValue(curWeapon.power);
         moneyCollect = GreatRandom.RandomizeValue(moneyCollect);
         energyadd = GreatRandom.RandomizeValue(energyadd);

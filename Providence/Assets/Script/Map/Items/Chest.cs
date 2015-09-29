@@ -57,13 +57,7 @@ public class Chest : MonoBehaviour
     {
 		float m_GroundCheckDistance = 9999f;
         animator = GetComponent<Animator>();
-        RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position, Vector3.down, out hitInfo, m_GroundCheckDistance))
-        {
-            var t = transform.position;
-            float groundOffset = hitInfo.distance;
-            transform.position = new Vector3(t.x,t.y - groundOffset,t.z);
-        }
+        Utils.GroundTransform(transform, m_GroundCheckDistance);
         Utils.SetRandomRotation(transform);
         var rnd = difficulty * moneyCoef;
         items.Add(ItemId.money,GreatRandom.RandomizeValue(rnd));

@@ -48,6 +48,7 @@ public class Bullet : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         var unit = other.GetComponent<Unit>();
+        Debug.Log("OnTriggerEnter " + unit);
         if (unit != null && unit != weapon.owner)
         {
             Hit(unit);

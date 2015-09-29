@@ -28,39 +28,43 @@ public class Weapon : MonoBehaviour
         return Time.time > nexAttackTime;
     }
 
+    public void SetNextTimeShoot()
+    {
+        nexAttackTime = Time.time + Parameters.attackCooldown;
+    }
+
     public void DoShoot(Vector3 v)
     {
         v = new Vector3(v.x,transform.position.y, v.z);
-        var b = CanShoot();
-        if (b)
-        {
             
-            if (Parameters.isHoming)
+        if (Parameters.isHoming)
+        {
+            Unit potentialTarget = null;
+            if (owner is Hero)
             {
-                Unit potentialTarget = null;
-                if (owner is Hero)
-                {
-                    potentialTarget = Map.Instance.FindClosesEnemy(v);
-                }
-                else
-                {
-                    potentialTarget = MainController.Instance.level.MainHero;
-                }
-                if (potentialTarget != null && (owner.transform.position - potentialTarget.transform.position).sqrMagnitude < 4)
-                {
-                    nexAttackTime = Time.time + Parameters.attackCooldown;
-                    Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
-                    bullet1.transform.position = owner.transform.position;
-                    bullet1.Init(potentialTarget, this);
-                }
+                potentialTarget = Map.Instance.FindClosesEnemy(v);
             }
             else
             {
-                nexAttackTime = Time.time + Parameters.attackCooldown;
-                Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
-                bullet1.transform.position = transform.position;
-                bullet1.Init(v, this);
+                potentialTarget = MainController.Instance.level.MainHero;
             }
+            var dist = (owner.transform.position - potentialTarget.transform.position).sqrMagnitude;
+            if (potentialTarget != null && dist < 30)
+            {
+                Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
+                bullet1.transform.position = owner.transform.position;
+                bullet1.Init(potentialTarget, this);
+            }
+            else
+            {
+                Debug.Log("Homing dist is LONG " + dist + " > 30");
+            }
+        }
+        else
+        {
+            Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
+            bullet1.transform.position = transform.position;
+            bullet1.Init(v, this);
         }
         if (pSystemOnShot != null)
         {

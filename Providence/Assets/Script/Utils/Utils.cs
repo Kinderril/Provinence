@@ -15,5 +15,16 @@ public static class Utils
     {
         transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(-180, 180), 0);
     }
+
+    public static void GroundTransform(Transform transform, float checkDist = 9999f)
+    {
+        RaycastHit hitInfo;
+        if (Physics.Raycast(transform.position, Vector3.down, out hitInfo, checkDist))
+        {
+            var t = transform.position;
+            float groundOffset = hitInfo.distance;
+            transform.position = new Vector3(t.x, t.y - groundOffset, t.z);
+        }
+    }
 }
 
