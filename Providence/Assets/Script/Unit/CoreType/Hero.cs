@@ -28,7 +28,14 @@ public class Hero : Unit
         if (action != null)
             action.Update();
     }
-    
+
+    public override void TryAttack(Vector3 target)
+    {
+        var dir = target - transform.position;
+        (Control as HeroCharacter).SetDir(dir);
+        base.TryAttack(target);
+    }
+
     public void GetItems(ItemId type, int count)
     {
         OnGetItems.Play();

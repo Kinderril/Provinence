@@ -84,6 +84,7 @@
      <Compile Include="Assets\Script\Unit\CoreType\BaseMonster.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\Hero.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\UnitParameters.cs" />
+     <Compile Include="Assets\Script\Unit\HeroCharacter.cs" />
      <Compile Include="Assets\Script\Unit\Unit.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\Bullet.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\Weapon.cs" />

@@ -30,7 +30,20 @@ public class DataBaseController : Singleton<DataBaseController>
     public Hero prefabHero;
     public FlyingNumbers FlyingNumber;
     public ColorUI[] ColorsOfUI;
+    public Dictionary<int,List<BaseMonster>> mosntersLevel = new Dictionary<int, List<BaseMonster>>();
+    public int maxLevel = 20;
 
+    void Awake()
+    {
+        for (int i = 0; i < maxLevel; i++)
+        {
+            mosntersLevel.Add(i,new List<BaseMonster>());
+        }
+        foreach (var baseMonster in Monsters)
+        {
+            mosntersLevel[baseMonster.Parameters.Level].Add(baseMonster);
+        }
+    }
     public T GetItem<T>(T item,Vector3 pos) where T : MonoBehaviour
     {
         return (GameObject.Instantiate(item.gameObject, pos, Quaternion.identity) as GameObject).GetComponent<T>();

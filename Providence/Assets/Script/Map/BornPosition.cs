@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class BornPosition : BaseBornPosition
 {
@@ -11,7 +12,7 @@ public class BornPosition : BaseBornPosition
     public void Init(Map map, Action<Unit> OnEnemyDead,Level level, Hero hero)
     {
         this.level = level;
-        difficulty += level.difficult;
+        difficulty = difficulty + level.difficult - 1;
         base.Init(map);
         if (work)
         {
@@ -27,11 +28,18 @@ public class BornPosition : BaseBornPosition
 
     public void BornEnemy(Vector3 pos, Action<Unit> OnEnemyDead, Hero hero)
     {
-        var monster = DataBaseController.Instance.Monsters.RandomElement();
-        var unit = DataBaseController.Instance.GetItem(monster, pos);
-        map.enemies.Add(unit);
-        unit.Init(hero);
-        unit.transform.SetParent(map.enemiesContainer);
-        unit.OnDead += OnEnemyDead;
+        var monster = DataBaseController.Instance.mosntersLevel[difficulty].RandomElement();
+        if (monster != null)
+        {
+            var unit = DataBaseController.Instance.GetItem(monster, pos);
+            map.enemies.Add(unit);
+            unit.Init(hero);
+            unit.transform.SetParent(map.enemiesContainer);
+            unit.OnDead += OnEnemyDead;
+        }
+        else
+        {
+            Debug.Log("can't dinf monster level " + difficulty);
+        }
     }
 }

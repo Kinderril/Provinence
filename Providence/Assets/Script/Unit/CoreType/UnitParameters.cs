@@ -12,6 +12,7 @@ public enum ParamType
     PDef,
     MDef,
     Hp,
+
 }
 public class UnitParameters : ScriptableObject
 {
@@ -23,6 +24,7 @@ public class UnitParameters : ScriptableObject
     public int MaxHp = 15;
     public float magicResist = 1f;
     public float physicResist = 1f;
+    public int Level = 1;
     
     public UnitParameters Copy()
     {

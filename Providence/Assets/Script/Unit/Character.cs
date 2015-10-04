@@ -13,7 +13,7 @@ public class Character : MonoBehaviour
 	[SerializeField] float m_MovingTurnSpeed = 360;
 	[SerializeField] float m_StationaryTurnSpeed = 180;
 
-	Rigidbody m_Rigidbody;
+	protected Rigidbody m_Rigidbody;
 	public Animator Animator;
 	bool m_IsGrounded;
 	float m_OrigGroundCheckDistance;
@@ -26,6 +26,7 @@ public class Character : MonoBehaviour
 	bool m_Crouching;
     NavMeshAgent agent;
     private bool moving = false;
+    protected Vector3 dir;
 
 	void Start()
 	{
@@ -39,45 +40,20 @@ public class Character : MonoBehaviour
     
 	public bool Move(Vector3 move, bool crouch, bool jump)
 	{
-		// convert the world relative moveInput vector into a local-relative
-		// turn amount and forward amount required to head in the desired
-		// direction.
-        /*
-		if (move.magnitude > 1f) 
-            move.Normalize();
-            
-		//move = transform.InverseTransformDirection(move);
-		CheckGroundStatus();
-		//move = Vector3.ProjectOnPlane(move, m_GroundNormal);
-		m_TurnAmount = Mathf.Atan2(move.x, move.z);
-		m_ForwardAmount = move.z;
-
-		ApplyExtraTurnRotation();
-
-		if (m_IsGrounded)
-		{
-			HandleGroundedMovement(crouch, jump);
-		}
-		else
-		{
-			HandleAirborneMovement();
-		}
-
-		ScaleCapsuleForCrouching(crouch);
-		PreventStandingInLowHeadroom();
-        */
-		// send input and other state parameters to the animator
         return agent.SetDestination(move);
-         
-        //m_Rigidbody.velocity = move;
-        //Debug.Log(m_Rigidbody.velocity);
 	}
 
     public void MoveToDir(Vector3 dir)
     {
+        if (dir != Vector3.zero)
+            this.dir = dir;
         m_Rigidbody.velocity = dir;
         UpdateAnimator(dir);
 
+    }
+
+    protected virtual void UpdateRotation(Vector3 dir)
+    {
         dir = transform.InverseTransformDirection(dir);
         dir = Vector3.ProjectOnPlane(dir, m_GroundNormal);
         m_TurnAmount = Mathf.Atan2(dir.x, dir.z);
@@ -92,8 +68,17 @@ public class Character : MonoBehaviour
 
     void Update()
     {
+        UpdateCharacter();
+    }
+
+    protected virtual void UpdateCharacter()
+    {
+
         if (agent != null)
+        {
+            UpdateRotation(agent.velocity);
             UpdateAnimator(agent.velocity);
+        }
     }
 
     

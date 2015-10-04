@@ -58,7 +58,7 @@ public class Unit : MonoBehaviour
         curWeapon = InventoryWeapons[0];
     }
     
-    public void TryAttack(Vector3 target)
+    public virtual void TryAttack(Vector3 target)
     {
         Control.PlayAttack();
         curWeapon.SetNextTimeShoot();

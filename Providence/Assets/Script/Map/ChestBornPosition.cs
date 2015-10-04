@@ -14,7 +14,6 @@ public class ChestBornPosition : BaseBornPosition
         BornChest(level);
     }
 
-
     public void BornChest(Level level)
     {
         var p = transform.position;

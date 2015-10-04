@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 
 public class AttackDistance : AttackAction
@@ -16,27 +17,47 @@ public class AttackDistance : AttackAction
         farRange = owner.curWeapon.Parameters.range * 1.25f;
     }
 
+    public override void Update()
+    {
+        base.Update();
+        UpdateDistance();
+    }
+
     public void UpdateDistance()
     {
         base.Update();
-        isInRange = curRange > closeRange && curRange < farRange;
-        if (isInRange)
+        bool isFar = curRange < farRange;
+        //isInRange = isClose && isFar;
+        //Debug.Log("In Range: " + isClose + "  " + isFar + "  " + curRange + "  " + closeRange + "   " + farRange);
+        if (!isFar)
         {
+            bool isClose = curRange < closeRange;
             if (owner.curWeapon.CanShoot())
             {
                 DoShoot();
-                Walk();
             }
-            else
+            if (isClose)
             {
-                Walk();
-            } 
+                ComeOutTarget();
+            }
         }
         else
         {
-            
+            ComeToTarget();
         }
 
+    }
+
+    private void ComeOutTarget()
+    {
+        Vector3 t = Vector3.back;
+        MoveToTarget(t);
+
+    }
+
+    private void ComeToTarget()
+    {
+        MoveToTarget(target.transform.position);
     }
 
     private void Walk()
