@@ -11,7 +11,9 @@ public class PlayerData
     public const string ITEMS = "ITEMS";
     public const char ITEMS_DELEMETER = ':';
     public DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
-    public List<PlayerItem> playerItems = new List<PlayerItem>(); 
+    public List<PlayerItem> playerItems = new List<PlayerItem>();
+    public float moneyBonus = 0.0f;
+    public float damageBonus = 0.0f;
 
     public int levelHp = 0;
     public int levelPower = 0;

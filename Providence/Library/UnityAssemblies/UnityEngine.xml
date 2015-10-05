@@ -3506,9 +3506,9 @@ If /relativePath/ is empty it refers to the game object the animation clip is at
     </member>
     <member name="M:UnityEngine.Application.ExternalEval(System.String)">
       <summary>
-        <para>Evaluates script snippet in the containing web page __(Web Player only)__.</para>
+        <para>Evaluates script function in the containing web page.</para>
       </summary>
-      <param name="script"></param>
+      <param name="script">The Javascript function to call.</param>
     </member>
     <member name="M:UnityEngine.Application.GetStreamProgressForLevel(System.Int32)">
       <summary>
@@ -7077,6 +7077,19 @@ SA: [[CanvasRenderer.EnableRectClipping]], [[CanvasRenderer.DisableRectClipping]
         <para>Remove all cached vertices.</para>
       </summary>
     </member>
+    <member name="M:UnityEngine.CanvasRenderer.CreateUIVertexStream(System.Collections.Generic.List`1&lt;UnityEngine.UIVertex&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Vector3&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Color32&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Vector2&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Vector2&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Vector3&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Vector4&gt;,System.Collections.Generic.List`1&lt;System.Int32&gt;)">
+      <summary>
+        <para>Convert a set of vertex components into a stream of UIVertex.</para>
+      </summary>
+      <param name="verts"></param>
+      <param name="positions"></param>
+      <param name="colors"></param>
+      <param name="uv0S"></param>
+      <param name="uv1S"></param>
+      <param name="normals"></param>
+      <param name="tangents"></param>
+      <param name="indicies"></param>
+    </member>
     <member name="M:UnityEngine.CanvasRenderer.DisableRectClipping">
       <summary>
         <para>Disables rectangle clipping for this CanvasRenderer.</para>
@@ -7184,6 +7197,19 @@ SA: [[CanvasRenderer.SetMaterialCount]], [[CanvasRenderer.SetTexture]].</para>
       </summary>
       <param name="vertices">Array of vertices to set.</param>
       <param name="size">Number of vertices to set.</param>
+    </member>
+    <member name="M:UnityEngine.CanvasRenderer.SplitUIVertexStreams(System.Collections.Generic.List`1&lt;UnityEngine.UIVertex&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Vector3&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Color32&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Vector2&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Vector2&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Vector3&gt;,System.Collections.Generic.List`1&lt;UnityEngine.Vector4&gt;,System.Collections.Generic.List`1&lt;System.Int32&gt;)">
+      <summary>
+        <para>Given a list of UIVertex, split the stream into it's component types.</para>
+      </summary>
+      <param name="verts"></param>
+      <param name="positions"></param>
+      <param name="colors"></param>
+      <param name="uv0S"></param>
+      <param name="uv1S"></param>
+      <param name="normals"></param>
+      <param name="tangents"></param>
+      <param name="indicies"></param>
     </member>
     <member name="T:UnityEngine.CapsuleCollider">
       <summary>
@@ -9356,6 +9382,11 @@ Sometimes it is not possible to project (for example when the joints form a cycl
     <member name="F:UnityEngine.CubemapFace.PositiveZ">
       <summary>
         <para>Forward facing side (+z).</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.CubemapFace.Unknown">
+      <summary>
+        <para>Cubemap face is unknown or unspecified.</para>
       </summary>
     </member>
     <member name="T:UnityEngine.CullingGroup">
@@ -11930,6 +11961,15 @@ A trigger parameter is a bool parameter that gets reset to false when it has bee
       <param name="crc">A checksum to compare to the downloaded data for integrity checking, or zero to skip integrity checking.</param>
       <param name="hash">A hash object defining the version of the asset bundle.</param>
     </member>
+    <member name="M:UnityEngine.Experimental.Networking.DownloadHandlerAssetBundle.GetContent(UnityEngine.Experimental.Networking.UnityWebRequest)">
+      <summary>
+        <para>Returns the downloaded [[AssetBundle]], or @@null@@. (RO)</para>
+      </summary>
+      <param name="www">A finished UnityWebRequest object with [[DownloadHandlerAssetBundle]] attached.</param>
+      <returns>
+        <para>The same as [DownloadHandlerAssetBundle.assetBundle]</para>
+      </returns>
+    </member>
     <member name="M:UnityEngine.Experimental.Networking.DownloadHandlerAssetBundle.GetData">
       <summary>
         <para>Not implemented. Throws &lt;a href="http://msdn.microsoft.com/en-us/library/system.notsupportedexception"&gt;NotSupportedException&lt;/a&gt;.</para>
@@ -11955,6 +11995,15 @@ A trigger parameter is a bool parameter that gets reset to false when it has bee
       <summary>
         <para>Default constructor.</para>
       </summary>
+    </member>
+    <member name="M:UnityEngine.Experimental.Networking.DownloadHandlerBuffer.GetContent(UnityEngine.Experimental.Networking.UnityWebRequest)">
+      <summary>
+        <para>Returns a copy of the native-memory buffer interpreted as a UTF8 string.</para>
+      </summary>
+      <param name="www">A finished UnityWebRequest object with [[DownloadHandlerBuffer]] attached.</param>
+      <returns>
+        <para>The same as [DownloadHandlerBuffer.text]</para>
+      </returns>
     </member>
     <member name="M:UnityEngine.Experimental.Networking.DownloadHandlerBuffer.GetData">
       <summary>
@@ -12008,6 +12057,15 @@ A trigger parameter is a bool parameter that gets reset to false when it has bee
         <para>Constructor, allows [[TextureImporter.isReadable]] property to be set.</para>
       </summary>
       <param name="readable">Value to set for [[TextureImporter.isReadable]].</param>
+    </member>
+    <member name="M:UnityEngine.Experimental.Networking.DownloadHandlerTexture.GetContent(UnityEngine.Experimental.Networking.UnityWebRequest)">
+      <summary>
+        <para>Returns the downloaded [[Texture]], or @@null@@. (RO)</para>
+      </summary>
+      <param name="www">A finished UnityWebRequest object with [[DownloadHandlerTexture]] attached.</param>
+      <returns>
+        <para>The same as [DownloadHandlerTexture.texture]</para>
+      </returns>
     </member>
     <member name="M:UnityEngine.Experimental.Networking.DownloadHandlerTexture.GetData">
       <summary>
@@ -16564,7 +16622,7 @@ GUILayout::ref::MaxHeight, GUILayout::ref::ExpandWidth, GUILayout::ref::ExpandHe
     </member>
     <member name="M:UnityEngine.GUILayout.HorizontalScrollbar(System.Single,System.Single,System.Single,System.Single,UnityEngine.GUILayoutOption[])">
       <summary>
-        <para>Make a horiztonal scrollbar.</para>
+        <para>Make a horizontal scrollbar.</para>
       </summary>
       <param name="value">The position between min and max.</param>
       <param name="size">How much can we see?</param>
@@ -16578,7 +16636,7 @@ GUILayout::ref::MaxHeight, GUILayout::ref::ExpandWidth, GUILayout::ref::ExpandHe
     </member>
     <member name="M:UnityEngine.GUILayout.HorizontalScrollbar(System.Single,System.Single,System.Single,System.Single,UnityEngine.GUIStyle,UnityEngine.GUILayoutOption[])">
       <summary>
-        <para>Make a horiztonal scrollbar.</para>
+        <para>Make a horizontal scrollbar.</para>
       </summary>
       <param name="value">The position between min and max.</param>
       <param name="size">How much can we see?</param>
@@ -20386,6 +20444,51 @@ GUILayout::ref::MaxHeight, GUILayout::ref::ExpandWidth, GUILayout::ref::ExpandHe
       <summary>
         <para>Notification is an alert sound.</para>
       </summary>
+    </member>
+    <member name="T:UnityEngine.iOS.OnDemandResources">
+      <summary>
+        <para>On Demand Resources API.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.iOS.OnDemandResources.enabled">
+      <summary>
+        <para>Indicates whether player was built with "Use On Demand Resources" player setting enabled.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.iOS.OnDemandResources.PreloadAsync(System.String[])">
+      <summary>
+        <para>Creates an On Demand Resources (ODR) request.</para>
+      </summary>
+      <param name="tags">Tags for On Demand Resources that should be included in the request.</param>
+      <returns>
+        <para>Object representing ODR request.</para>
+      </returns>
+    </member>
+    <member name="T:UnityEngine.iOS.OnDemandResourcesRequest">
+      <summary>
+        <para>Represents a request for On Demand Resources (ODR). It's an [[AsyncOperation]] and can be yielded in a coroutine.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.iOS.OnDemandResourcesRequest.error">
+      <summary>
+        <para>Returns an error after operation is complete.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.iOS.OnDemandResourcesRequest.loadingPriority">
+      <summary>
+        <para>Sets the priority for request.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.iOS.OnDemandResourcesRequest.Dispose">
+      <summary>
+        <para>Release all resources kept alive by On Demand Resources (ODR) request.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.iOS.OnDemandResourcesRequest.GetResourcePath(System.String)">
+      <summary>
+        <para>Gets file system's path to the resource available in On Demand Resources (ODR) request.</para>
+      </summary>
+      <param name="resourceName">Resource name.</param>
     </member>
     <member name="T:UnityEngine.iOS.RemoteNotification">
       <summary>
@@ -33522,6 +33625,30 @@ SA: [[ReflectionProbeTimeSlicingMode]].</para>
       <param name="color">Render target to set as a color buffer.</param>
       <param name="colors">Render targets to set as color buffers (MRT).</param>
       <param name="depth">Render target to set as a depth buffer.</param>
+      <param name="mipLevel">The mip level of the render target to render into.</param>
+      <param name="cubemapFace">The cubemap face of a cubemap render target to render into.</param>
+    </member>
+    <member name="M:UnityEngine.Rendering.CommandBuffer.SetRenderTarget(UnityEngine.Rendering.RenderTargetIdentifier,System.Int32)">
+      <summary>
+        <para>Add a "set active render target" command.</para>
+      </summary>
+      <param name="rt">Render target to set for both color &amp; depth buffers.</param>
+      <param name="color">Render target to set as a color buffer.</param>
+      <param name="colors">Render targets to set as color buffers (MRT).</param>
+      <param name="depth">Render target to set as a depth buffer.</param>
+      <param name="mipLevel">The mip level of the render target to render into.</param>
+      <param name="cubemapFace">The cubemap face of a cubemap render target to render into.</param>
+    </member>
+    <member name="M:UnityEngine.Rendering.CommandBuffer.SetRenderTarget(UnityEngine.Rendering.RenderTargetIdentifier,System.Int32,UnityEngine.CubemapFace)">
+      <summary>
+        <para>Add a "set active render target" command.</para>
+      </summary>
+      <param name="rt">Render target to set for both color &amp; depth buffers.</param>
+      <param name="color">Render target to set as a color buffer.</param>
+      <param name="colors">Render targets to set as color buffers (MRT).</param>
+      <param name="depth">Render target to set as a depth buffer.</param>
+      <param name="mipLevel">The mip level of the render target to render into.</param>
+      <param name="cubemapFace">The cubemap face of a cubemap render target to render into.</param>
     </member>
     <member name="M:UnityEngine.Rendering.CommandBuffer.SetRenderTarget(UnityEngine.Rendering.RenderTargetIdentifier,UnityEngine.Rendering.RenderTargetIdentifier)">
       <summary>
@@ -33531,6 +33658,30 @@ SA: [[ReflectionProbeTimeSlicingMode]].</para>
       <param name="color">Render target to set as a color buffer.</param>
       <param name="colors">Render targets to set as color buffers (MRT).</param>
       <param name="depth">Render target to set as a depth buffer.</param>
+      <param name="mipLevel">The mip level of the render target to render into.</param>
+      <param name="cubemapFace">The cubemap face of a cubemap render target to render into.</param>
+    </member>
+    <member name="M:UnityEngine.Rendering.CommandBuffer.SetRenderTarget(UnityEngine.Rendering.RenderTargetIdentifier,UnityEngine.Rendering.RenderTargetIdentifier,System.Int32)">
+      <summary>
+        <para>Add a "set active render target" command.</para>
+      </summary>
+      <param name="rt">Render target to set for both color &amp; depth buffers.</param>
+      <param name="color">Render target to set as a color buffer.</param>
+      <param name="colors">Render targets to set as color buffers (MRT).</param>
+      <param name="depth">Render target to set as a depth buffer.</param>
+      <param name="mipLevel">The mip level of the render target to render into.</param>
+      <param name="cubemapFace">The cubemap face of a cubemap render target to render into.</param>
+    </member>
+    <member name="M:UnityEngine.Rendering.CommandBuffer.SetRenderTarget(UnityEngine.Rendering.RenderTargetIdentifier,UnityEngine.Rendering.RenderTargetIdentifier,System.Int32,UnityEngine.CubemapFace)">
+      <summary>
+        <para>Add a "set active render target" command.</para>
+      </summary>
+      <param name="rt">Render target to set for both color &amp; depth buffers.</param>
+      <param name="color">Render target to set as a color buffer.</param>
+      <param name="colors">Render targets to set as color buffers (MRT).</param>
+      <param name="depth">Render target to set as a depth buffer.</param>
+      <param name="mipLevel">The mip level of the render target to render into.</param>
+      <param name="cubemapFace">The cubemap face of a cubemap render target to render into.</param>
     </member>
     <member name="M:UnityEngine.Rendering.CommandBuffer.SetRenderTarget(UnityEngine.Rendering.RenderTargetIdentifier[],UnityEngine.Rendering.RenderTargetIdentifier)">
       <summary>
@@ -33540,6 +33691,8 @@ SA: [[ReflectionProbeTimeSlicingMode]].</para>
       <param name="color">Render target to set as a color buffer.</param>
       <param name="colors">Render targets to set as color buffers (MRT).</param>
       <param name="depth">Render target to set as a depth buffer.</param>
+      <param name="mipLevel">The mip level of the render target to render into.</param>
+      <param name="cubemapFace">The cubemap face of a cubemap render target to render into.</param>
     </member>
     <member name="T:UnityEngine.Rendering.CompareFunction">
       <summary>
@@ -39895,6 +40048,16 @@ Developing, Development, Invalid, Operating.</para>
     <member name="P:UnityEngine.Time.unscaledTime">
       <summary>
         <para>The timeScale-independant time at the beginning of this frame (RO). This is the time in seconds since the start of the game.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.Tizen.Window">
+      <summary>
+        <para>Interface for Tizen specific functionality.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.Tizen.Window.windowHandle">
+      <summary>
+        <para>Get pointer to the native window handle.</para>
       </summary>
     </member>
     <member name="T:UnityEngine.TooltipAttribute">

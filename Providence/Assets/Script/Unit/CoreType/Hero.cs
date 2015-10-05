@@ -11,20 +11,50 @@ public class Hero : Unit
 
     private const float crouchBonus = 0.7f;
     private const float bushBonus = 0.7f;
+    private const float moneyBonusCoef = 0.2f;
+    private const float moneyBonusCoefTime = 0.8f;
     public float coefVisibility = 1f;
     private bool isCrouch = false;
     private bool isBush = false;
     public ParticleSystem OnGetItems;
+    private float currenthBonus = 0f;
+    private float currenthBonusTimeLeft = 0f;
+    public Action<float> CurrentBonusUpdateX; 
+
+    public float CurrenthBonus
+    {
+        get { return currenthBonus; }
+        set
+        {
+            currenthBonus = value;
+            if (CurrentBonusUpdateX != null)
+            {
+                CurrentBonusUpdateX( currenthBonus );
+            }
+        }
+    }
 
     public override void Init()
     {
         base.Init();
+        Parameters.Parameters[ParamType.PPower] *= MainController.Instance.PlayerData.damageBonus + 1f;
+        Parameters.Parameters[ParamType.MPower] *= MainController.Instance.PlayerData.damageBonus + 1f;
         OnGetItems.Stop(true);
         Utils.GroundTransform(transform);
     }
 
+
+
     void FixedUpdate()
     {
+        if (currenthBonusTimeLeft > 0)
+        {
+            currenthBonusTimeLeft -= Time.deltaTime;
+            if (currenthBonusTimeLeft < 0)
+            {
+                currenthBonus = 0;
+            }
+        }
         if (action != null)
             action.Update();
     }
@@ -38,6 +68,11 @@ public class Hero : Unit
 
     public void GetItems(ItemId type, int count)
     {
+        count =(int)(count * (currenthBonus + 1));
+
+        CurrenthBonus += moneyBonusCoef;
+        currenthBonusTimeLeft += moneyBonusCoefTime;
+
         OnGetItems.Play();
         MainController.Instance.level.AddItem(type, count);
     }

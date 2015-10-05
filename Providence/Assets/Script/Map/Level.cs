@@ -48,6 +48,7 @@ public class Level
         {
             case ItemId.money:
             case ItemId.crystal:
+                value = (int)(value * (MainController.Instance.PlayerData.moneyBonus + 1f));
                 inventory[type] += value;
                 ActivaAction(type, value);
                 break;

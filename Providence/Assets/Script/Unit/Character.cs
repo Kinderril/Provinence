@@ -112,6 +112,11 @@ public class Character : MonoBehaviour
 
     public void Dead()
     {
+        Stop();
+    }
+
+    public void Stop()
+    {
         if (agent != null)
         {
             agent.Stop();

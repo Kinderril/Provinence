@@ -19,7 +19,7 @@ public class BaseMonster : Unit
     public float attackDist = 40;
     private float runAwayDist = 0;
     private float aiDist = 180;
-    public float targetDist = 0;
+    public float mainHeroDist = 0;
     public Vector3 bornPosition;
     public AIStatus aiStatus;
     public Hero mainHero;
@@ -76,18 +76,18 @@ public class BaseMonster : Unit
         if (mainHero == null)
             return;
 
-        targetDist = (mainHero.transform.position - bornPosition).sqrMagnitude;
+        mainHeroDist = (mainHero.transform.position - bornPosition).sqrMagnitude;
         
-        if (targetDist < aiDist)
+        if (mainHeroDist < aiDist)
         {
-            bool isTargetClose = (targetDist < attackDist);
+            bool isTargetClose = (mainHeroDist < attackDist);
             switch (aiStatus)
             {
                 case AIStatus.disable:
                     StartWalk();
                     break;
                 case AIStatus.attack:
-                    if ((targetDist > runAwayDist))
+                    if ((mainHeroDist > runAwayDist))
                     {
                         EndAttack();
                     }

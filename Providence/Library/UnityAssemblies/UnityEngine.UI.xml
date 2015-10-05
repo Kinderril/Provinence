@@ -1933,6 +1933,24 @@ One point is 1/12 of a pica, and 1/72 of an inch.</para>
       </summary>
       <param name="element">Element to rebuild.</param>
     </member>
+    <member name="M:UnityEngine.UI.CanvasUpdateRegistry.TryRegisterCanvasElementForGraphicRebuild(UnityEngine.UI.ICanvasElement)">
+      <summary>
+        <para>Rebuild the layout of the given element.</para>
+      </summary>
+      <param name="element">Element to rebuild.</param>
+      <returns>
+        <para>Was the element scheduled.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.UI.CanvasUpdateRegistry.TryRegisterCanvasElementForLayoutRebuild(UnityEngine.UI.ICanvasElement)">
+      <summary>
+        <para>Was the element scheduled.</para>
+      </summary>
+      <param name="element">Element to rebuild.</param>
+      <returns>
+        <para>Was the element scheduled.</para>
+      </returns>
+    </member>
     <member name="M:UnityEngine.UI.CanvasUpdateRegistry.UnRegisterCanvasElementForRebuild(UnityEngine.UI.ICanvasElement)">
       <summary>
         <para>Remove the given element from rebuild.</para>
@@ -2563,6 +2581,16 @@ One point is 1/12 of a pica, and 1/72 of an inch.</para>
         <para>Pixel perfect Rect.</para>
       </returns>
     </member>
+    <member name="M:UnityEngine.UI.Graphic.GraphicUpdateComplete">
+      <summary>
+        <para>See [[ICanvasElement.GraphicUpdateComplete]].</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.UI.Graphic.LayoutComplete">
+      <summary>
+        <para>See [[ICanvasElement.LayoutComplete]].</para>
+      </summary>
+    </member>
     <member name="M:UnityEngine.UI.Graphic.OnDisable">
       <summary>
         <para>See [[MonoBehaviour.OnDisable]].</para>
@@ -2573,6 +2601,14 @@ One point is 1/12 of a pica, and 1/72 of an inch.</para>
         <para>Callback function when a UI element needs to generate vertices.</para>
       </summary>
       <param name="m">Mesh to populate with UI data.</param>
+      <param name="vh"></param>
+    </member>
+    <member name="M:UnityEngine.UI.Graphic.OnPopulateMesh(UnityEngine.UI.VertexHelper)">
+      <summary>
+        <para>Callback function when a UI element needs to generate vertices.</para>
+      </summary>
+      <param name="m">Mesh to populate with UI data.</param>
+      <param name="vh"></param>
     </member>
     <member name="M:UnityEngine.UI.Graphic.OnRebuildRequested">
       <summary>
@@ -2961,10 +2997,20 @@ One point is 1/12 of a pica, and 1/72 of an inch.</para>
         <para>Get the transform associated with the ICanvasElement.</para>
       </summary>
     </member>
+    <member name="M:UnityEngine.UI.ICanvasElement.GraphicUpdateComplete">
+      <summary>
+        <para>Callback sent when this ICanvasElement has completed Graphic rebuild.</para>
+      </summary>
+    </member>
     <member name="M:UnityEngine.UI.ICanvasElement.IsDestroyed">
       <summary>
         <para>Return true if the element is considered destroyed.
 Used if the native representation has been destroyed.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.UI.ICanvasElement.LayoutComplete">
+      <summary>
+        <para>Callback sent when this ICanvasElement has completed layout.</para>
       </summary>
     </member>
     <member name="M:UnityEngine.UI.ICanvasElement.Rebuild(UnityEngine.UI.CanvasUpdate)">
@@ -3442,7 +3488,7 @@ Used if the native representation has been destroyed.</para>
       <summary>
         <para>Call used to modify mesh.</para>
       </summary>
-      <param name="verts"></param>
+      <param name="mesh"></param>
     </member>
     <member name="T:UnityEngine.UI.InputField">
       <summary>
@@ -3693,6 +3739,11 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
         <para>Character index with in value.</para>
       </returns>
     </member>
+    <member name="M:UnityEngine.UI.InputField.GraphicUpdateComplete">
+      <summary>
+        <para>See [[ICanvasElement.GraphicUpdateComplete]].</para>
+      </summary>
+    </member>
     <member name="T:UnityEngine.UI.InputField.InputType">
       <summary>
         <para>Type of data expected by the input field.</para>
@@ -3721,6 +3772,11 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
       <returns>
         <para>If we should continue processing events or we have hit an end condition.</para>
       </returns>
+    </member>
+    <member name="M:UnityEngine.UI.InputField.LayoutComplete">
+      <summary>
+        <para>See [[ICanvasElement.LayoutComplete]].</para>
+      </summary>
     </member>
     <member name="T:UnityEngine.UI.InputField.LineType">
       <summary>
@@ -4107,7 +4163,7 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
         <para>See [[ICanvasElement]].</para>
       </summary>
     </member>
-    <member name="M:UnityEngine.UI.LayoutRebuilder.Equals(UnityEngine.UI.LayoutRebuilder)">
+    <member name="M:UnityEngine.UI.LayoutRebuilder.Equals">
       <summary>
         <para>Does the passed rebuilder point to the same CanvasElement.</para>
       </summary>
@@ -4122,9 +4178,19 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
       </summary>
       <param name="layoutRoot">The layout element to perform the layout rebuild on.</param>
     </member>
+    <member name="M:UnityEngine.UI.LayoutRebuilder.GraphicUpdateComplete">
+      <summary>
+        <para>See [[ICanvasElement.GraphicUpdateComplete]].</para>
+      </summary>
+    </member>
     <member name="M:UnityEngine.UI.LayoutRebuilder.IsDestroyed">
       <summary>
         <para>Has the native representation of this LayoutRebuilder been destroyed?</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.UI.LayoutRebuilder.LayoutComplete">
+      <summary>
+        <para>See [[ICanvasElement.LayoutComplete]].</para>
       </summary>
     </member>
     <member name="M:UnityEngine.UI.LayoutRebuilder.MarkLayoutForRebuild(UnityEngine.RectTransform)">
@@ -4132,6 +4198,12 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
         <para>Mark the given [[RectTransform]] as needing it's layout to be recalculated during the next layout pass.</para>
       </summary>
       <param name="rect">Rect to rebuild.</param>
+    </member>
+    <member name="M:UnityEngine.UI.LayoutRebuilder.Rebuild(UnityEngine.UI.CanvasUpdate)">
+      <summary>
+        <para>See [[ICanvasElement.Rebuild]].</para>
+      </summary>
+      <param name="executing"></param>
     </member>
     <member name="T:UnityEngine.UI.LayoutUtility">
       <summary>
@@ -4593,6 +4665,16 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
         <para>See member in base class.</para>
       </summary>
     </member>
+    <member name="M:UnityEngine.UI.Scrollbar.GraphicUpdateComplete">
+      <summary>
+        <para>See [[ICanvasElement.GraphicUpdateComplete]].</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.UI.Scrollbar.LayoutComplete">
+      <summary>
+        <para>See [[ICanvasElement.LayoutComplete]].</para>
+      </summary>
+    </member>
     <member name="M:UnityEngine.UI.Scrollbar.OnBeginDrag(UnityEngine.EventSystems.PointerEventData)">
       <summary>
         <para>Handling for when the scrollbar value is begin being dragged.</para>
@@ -4660,6 +4742,16 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
         <para>The amount of elasticity to use when the content moves beyond the scroll rect.</para>
       </summary>
     </member>
+    <member name="P:UnityEngine.UI.ScrollRect.flexibleHeight">
+      <summary>
+        <para>Called by the layout system.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.UI.ScrollRect.flexibleWidth">
+      <summary>
+        <para>Called by the layout system.</para>
+      </summary>
+    </member>
     <member name="P:UnityEngine.UI.ScrollRect.horizontal">
       <summary>
         <para>Should horizontal scrolling be enabled?</para>
@@ -4690,6 +4782,21 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
         <para>Should movement inertia be enabled?</para>
       </summary>
     </member>
+    <member name="P:UnityEngine.UI.ScrollRect.layoutPriority">
+      <summary>
+        <para>Called by the layout system.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.UI.ScrollRect.minHeight">
+      <summary>
+        <para>Called by the layout system.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.UI.ScrollRect.minWidth">
+      <summary>
+        <para>Called by the layout system.</para>
+      </summary>
+    </member>
     <member name="P:UnityEngine.UI.ScrollRect.movementType">
       <summary>
         <para>The behavior to use when the content moves beyond the scroll rect.</para>
@@ -4703,6 +4810,16 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
     <member name="P:UnityEngine.UI.ScrollRect.onValueChanged">
       <summary>
         <para>Callback executed when the scroll position of the slider is changed.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.UI.ScrollRect.preferredHeight">
+      <summary>
+        <para>Called by the layout system.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.UI.ScrollRect.preferredWidth">
+      <summary>
+        <para>Called by the layout system.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.UI.ScrollRect.scrollSensitivity">
@@ -4745,9 +4862,29 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
         <para>Reference to the viewport RectTransform that is the parent of the content RectTransform.</para>
       </summary>
     </member>
+    <member name="M:UnityEngine.UI.ScrollRect.CalculateLayoutInputHorizontal">
+      <summary>
+        <para>Called by the layout system.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.UI.ScrollRect.CalculateLayoutInputVertical">
+      <summary>
+        <para>Called by the layout system.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.UI.ScrollRect.GraphicUpdateComplete">
+      <summary>
+        <para>See [[ICanvasElement.GraphicUpdateComplete]].</para>
+      </summary>
+    </member>
     <member name="M:UnityEngine.UI.ScrollRect.IsActive">
       <summary>
         <para>See member in base class.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.UI.ScrollRect.LayoutComplete">
+      <summary>
+        <para>See [[ICanvasElement.LayoutComplete]].</para>
       </summary>
     </member>
     <member name="T:UnityEngine.UI.ScrollRect.MovementType">
@@ -5100,11 +5237,10 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
       <param name="x">Shadow x offset.</param>
       <param name="y">Shadow y offset.</param>
     </member>
-    <member name="M:UnityEngine.UI.Shadow.ModifyMesh(UnityEngine.Mesh)">
+    <member name="M:UnityEngine.UI.Shadow.ModifyMesh">
       <summary>
         <para>See: [[IMeshModifier]].</para>
       </summary>
-      <param name="mesh"></param>
     </member>
     <member name="T:UnityEngine.UI.Slider">
       <summary>
@@ -5199,6 +5335,16 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
     <member name="M:UnityEngine.UI.Slider.FindSelectableOnUp">
       <summary>
         <para>See member in base class.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.UI.Slider.GraphicUpdateComplete">
+      <summary>
+        <para>See [[ICanvasElement.GraphicUpdateComplete]].</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.UI.Slider.LayoutComplete">
+      <summary>
+        <para>See [[ICanvasElement.LayoutComplete]].</para>
       </summary>
     </member>
     <member name="M:UnityEngine.UI.Slider.OnDisable">
@@ -5454,6 +5600,16 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
         <para>Transition mode for the toggle.</para>
       </summary>
     </member>
+    <member name="M:UnityEngine.UI.Toggle.GraphicUpdateComplete">
+      <summary>
+        <para>See [[ICanvasElement.GraphicUpdateComplete]].</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.UI.Toggle.LayoutComplete">
+      <summary>
+        <para>See [[ICanvasElement.LayoutComplete]].</para>
+      </summary>
+    </member>
     <member name="M:UnityEngine.UI.Toggle.OnDisable">
       <summary>
         <para>See [[MonoBehaviour.OnDisable]].</para>
@@ -5548,6 +5704,11 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
         <para>A utility class that can aid in the generation of meshes for the UI.</para>
       </summary>
     </member>
+    <member name="P:UnityEngine.UI.VertexHelper.currentIndexCount">
+      <summary>
+        <para>Get the number of indices set on the VertexHelper.</para>
+      </summary>
+    </member>
     <member name="P:UnityEngine.UI.VertexHelper.currentVertCount">
       <summary>
         <para>Current number of vertices in the buffer.</para>
@@ -5609,6 +5770,11 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
       <param name="tangent"></param>
       <param name="v"></param>
     </member>
+    <member name="M:UnityEngine.UI.VertexHelper.Clear">
+      <summary>
+        <para>Clear all vertices from the stream.</para>
+      </summary>
+    </member>
     <member name="M:UnityEngine.UI.VertexHelper.Dispose">
       <summary>
         <para>Cleanup allocated memory.</para>
@@ -5632,6 +5798,13 @@ Characters 0-9, . (dot), and - (dash / minus sign) are allowed. The dash is only
       </summary>
       <param name="vertex">Vertex to populate.</param>
       <param name="i">Index to populate from.</param>
+    </member>
+    <member name="M:UnityEngine.UI.VertexHelper.SetUIVertex(UnityEngine.UIVertex,System.Int32)">
+      <summary>
+        <para>Set a [[UIVertex]] at the given index.</para>
+      </summary>
+      <param name="vertex"></param>
+      <param name="i"></param>
     </member>
     <member name="T:UnityEngine.UI.VerticalLayoutGroup">
       <summary>

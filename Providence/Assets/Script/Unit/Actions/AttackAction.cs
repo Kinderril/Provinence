@@ -37,7 +37,7 @@ public class AttackAction : BaseAction
 
     protected void MoveToTarget(Vector3 trg)
     {
-
+        trg = new Vector3(trg.x,owner.transform.position.y, trg.z);
         if (((moveTarget-trg).sqrMagnitude > 1 || !isMoving) && owner.Control.Move(trg, false, false))
         {
             moveTarget = trg;
@@ -53,15 +53,27 @@ public class AttackAction : BaseAction
             isMoving = !owner.Control.IsPathComplete();
             if (!isMoving)
             {
-             //   Debug.Log("move END");
+
             }
         }
-        curRange = (owner.transform.position - target.transform.position).magnitude;
+        curRange = ((BaseMonster)owner).mainHeroDist;
     }
 
     protected void DoShoot()
     {
         owner.TryAttack(target.transform.position);
+        owner.OnShootEnd += OnShootEnd;
+    }
+
+    protected virtual void OnShootEnd(Unit obj)
+    {
+        owner.OnShootEnd -= OnShootEnd;
+    }
+
+    public override void End(string msg = " end action ")
+    {
+        owner.OnShootEnd -= OnShootEnd;
+        base.End(msg);
     }
 }
 

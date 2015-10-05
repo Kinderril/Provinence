@@ -25,7 +25,7 @@ public class Unit : MonoBehaviour
     protected bool isDead = false;
     public UnitParameters Parameters;
     private AnimationController animationController;
-
+    public Action<Unit> OnShootEnd; 
     
     public virtual void Init()
     {
@@ -65,6 +65,10 @@ public class Unit : MonoBehaviour
         animationController.StartPlayAttack(() =>
         {
             curWeapon.DoShoot(target);
+            if (OnShootEnd != null)
+            {
+                OnShootEnd(this);
+            }
         });
     }
 
