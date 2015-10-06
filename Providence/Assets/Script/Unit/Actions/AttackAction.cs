@@ -38,7 +38,7 @@ public class AttackAction : BaseAction
     protected void MoveToTarget(Vector3 trg)
     {
         trg = new Vector3(trg.x,owner.transform.position.y, trg.z);
-        if (((moveTarget-trg).sqrMagnitude > 1 || !isMoving) && owner.Control.Move(trg, false, false))
+        if (((moveTarget-trg).sqrMagnitude > 1 || !isMoving) && owner.Control.MoveTo(trg))
         {
             moveTarget = trg;
             isMoving = true;
@@ -62,6 +62,7 @@ public class AttackAction : BaseAction
     protected void DoShoot()
     {
         owner.TryAttack(target.transform.position);
+        owner.Control.SetToDirection(target.transform.position - owner.transform.position);
         owner.OnShootEnd += OnShootEnd;
     }
 

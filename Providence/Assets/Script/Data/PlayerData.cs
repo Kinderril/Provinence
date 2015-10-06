@@ -10,7 +10,7 @@ public class PlayerData
     public const string INVENTORY = "INVENTORY_";
     public const string ITEMS = "ITEMS";
     public const char ITEMS_DELEMETER = ':';
-    private DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
+    public DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
     private List<PlayerItem> playerItems = new List<PlayerItem>();
 
     public int levelHp = 0;

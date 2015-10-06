@@ -61,6 +61,7 @@ public class Hero : Unit
                 currenthBonus = 0;
             }
         }
+        Control.UpdateFromUnit();
         if (action != null)
             action.Update();
     }
@@ -68,7 +69,7 @@ public class Hero : Unit
     public override void TryAttack(Vector3 target)
     {
         var dir = target - transform.position;
-        (Control as HeroCharacter).SetDir(dir);
+        (Control as HeroControl).SetDir(dir);
         base.TryAttack(target);
     }
 

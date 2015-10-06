@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <project
     name="unity-ads"
     default="help" >
@@ -44,7 +44,7 @@
     <property environment="env" />
 
     <condition
-        property="sdk.dir"
+        property="sdk.Direction"
         value="${env.ANDROID_HOME}" >
 
         <isset property="env.ANDROID_HOME" />
@@ -68,7 +68,7 @@
 
     <fail
         message="sdk.dir is missing. Make sure to generate local.properties using &apos;android update project&apos; or to inject it through the ANDROID_HOME environment variable."
-        unless="sdk.dir" />
+        unless="sdk.Direction" />
 
     <!--
         Import per project custom build rules if present at the root of the project.
@@ -108,5 +108,5 @@
     -->
     <!-- version-tag: 1 -->
 
-    <import file="${sdk.dir}/tools/ant/build.xml" />
+    <import file="${sdk.Direction}/tools/ant/build.xml" />
 </project>

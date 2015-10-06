@@ -37,7 +37,7 @@ public class SubUIMain : MonoBehaviour,IPointerDownHandler,IDragHandler,IPointer
                 zRotate = 360 - zRotate;
             }
             Arrow.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, zRotate));
-            //Arrow.LookAt(dir  + startPos);
+            //Arrow.LookAt(Direction  + startPos);
         }
     }
 

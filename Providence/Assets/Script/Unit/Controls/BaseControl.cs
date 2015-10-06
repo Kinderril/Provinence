@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 
-public class Character : MonoBehaviour
+public class BaseControl : MonoBehaviour
 {
     private const string ANIM_WALK = "walk";
     private const string ANIM_DEATH = "death";
@@ -15,74 +15,71 @@ public class Character : MonoBehaviour
 
 	protected Rigidbody m_Rigidbody;
 	public Animator Animator;
-	bool m_IsGrounded;
 	float m_OrigGroundCheckDistance;
 	float m_TurnAmount;
 	float m_ForwardAmount;
-	Vector3 m_GroundNormal;
 	float m_CapsuleHeight;
-	Vector3 m_CapsuleCenter;
 	CapsuleCollider m_Capsule;
-	bool m_Crouching;
-    NavMeshAgent agent;
     private bool moving = false;
-    protected Vector3 dir;
+    public Vector3 Direction;
+    public Vector3 TargetDirection;
 
-	void Start()
+	void Awake()
 	{
-	    agent = GetComponent<NavMeshAgent>();
-        if (Animator == null)
-		    Animator = GetComponent<Animator>();
-		m_Rigidbody = GetComponent<Rigidbody>();
-
-		m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+	    Init();
 	}
-    
-	public bool Move(Vector3 move, bool crouch, bool jump)
-	{
-        return agent.SetDestination(move);
-	}
-
-    public void MoveToDir(Vector3 dir)
+    public virtual bool IsPathComplete()
     {
-        if (dir != Vector3.zero)
-            this.dir = dir;
-        m_Rigidbody.velocity = dir;
-        UpdateAnimator(dir);
+        return true;
+    }
+
+    public virtual void SetSpped(float speed)
+    {
 
     }
 
-    protected virtual void UpdateRotation(Vector3 dir)
+    protected virtual void Init()
+    {
+        if (Animator == null)
+            Animator = GetComponent<Animator>();
+        m_Rigidbody = GetComponent<Rigidbody>();
+
+        m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        
+    }
+    public virtual bool MoveTo(Vector3 v)
+    {
+        return true;
+    }
+
+    protected virtual void UpdateRotation(Vector3 d)
+    {
+    }
+
+    protected virtual void RotateToTarget(Vector3 dir)
     {
         dir = transform.InverseTransformDirection(dir);
-        dir = Vector3.ProjectOnPlane(dir, m_GroundNormal);
+        // Direction = Vector3.ProjectOnPlane(Direction, m_GroundNormal);
         m_TurnAmount = Mathf.Atan2(dir.x, dir.z);
         m_ForwardAmount = dir.z;
         ApplyExtraTurnRotation();
     }
 
-    public bool IsPathComplete()
-    {
-        return agent.remainingDistance < 1;
-    }
-
-    void Update()
+    public void UpdateFromUnit()
     {
         UpdateCharacter();
     }
 
     protected virtual void UpdateCharacter()
     {
-
-        if (agent != null)
-        {
-            UpdateRotation(agent.velocity);
-            UpdateAnimator(agent.velocity);
-        }
     }
 
+    public void SetToDirection(Vector3 dir)
+    {
+        TargetDirection = dir;
+    }
     
-	void UpdateAnimator(Vector3 move)
+	protected void UpdateAnimator(Vector3 move)
 	{
         float speed = move.magnitude;
 	    moving = speed > WALK;
@@ -102,27 +99,14 @@ public class Character : MonoBehaviour
         Animator.SetBool(ANIM_DEATH,true);
     }
 
-    public void SetSpped(float speed)
+    public virtual void Stop()
     {
-        if (agent == null)
-            agent = GetComponent<NavMeshAgent>();
-        if (agent != null)
-            agent.speed = speed;
+
     }
 
     public void Dead()
     {
         Stop();
-    }
-
-    public void Stop()
-    {
-        if (agent != null)
-        {
-            agent.Stop();
-            agent.speed = 0;
-        }
-
     }
 
     public void PlayAttack()

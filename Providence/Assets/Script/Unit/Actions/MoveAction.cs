@@ -15,18 +15,18 @@ public class MoveAction : BaseAction
     {
         this.trg = new Vector3(trg.x, owner.transform.position.y, trg.z);
         //GameObject.Instantiate(DataBaseController.Instance.debugCube, this.trg, Quaternion.identity);
-        owner.Control.Move(trg, false, false);
+        owner.Control.MoveTo(trg);
     }
     public override void Update()
     {
         dir = trg - owner.transform.position;
         var sqrM = dir.sqrMagnitude;
-    //    Debug.DrawRay(owner.transform.position, dir, Color.yellow, 5);
-  //      Debug.Log("dir " + sqrM + "  " + trg + "   " + owner.transform.position);
+    //    Debug.DrawRay(owner.transform.position, Direction, Color.yellow, 5);
+  //      Debug.Log("Direction " + sqrM + "  " + trg + "   " + owner.transform.position);
         if (sqrM < 1f)
         {
-            //owner.Control.Move(Vector3.zero, false, false);
-            End("dir " + sqrM);
+            //owner.Control.MoveToPoint(Vector3.zero, false, false);
+            End("Direction " + sqrM);
         }
     }
 

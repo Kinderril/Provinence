@@ -18,7 +18,7 @@ public class BaseMonster : Unit
     private const float isHomeDist = 2;
     public float attackDist = 40;
     private float runAwayDist = 0;
-    private float aiDist = 180;
+    private const float aiDist = 110;
     public float mainHeroDist = 0;
     public Vector3 bornPosition;
     public AIStatus aiStatus;
@@ -80,6 +80,7 @@ public class BaseMonster : Unit
         
         if (mainHeroDist < aiDist)
         {
+            Control.UpdateFromUnit();
             bool isTargetClose = (mainHeroDist < attackDist);
             switch (aiStatus)
             {

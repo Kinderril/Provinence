@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     public float curHp;
     public Weapon curWeapon;
     public List<Weapon> InventoryWeapons;
-    public Character Control;
+    public BaseControl Control;
     protected BaseAction action;
     public UnitType unitType;
     public Transform weaponsContainer;
@@ -31,7 +31,7 @@ public class Unit : MonoBehaviour
     {
         Parameters = Parameters.Copy();
         if (Control == null)
-            Control = GetComponent<Character>();
+            Control = GetComponent<BaseControl>();
         animationController = GetComponentInChildren<AnimationController>();
         if(animationController == null)
             Debug.LogError("NO ANImator Controller");
@@ -87,7 +87,7 @@ public class Unit : MonoBehaviour
     }
     public void MoveToDirection(Vector3 dir)
     {
-        Control.MoveToDir(dir * Parameters.Parameters[ParamType.Speed]);
+        Control.MoveTo(dir * Parameters.Parameters[ParamType.Speed]);
     }
     
     public void MoveToPosition(Vector3 vector3)
