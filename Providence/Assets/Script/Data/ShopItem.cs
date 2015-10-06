@@ -8,6 +8,7 @@ public class ShopItem
 {
     public int CrystalCost;
     public int MoneyCost;
-
+    public int Parameter;
+    public IShopExecute execute;
 }
 

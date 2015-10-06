@@ -76,6 +76,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\Data\BonusItem.cs" />
     <Compile Include="Assets\Script\Data\PlayerData.cs" />
     <Compile Include="Assets\Script\Data\PlayerItem.cs" />
     <Compile Include="Assets\Script\DataBaseController.cs" />
@@ -89,6 +90,10 @@
     <Compile Include="Assets\Script\Map\Items\MapItem.cs" />
     <Compile Include="Assets\Script\Map\Level.cs" />
     <Compile Include="Assets\Script\Map\Map.cs" />
+    <Compile Include="Assets\Script\Shop\HeroShopBonusItem.cs" />
+    <Compile Include="Assets\Script\Shop\HeroShopRandomItem.cs" />
+    <Compile Include="Assets\Script\Shop\ShopController.cs" />
+    <Compile Include="Assets\Script\Shop\IShopExecute.cs" />
     <Compile Include="Assets\Script\UI\FlyingNumbers.cs" />
     <Compile Include="Assets\Script\UI\PanelWithDragTest.cs" />
     <Compile Include="Assets\Script\UI\WeaponAnimation.cs" />

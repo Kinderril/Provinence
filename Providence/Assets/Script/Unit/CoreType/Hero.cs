@@ -19,7 +19,9 @@ public class Hero : Unit
     public ParticleSystem OnGetItems;
     private float currenthBonus = 0f;
     private float currenthBonusTimeLeft = 0f;
-    public Action<float> CurrentBonusUpdateX; 
+    public Action<float> CurrentBonusUpdateX;
+    public float moneyBonusFromItem = 0.0f;
+    public float damageBonusFromItem = 0.0f;
 
     public float CurrenthBonus
     {
@@ -37,8 +39,12 @@ public class Hero : Unit
     public override void Init()
     {
         base.Init();
-        Parameters.Parameters[ParamType.PPower] *= MainController.Instance.PlayerData.damageBonus + 1f;
-        Parameters.Parameters[ParamType.MPower] *= MainController.Instance.PlayerData.damageBonus + 1f;
+        foreach (var wearedItem in MainController.Instance.PlayerData.GetAllWearedItems())
+        {
+            wearedItem.Activate(this);
+        }
+        Parameters.Parameters[ParamType.PPower] *= damageBonusFromItem + 1f;
+        Parameters.Parameters[ParamType.MPower] *= damageBonusFromItem + 1f;
         OnGetItems.Stop(true);
         Utils.GroundTransform(transform);
     }

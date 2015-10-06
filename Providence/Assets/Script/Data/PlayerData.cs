@@ -10,10 +10,8 @@ public class PlayerData
     public const string INVENTORY = "INVENTORY_";
     public const string ITEMS = "ITEMS";
     public const char ITEMS_DELEMETER = ':';
-    public DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
-    public List<PlayerItem> playerItems = new List<PlayerItem>();
-    public float moneyBonus = 0.0f;
-    public float damageBonus = 0.0f;
+    private DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
+    private List<PlayerItem> playerItems = new List<PlayerItem>();
 
     public int levelHp = 0;
     public int levelPower = 0;
@@ -32,6 +30,11 @@ public class PlayerData
             playerItems.Add(playerItem);
         }
 
+    }
+
+    public IEnumerable<PlayerItem> GetAllWearedItems()
+    {
+        return playerItems.Where(x => x.isEquped);
     }
 
     public void Save()

@@ -9,7 +9,8 @@ public enum Slot
     physical_weapon,
     magic_weapon,
     body,
-    helm
+    helm,
+    bonus
 }
 
 public class PlayerItem
@@ -23,14 +24,22 @@ public class PlayerItem
         Load(item);
     }
 
-    public void Load(string item)
+    public virtual void Load(string item)
     {
         
     }
 
-    public void Save()
+    public virtual void Save()
     {
         
+    }
+
+    public virtual void Activate(Hero hero)
+    {
+        foreach (var parameter in parameters)
+        {
+            hero.Parameters.Parameters[parameter.Key] += parameter.Value;
+        }
     }
 }
 
