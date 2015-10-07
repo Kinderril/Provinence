@@ -15,11 +15,8 @@ public class BaseControl : MonoBehaviour
 
 	protected Rigidbody m_Rigidbody;
 	public Animator Animator;
-	float m_OrigGroundCheckDistance;
 	float m_TurnAmount;
 	float m_ForwardAmount;
-	float m_CapsuleHeight;
-	CapsuleCollider m_Capsule;
     private bool moving = false;
     public Vector3 Direction;
     public Vector3 TargetDirection;

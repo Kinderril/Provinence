@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.2.1p1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -59,6 +57,12 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -79,8 +83,8 @@
     <Compile Include="Assets\Script\Data\BonusItem.cs" />
     <Compile Include="Assets\Script\Data\PlayerData.cs" />
     <Compile Include="Assets\Script\Data\PlayerItem.cs" />
-    <Compile Include="Assets\Script\DataBaseController.cs" />
     <Compile Include="Assets\Script\Data\ShopItem.cs" />
+    <Compile Include="Assets\Script\DataBaseController.cs" />
     <Compile Include="Assets\Script\MainController.cs" />
     <Compile Include="Assets\Script\Map\BaseBornPosition.cs" />
     <Compile Include="Assets\Script\Map\BornPosition.cs" />
@@ -92,8 +96,8 @@
     <Compile Include="Assets\Script\Map\Map.cs" />
     <Compile Include="Assets\Script\Shop\HeroShopBonusItem.cs" />
     <Compile Include="Assets\Script\Shop\HeroShopRandomItem.cs" />
-    <Compile Include="Assets\Script\Shop\ShopController.cs" />
     <Compile Include="Assets\Script\Shop\IShopExecute.cs" />
+    <Compile Include="Assets\Script\Shop\ShopController.cs" />
     <Compile Include="Assets\Script\UI\FlyingNumbers.cs" />
     <Compile Include="Assets\Script\UI\PanelWithDragTest.cs" />
     <Compile Include="Assets\Script\UI\WeaponAnimation.cs" />
@@ -117,11 +121,12 @@
     <Compile Include="Assets\Script\Unit\Actions\MoveAction.cs" />
     <Compile Include="Assets\Script\Unit\Actions\StayAction.cs" />
     <Compile Include="Assets\Script\Unit\AnimationController.cs" />
-    <Compile Include="Assets\Script\Unit\Character.cs" />
+    <Compile Include="Assets\Script\Unit\Controls\AgentControl.cs" />
+    <Compile Include="Assets\Script\Unit\Controls\BaseControl.cs" />
+    <Compile Include="Assets\Script\Unit\Controls\HeroControl.cs" />
     <Compile Include="Assets\Script\Unit\CoreType\BaseMonster.cs" />
     <Compile Include="Assets\Script\Unit\CoreType\Hero.cs" />
     <Compile Include="Assets\Script\Unit\CoreType\UnitParameters.cs" />
-    <Compile Include="Assets\Script\Unit\HeroCharacter.cs" />
     <Compile Include="Assets\Script\Unit\Unit.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\Bullet.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\Weapon.cs" />
