@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 public class HeroShopRandomItem : IShopExecute
 {
@@ -15,8 +16,10 @@ public class HeroShopRandomItem : IShopExecute
     private void Switcher(Slot slot, int levelResult)
     {
         var totalPoints = GetPointsByLvl(levelResult)*GetSlotCoef(slot);
-        float diff = UnityEngine.Random.Range(0.8f, 1f);
+        float diff = Utils.NextGaussian(0.5f, 1f);
+        Debug.Log("iffff " + diff);
         bool isRare = diff > 0.95f;
+        totalPoints *= diff;
         float contest = UnityEngine.Random.Range(0.65f, 1f);
         if (contest > 0.9f)
             contest = 1f;
@@ -31,6 +34,7 @@ public class HeroShopRandomItem : IShopExecute
             pparams.Add(secondary, secondaryValue);
         }
         PlayerItem item = new PlayerItem(pparams,slot,isRare);
+        MainController.Instance.PlayerData.AddItem(item);
     }
 
     private int GetPointsByLvl(int lvl)

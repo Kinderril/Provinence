@@ -12,6 +12,7 @@ public class PlayerData
     public const char ITEMS_DELEMETER = ':';
     public DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
     private List<PlayerItem> playerItems = new List<PlayerItem>();
+    public event Action<PlayerItem> OnNewItem;
 
     public int levelHp = 0;
     public int levelPower = 0;
@@ -26,8 +27,11 @@ public class PlayerData
         var allItems = PlayerPrefs.GetString(ITEMS, "").Split(ITEMS_DELEMETER);
         foreach (var item in allItems)
         {
-            PlayerItem playerItem = new PlayerItem(item);
-            playerItems.Add(playerItem);
+            if (item.Length > 4)
+            {
+                PlayerItem playerItem = new PlayerItem(item);
+                playerItems.Add(playerItem);
+            }
         }
 
     }
@@ -51,6 +55,20 @@ public class PlayerData
         {
             playerInv[kp.Key] += kp.Value;
         }
+    }
+
+    public void AddItem(PlayerItem item)
+    {
+        if (OnNewItem != null)
+        {
+            OnNewItem(item);
+        }
+        playerItems.Add(item);
+    }
+
+    public List<PlayerItem> GetAllItems()
+    {
+        return playerItems;
     }
 }
 

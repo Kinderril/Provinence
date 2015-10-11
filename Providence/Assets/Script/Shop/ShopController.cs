@@ -33,7 +33,6 @@ public class ShopController : Singleton<ShopController>
         var slots = new WDictionary<Slot>(new Dictionary<Slot, float>()
         {
             { Slot.body,3f },
-            { Slot.bonus,3f },
             { Slot.helm,3f },
             { Slot.magic_weapon,3f },
             { Slot.physical_weapon,3f },

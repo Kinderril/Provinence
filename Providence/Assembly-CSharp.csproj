@@ -70,6 +70,8 @@
      <Compile Include="Assets\Script\UI\WeaponChooser.cs" />
      <Compile Include="Assets\Script\UI\WindowManager.cs" />
      <Compile Include="Assets\Script\UI\windows\BaseWindow.cs" />
+     <Compile Include="Assets\Script\UI\windows\Shop\ParameterElement.cs" />
+     <Compile Include="Assets\Script\UI\windows\Shop\PlayerItemElement.cs" />
      <Compile Include="Assets\Script\UI\windows\SubUIMain.cs" />
      <Compile Include="Assets\Script\UI\windows\UIMain.cs" />
      <Compile Include="Assets\Script\UI\windows\WindowEndGame.cs" />

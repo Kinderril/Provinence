@@ -30,6 +30,7 @@ public class DataBaseController : Singleton<DataBaseController>
     public Hero prefabHero;
     public FlyingNumbers FlyingNumber;
     public ColorUI[] ColorsOfUI;
+    public ShopItem stubPrefab;
     public Dictionary<int,List<BaseMonster>> mosntersLevel = new Dictionary<int, List<BaseMonster>>();
     public int maxLevel = 20;
 
@@ -47,6 +48,10 @@ public class DataBaseController : Singleton<DataBaseController>
     public T GetItem<T>(T item,Vector3 pos) where T : MonoBehaviour
     {
         return (GameObject.Instantiate(item.gameObject, pos, Quaternion.identity) as GameObject).GetComponent<T>();
+    }
+    public T GetItem<T>(T item) where T : MonoBehaviour
+    {
+        return (GameObject.Instantiate(item.gameObject, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<T>();
     }
 
     public Color GetColor(ItemId f)

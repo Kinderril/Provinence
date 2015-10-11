@@ -25,6 +25,7 @@ public class MainController : Singleton<MainController>
 	// Use this for initialization
 	void Start () {
         WindowManager.Instance.Init();
+        ShopController.Instance.Init();
         TimerManager = new TimerManager();
         WindowManager.Instance.OpenWindow(MainState.start);
         PlayerData = new PlayerData();

@@ -28,5 +28,31 @@ public static class Utils
             transform.position = new Vector3(t.x, t.y - groundOffset, t.z);
         }
     }
+
+    private static bool haveNextNextGaussian;
+    private static float nextNextGaussian;
+
+    public static float NextGaussian(float min, float max)
+    {
+        if (haveNextNextGaussian)
+        {
+            haveNextNextGaussian = false;
+            return nextNextGaussian;
+        }
+        else
+        {
+            float v1, v2, s;
+            do
+            {
+                v1 = 2 * UnityEngine.Random.Range(min, max) - 1;   // between -1.0 and 1.0
+                v2 = 2 * UnityEngine.Random.Range(min, max) - 1;   // between -1.0 and 1.0
+                s = v1 * v1 + v2 * v2;
+            } while (s >= 1 || s == 0);
+            float multiplier = Mathf.Sqrt(-2 * Mathf.Log(s) / s);
+            nextNextGaussian = v2 * multiplier;
+            haveNextNextGaussian = true;
+            return v1 * multiplier;
+        }
+    }
 }
 
