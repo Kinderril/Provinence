@@ -32,7 +32,14 @@ public static class Utils
     private static bool haveNextNextGaussian;
     private static float nextNextGaussian;
 
-    public static float NextGaussian(float min, float max)
+
+    public static float RandomNormal(float min,float max)
+    {
+        float variance = (max - min) / 2;
+        float mean = variance + min;
+        return mean + variance * NextGaussian();
+    }
+    private static float NextGaussian()
     {
         if (haveNextNextGaussian)
         {
@@ -44,8 +51,8 @@ public static class Utils
             float v1, v2, s;
             do
             {
-                v1 = 2 * UnityEngine.Random.Range(min, max) - 1;   // between -1.0 and 1.0
-                v2 = 2 * UnityEngine.Random.Range(min, max) - 1;   // between -1.0 and 1.0
+                v1 = UnityEngine.Random.Range(-1f, 1f); 
+                v2 = UnityEngine.Random.Range(-1f, 1f);
                 s = v1 * v1 + v2 * v2;
             } while (s >= 1 || s == 0);
             float multiplier = Mathf.Sqrt(-2 * Mathf.Log(s) / s);

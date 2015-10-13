@@ -17,7 +17,7 @@ public class HeroShopRandomItem : IShopExecute
     {
         var totalPoints = GetPointsByLvl(levelResult)*GetSlotCoef(slot);
         float diff = Utils.NextGaussian(0.5f, 1f);
-        Debug.Log("iffff " + diff);
+        //Debug.Log("iffff " + diff);
         bool isRare = diff > 0.95f;
         totalPoints *= diff;
         float contest = UnityEngine.Random.Range(0.65f, 1f);
@@ -33,7 +33,7 @@ public class HeroShopRandomItem : IShopExecute
             var secondaryValue = totalPoints*(1f - contest);
             pparams.Add(secondary, secondaryValue);
         }
-        PlayerItem item = new PlayerItem(pparams,slot,isRare);
+        PlayerItem item = new PlayerItem(pparams,slot,isRare, totalPoints);
         MainController.Instance.PlayerData.AddItem(item);
     }
 

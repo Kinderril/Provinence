@@ -3,30 +3,82 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PlayerItemElement : MonoBehaviour
+public enum UnderUi
 {
-    public ParameterElement Prefab;
-    public Text NameLabel;
-    public Text SlotLabel;
+    none,
+    delete,
+    equip
+}
+
+public class PlayerItemElement : MonoBehaviour ,IPointerClickHandler,IDragHandler ,IPointerDownHandler , IPointerUpHandler, IEndDragHandler
+{
     public Image rareImage;
     public Image iconImage;
     public Image equpedImage;
-    public Transform layout;
-    public void Init(PlayerItem item)
+    public PlayerItem PlayerItem;
+    private Transform oldTransforml;
+    private Action<PlayerItemElement> OnClicked;
+    private Func<Vector2, UnderUi> IsOnWhat;
+    private float startTakeTime = 0;
+    private bool isDrag = false;
+        
+    public void Init(PlayerItem item,Action<PlayerItemElement> OnClicked, Func<Vector2, UnderUi> IsOnWhat)
     {
-        foreach (var p in item.parameters)
-        {
-            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
-            element.Init(p.Key, p.Value);
-            element.transform.SetParent(layout);
-        }
-        SlotLabel.text = item.Slot.ToString();
+        PlayerItem = item;
+        this.IsOnWhat = IsOnWhat;
+        this.OnClicked = OnClicked;
         rareImage.gameObject.SetActive(item.isRare);
-        equpedImage.gameObject.SetActive(item.isEquped);
+        equpedImage.gameObject.SetActive(item.IsEquped);
         iconImage.sprite = Resources.Load<Sprite>(item.icon);
+    }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        //OnClicked(this);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        startTakeTime = Time.time;
+        oldTransforml = transform.parent;
+        transform.SetParent(transform.parent.parent.parent);
+        isDrag = true;
+        OnClicked(this);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        isDrag = false;
+        var deltaTime = Time.time - startTakeTime; 
+        var res = IsOnWhat(eventData.position);
+        transform.SetParent(oldTransforml);
+        switch (res)
+        {
+            case UnderUi.delete:
+                MainController.Instance.PlayerData.Sell(PlayerItem);
+                break;
+            case UnderUi.equip:
+                MainController.Instance.PlayerData.EquipItem(PlayerItem);
+                break;
+        }
+    }
+
+    public void Equip(bool val)
+    {
+        equpedImage.gameObject.SetActive(val);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        transform.position = eventData.position;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        isDrag = false;
     }
 }
 

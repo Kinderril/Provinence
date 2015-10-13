@@ -29,6 +29,7 @@ public class Level
     private DictionaryOfItemAndInt inventory;
     public int difficult = 1;
     public bool isPLaying = true;
+    private PortalsController PortalsController = new PortalsController();
 
     public Level()
     {
@@ -38,6 +39,12 @@ public class Level
             inventory.Add(suit,0);
         }
         MainHero = Map.Instance.Init(this);
+        PortalsController.Start((int)maxpower,OnPortalOpen);
+    }
+
+    private void OnPortalOpen()
+    {
+
     }
 
 
@@ -97,6 +104,7 @@ public class Level
 
     public void EndLevel(PlayerData PlayerData)
     {
+        PortalsController.Stop();
         GameObject.Destroy(MainHero.gameObject);
         PlayerData.AddInventory(inventory);
         PlayerData.Save();
