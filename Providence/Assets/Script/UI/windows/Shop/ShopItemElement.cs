@@ -9,26 +9,30 @@ using UnityEngine.UI;
 public class ShopItemElement : MonoBehaviour
 {
     public Image icon;
-    public ShopItem shopExecute;
+    public IShopExecute shopExecute;
     public Text lvlField;
     public Image overlay;
     private bool isOpen = false;
-    private Action<ShopItem> callback;
+    private Action<IShopExecute> callback;
 
-    public void Init(ShopItem shopExecute, Action<ShopItem> callback)
+    public void Init(IShopExecute shopExecute, Action<IShopExecute> callback)
     {
         this.shopExecute = shopExecute;
         this.callback = callback;
-        icon.sprite = shopExecute.execute.Icon;
-        lvlField.text = "Level:" + shopExecute.execute.value;
-        isOpen = MainController.Instance.PlayerData.Level >= shopExecute.execute.value;
-        overlay.gameObject.SetActive(isOpen);
+        icon.sprite = shopExecute.icon;
+        lvlField.text = "Level:" + shopExecute.Parameter;
+        isOpen = shopExecute.CanBuy;
+        overlay.gameObject.SetActive(!isOpen);
     }
 
     public void OnClick()
     {
-        if (isOpen)
-            callback(shopExecute);
+         callback(shopExecute);
+    }
+
+    public bool CanBuy()
+    {
+        return isOpen;
     }
 }
 

@@ -10,10 +10,10 @@ public class ShopController : Singleton<ShopController>
     {
         Connections.Init();
     }
-    
-    public void BuyItem(ShopItem shopItem)
+
+    public void BuyItem(IShopExecute shopItem)
     {
-        shopItem.execute.Execute(shopItem.Parameter);
+        shopItem.Execute(shopItem.Parameter);
     }
 
     public static int RandomizeLvl(int baseLvl)

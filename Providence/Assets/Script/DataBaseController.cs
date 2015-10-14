@@ -24,7 +24,7 @@ public class DataBaseController : Singleton<DataBaseController>
 {
     public List<Weapon> Weapons;
     public List<BaseMonster> Monsters;
-    public List<ShopItem> allShopElements; 
+    public List<IShopExecute> allShopElements; 
     public GameObject debugCube;
     public MapItem MapItemPrefab;
     public Chest chestPrefab;

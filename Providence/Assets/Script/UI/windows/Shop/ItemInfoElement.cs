@@ -17,6 +17,11 @@ public class ItemInfoElement : MonoBehaviour
     public void Init(PlayerItem item)
     {
         SlotLabel.text = item.Slot.ToString();
+        foreach (Transform t in layout)
+        {
+            Destroy(t.gameObject);
+        }
+
         foreach (var p in item.parameters)
         {
             var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
@@ -26,18 +31,24 @@ public class ItemInfoElement : MonoBehaviour
 
     }
 
-    public void Init(ShopItem item)
+    public void Init(IShopExecute item)
     {
+        foreach (Transform t in layout)
+        {
+            Destroy(t.gameObject);
+        }
         NameLabel.text = "Level:" + item.Parameter;
         if (item.CrystalCost > 0)
         {
             var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
             element.Init(ItemId.crystal, item.CrystalCost);
+            element.transform.SetParent(layout);
         }
         if (item.MoneyCost > 0)
         {
             var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
             element.Init(ItemId.money, item.MoneyCost);
+            element.transform.SetParent(layout);
         }
         mainIcon.sprite = item.icon;
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,11 +44,20 @@ public class PlayerItemElement : MonoBehaviour ,IPointerClickHandler,IDragHandle
     public void OnPointerDown(PointerEventData eventData)
     {
         startTakeTime = Time.time;
+        if (!isDrag)
+        {
+            StartCoroutine(Wait());
+            OnClicked(this);
+        }
+    }
+
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(1f);
         oldTransforml = transform.parent;
         transform.SetParent(transform.parent.parent.parent);
         isDrag = true;
-        OnClicked(this);
-    }
+    } 
 
     public void OnPointerUp(PointerEventData eventData)
     {
@@ -73,7 +83,8 @@ public class PlayerItemElement : MonoBehaviour ,IPointerClickHandler,IDragHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = eventData.position;
+        if (isDrag)
+            transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)

@@ -18,11 +18,13 @@ public class WindowShop : BaseWindow
     public RectTransform equipPlace;
     public Text moneyField;
     public Text crystalField;
-    private ShopItem selectedShopElement;
+    private IShopExecute selectedShopElement;
 
     public override void Init()
     {
         base.Init();
+        moneyField.text = MainController.Instance.PlayerData.playerInv[ItemId.money].ToString("0");
+        crystalField.text = MainController.Instance.PlayerData.playerInv[ItemId.crystal].ToString("0");
         PlayerItemElements = new List<PlayerItemElement>();
         List<PlayerItem> items = MainController.Instance.PlayerData.GetAllItems();
         foreach (var playerItem in items)
@@ -49,15 +51,20 @@ public class WindowShop : BaseWindow
 
     public void OnBuySimpleChest()
     {
-        if (selectedShopElement != null)
+        if (selectedShopElement != null && selectedShopElement.CanBuy && EnoughtMoney(selectedShopElement))
             ShopController.Instance.BuyItem(selectedShopElement);
+    }
+
+    private bool EnoughtMoney(IShopExecute selectedShopElement)
+    {
+        return true;
     }
 
     public void OnClickBack()
     {
         WindowManager.Instance.OpenWindow(MainState.start);
     }
-    private void OnShopSelected(ShopItem obj)
+    private void OnShopSelected(IShopExecute obj)
     {
         selectedShopElement = obj;
         ItemInfoElement.Init(selectedShopElement);
@@ -78,6 +85,7 @@ public class WindowShop : BaseWindow
 
     private void OnItemSold(PlayerItem obj)
     {
+        Debug.Log("OnItemSold");
         var item = PlayerItemElements.FirstOrDefault(x => x.PlayerItem == obj);
         if (item != null)
         {
@@ -101,6 +109,7 @@ public class WindowShop : BaseWindow
 
     private void OnItemEquiped(PlayerItem obj,bool val)
     {
+        Debug.Log("OnItemEquiped");
         var item = PlayerItemElements.FirstOrDefault(x => x.PlayerItem == obj);
         if (item != null)
         {

@@ -7,8 +7,14 @@ using UnityEngine;
 
 public abstract class IShopExecute : MonoBehaviour
 {
-    public Sprite Icon;
-    public int value;
+    public int CrystalCost;
+    public int MoneyCost;
+    public int Parameter;
+    public Sprite icon;
+    public bool CanBuy
+    {
+        get { return MainController.Instance.PlayerData.Level >= Parameter; }
+    }
 
     public  virtual void Execute(int parameter)
     {

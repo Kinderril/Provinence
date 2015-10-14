@@ -7,10 +7,6 @@ using UnityEngine;
 [Serializable]
 public class ShopItem
 {
-    public int CrystalCost;
-    public int MoneyCost;
-    public int Parameter;
-    public Sprite icon;
     public IShopExecute execute;
 }
 
