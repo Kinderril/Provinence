@@ -1,10 +1,8 @@
 5.2.1p1:2.1.0.0
 Android
 D:/Unity_5.2/Editor/Data/Managed/UnityEngine.dll
-D:/Unity_5.2/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll
 D:/Unity_5.2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
 D:/Unity_5.2/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll
-D:/Unity_5.2/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll
 D:/Unity_5.2/Editor/Data/Managed/UnityEditor.dll
 D:/Unity_5.2/Editor/Data\Managed/Mono.Cecil.dll
 D:/Unity_5.2/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll

@@ -8,19 +8,18 @@ using UnityEngine.UI;
 public class WindowShop : BaseWindow
 {
 
-    public Transform layout;
-    public PlayerItemElement Prefab;
+    public Transform layoutMyInventory;
+    public Transform layoutShopItems;
+    public PlayerItemElement PrefabPlayerItemElement;
+    public ShopItemElement PrefabShopItemElement;
     public ItemInfoElement ItemInfoElement;
     private List<PlayerItemElement> PlayerItemElements;
     public RectTransform deletePlace;
     public RectTransform equipPlace;
     public Text moneyField;
     public Text crystalField;
+    private ShopItem selectedShopElement;
 
-    public void OnBuySimpleChest()
-    {
-        ShopController.Instance.BuyItem(DataBaseController.Instance.stubPrefab);
-    }
     public override void Init()
     {
         base.Init();
@@ -28,15 +27,40 @@ public class WindowShop : BaseWindow
         List<PlayerItem> items = MainController.Instance.PlayerData.GetAllItems();
         foreach (var playerItem in items)
         {
-            var element = DataBaseController.Instance.GetItem<PlayerItemElement>(Prefab);
+            var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
             element.Init(playerItem, OnSelected, OnIsOnWhat);
-            element.transform.SetParent(layout);
+            element.transform.SetParent(layoutMyInventory);
             PlayerItemElements.Add(element);
         }
+        var allSell = DataBaseController.Instance.allShopElements;
+        foreach (var shopExecute in allSell)
+        {
+            var element = DataBaseController.Instance.GetItem<ShopItemElement>(PrefabShopItemElement);
+            element.Init(shopExecute,OnShopSelected);
+            element.transform.SetParent(layoutShopItems);
+        }
+
+
         MainController.Instance.PlayerData.OnNewItem += OnNewItem;
         MainController.Instance.PlayerData.OnItemEquiped += OnItemEquiped;
         MainController.Instance.PlayerData.OnItemSold += OnItemSold;
         MainController.Instance.PlayerData.OnCurrensyChanges += OnCurrensyChanges;
+    }
+
+    public void OnBuySimpleChest()
+    {
+        if (selectedShopElement != null)
+            ShopController.Instance.BuyItem(selectedShopElement);
+    }
+
+    public void OnClickBack()
+    {
+        WindowManager.Instance.OpenWindow(MainState.start);
+    }
+    private void OnShopSelected(ShopItem obj)
+    {
+        selectedShopElement = obj;
+        ItemInfoElement.Init(selectedShopElement);
     }
 
     private void OnCurrensyChanges(ItemId arg1, int arg2)
@@ -92,9 +116,9 @@ public class WindowShop : BaseWindow
 
     private void OnNewItem(PlayerItem playerItem)
     {
-        var element = DataBaseController.Instance.GetItem<PlayerItemElement>(Prefab);
+        var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
         element.Init(playerItem, OnSelected, OnIsOnWhat);
-        element.transform.SetParent(layout);
+        element.transform.SetParent(layoutMyInventory);
     }
 
     public override void Close()
@@ -104,7 +128,7 @@ public class WindowShop : BaseWindow
         MainController.Instance.PlayerData.OnItemSold -= OnItemSold;
         MainController.Instance.PlayerData.OnCurrensyChanges -= OnCurrensyChanges;
         PlayerItemElements.Clear();
-        foreach (Transform child in layout.transform)
+        foreach (Transform child in layoutMyInventory.transform)
         {
             Destroy(child.gameObject);
         }

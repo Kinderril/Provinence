@@ -7,6 +7,9 @@ using UnityEngine;
 
 public abstract class IShopExecute : MonoBehaviour
 {
+    public Sprite Icon;
+    public int value;
+
     public  virtual void Execute(int parameter)
     {
         

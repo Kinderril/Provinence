@@ -20,6 +20,12 @@ public class PlayerData
     public int levelHp = 0;
     public int levelPower = 0;
     public int levelDef = 0;
+
+    public int Level
+    {
+        get { return levelHp + levelPower + levelDef; }
+    }
+
     public void Load()
     {
         foreach (ItemId v in Enum.GetValues(typeof(ItemId)))

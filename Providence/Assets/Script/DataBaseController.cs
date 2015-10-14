@@ -24,13 +24,13 @@ public class DataBaseController : Singleton<DataBaseController>
 {
     public List<Weapon> Weapons;
     public List<BaseMonster> Monsters;
+    public List<ShopItem> allShopElements; 
     public GameObject debugCube;
     public MapItem MapItemPrefab;
     public Chest chestPrefab;
     public Hero prefabHero;
     public FlyingNumbers FlyingNumber;
     public ColorUI[] ColorsOfUI;
-    public ShopItem stubPrefab;
     public Dictionary<int,List<BaseMonster>> mosntersLevel = new Dictionary<int, List<BaseMonster>>();
     public int maxLevel = 20;
 

@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
+using Random = System.Random;
 
 public static class Utils
 {
+    private static bool haveNextNextGaussian;
+    private static float nextNextGaussian;
+    private static readonly Random random = new Random();
+    private static bool uselast = true;
+    private static double next_gaussian;
+
     public static T RandomElement<T>(this List<T> list)
     {
         if (list.Count == 0)
@@ -24,42 +29,46 @@ public static class Utils
         if (Physics.Raycast(transform.position, Vector3.down, out hitInfo, checkDist))
         {
             var t = transform.position;
-            float groundOffset = hitInfo.distance;
+            var groundOffset = hitInfo.distance;
             transform.position = new Vector3(t.x, t.y - groundOffset, t.z);
         }
     }
 
-    private static bool haveNextNextGaussian;
-    private static float nextNextGaussian;
-
-
-    public static float RandomNormal(float min,float max)
+    public static float RandomNormal(float min, float max)
     {
-        float variance = (max - min) / 2;
-        float mean = variance + min;
-        return mean + variance * NextGaussian();
+        var deviations = 3.5;
+        double r;
+        while ((r = BoxMuller(min + (max - min)/2.0, (max - min)/2.0/deviations)) > max || r < min)
+        {
+        }
+
+        return (float)r;
     }
-    private static float NextGaussian()
+
+    public static double BoxMuller(double mean, double standard_deviation)
     {
-        if (haveNextNextGaussian)
+        return mean + BoxMuller()*standard_deviation;
+    }
+
+    public static double BoxMuller()
+    {
+        if (uselast)
         {
-            haveNextNextGaussian = false;
-            return nextNextGaussian;
+            uselast = false;
+            return next_gaussian;
         }
-        else
+        double v1, v2, s;
+        do
         {
-            float v1, v2, s;
-            do
-            {
-                v1 = UnityEngine.Random.Range(-1f, 1f); 
-                v2 = UnityEngine.Random.Range(-1f, 1f);
-                s = v1 * v1 + v2 * v2;
-            } while (s >= 1 || s == 0);
-            float multiplier = Mathf.Sqrt(-2 * Mathf.Log(s) / s);
-            nextNextGaussian = v2 * multiplier;
-            haveNextNextGaussian = true;
-            return v1 * multiplier;
-        }
+            v1 = 2.0*random.NextDouble() - 1.0;
+            v2 = 2.0*random.NextDouble() - 1.0;
+            s = v1*v1 + v2*v2;
+        } while (s >= 1.0 || s == 0);
+
+        s = Math.Sqrt((-2.0*Math.Log(s))/s);
+
+        next_gaussian = v2*s;
+        uselast = true;
+        return v1*s;
     }
 }
-

@@ -14,5 +14,10 @@ public class ParameterElement : MonoBehaviour
     {
         label.text = param + "   " + val.ToString("0");
     }
+
+    public void Init(ItemId param, float val)
+    {
+        label.text = param + "   " + val.ToString("0");
+    }
 }
 

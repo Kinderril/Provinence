@@ -16,7 +16,7 @@ public class HeroShopRandomItem : IShopExecute
     private void Switcher(Slot slot, int levelResult)
     {
         var totalPoints = GetPointsByLvl(levelResult)*GetSlotCoef(slot);
-        float diff = Utils.NextGaussian(0.5f, 1f);
+        float diff = Utils.RandomNormal(0.5f, 1f);
         //Debug.Log("iffff " + diff);
         bool isRare = diff > 0.95f;
         totalPoints *= diff;
