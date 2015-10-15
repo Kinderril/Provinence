@@ -17,7 +17,7 @@ public static class Utils
             return default(T);
         return list[UnityEngine.Random.Range(0, list.Count)];
     }
-
+    
     public static void SetRandomRotation(Transform transform)
     {
         transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(-180, 180), 0);

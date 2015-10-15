@@ -6,6 +6,7 @@ public enum MainState
     start,
     play,
     mission,
+    personage,
     pause,
     shop,
     end
@@ -17,7 +18,7 @@ public class MainController : Singleton<MainController>
     //public UIMain uiMain;
     public TimerManager TimerManager;
     public Level level;
-    //public WindowInGame WindowInGame;
+    //public WindowInGame WindowInGame;st 
     public MainState MainState;
     public PlayerData PlayerData;
     
