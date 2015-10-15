@@ -14,7 +14,8 @@ public enum Slot
     magic_weapon,
     body,
     helm,
-    bonus
+    bonus,
+    Talisman
 }
 
 public class PlayerItem

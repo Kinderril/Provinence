@@ -43,6 +43,7 @@ public class Hero : Unit
         foreach (ParamType v in Enum.GetValues(typeof(ParamType)))
         {
             Parameters.Parameters[v] = playerData.CalcParameter(v);
+            Debug.Log("CAlc parameter: " + v + " : " + Parameters.Parameters[v]);
         }
         /*
         foreach (var wearedItem in MainController.Instance.PlayerData.GetAllWearedItems())

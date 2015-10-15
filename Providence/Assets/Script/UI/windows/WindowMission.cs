@@ -35,9 +35,5 @@ public class WindowMission : BaseWindow
         MainController.Instance.StartLevel();
     }
 
-    public void OnShopClick()
-    {
-        WindowManager.Instance.OpenWindow(MainState.shop);
-    }
 }
 

@@ -6,10 +6,6 @@ using UnityEngine;
 
 public class WindowStart : BaseWindow
 {
-    public void OnStartClick()
-    {
-        WindowManager.Instance.OpenWindow(MainState.mission);
-    }
 
     public void OnExitClick()
     {

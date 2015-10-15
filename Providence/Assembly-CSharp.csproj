@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Script\Data\BonusItem.cs" />
+     <Compile Include="Assets\Script\Data\DataStructs.cs" />
      <Compile Include="Assets\Script\Data\PlayerData.cs" />
      <Compile Include="Assets\Script\Data\PlayerItem.cs" />
      <Compile Include="Assets\Script\Data\ShopItem.cs" />
@@ -71,6 +72,8 @@
      <Compile Include="Assets\Script\UI\WeaponChooser.cs" />
      <Compile Include="Assets\Script\UI\WindowManager.cs" />
      <Compile Include="Assets\Script\UI\windows\BaseWindow.cs" />
+     <Compile Include="Assets\Script\UI\windows\Parameters\GameParameterElement.cs" />
+     <Compile Include="Assets\Script\UI\windows\Parameters\ParameterUpgradeElement.cs" />
      <Compile Include="Assets\Script\UI\windows\Shop\ItemInfoElement.cs" />
      <Compile Include="Assets\Script\UI\windows\Shop\ParameterElement.cs" />
      <Compile Include="Assets\Script\UI\windows\Shop\PlayerItemElement.cs" />
@@ -81,6 +84,7 @@
      <Compile Include="Assets\Script\UI\windows\WindowInGame.cs" />
      <Compile Include="Assets\Script\UI\windows\WindowMission.cs" />
      <Compile Include="Assets\Script\UI\windows\WindowPause.cs" />
+     <Compile Include="Assets\Script\UI\windows\WindowPersonage.cs" />
      <Compile Include="Assets\Script\UI\windows\WindowShop.cs" />
      <Compile Include="Assets\Script\UI\windows\WindowStart.cs" />
      <Compile Include="Assets\Script\Unit\Actions\AttackAction.cs" />

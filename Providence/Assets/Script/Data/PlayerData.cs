@@ -34,9 +34,9 @@ public class PlayerData
 
     public void UpgdareParameter(MainParam parameter)
     {
-        var nextLevel = MainParameters[parameter] + 1;
-        var cost = DataBaseController.Instance.costParameterByLvl[nextLevel];
-        playerInv[ItemId.money] -= cost;
+        Debug.Log("Upgdare Main Parameter " + parameter);
+        var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[MainParameters[parameter]];
+        AddCurrensy(ItemId.money,-cost);
         MainParameters[parameter] += 1;
         if (OnParametersChange != null)
         {
@@ -47,8 +47,12 @@ public class PlayerData
 
     public bool CanUpgradeParameter(int nextLvl)
     {
-        var cost = DataBaseController.Instance.costParameterByLvl[nextLvl];
-        return CanPay(ItemId.money, cost);
+        if (DataBaseController.Instance.DataStructs.costParameterByLvl.Length < nextLvl)
+        {
+            var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[nextLvl];
+            return CanPay(ItemId.money, cost);
+        }
+        return false;
     }
 
     public bool CanPay(ItemId t, int cost)
@@ -73,6 +77,7 @@ public class PlayerData
                 playerItems.Add(playerItem);
             }
         }
+        MainParameters = new Dictionary<MainParam, int>();
         var bp = PlayerPrefs.GetString(BASE_PARAMS, "");
         if (bp.Length > 3)
         {
@@ -80,18 +85,24 @@ public class PlayerData
             int i = 0;
             foreach (var p in allParams)
             {
-                int par = Convert.ToInt32(p);
-                MainParameters.Add((MainParam)i, par);
-                i++;
+                if (p.Length > 0)
+                {
+                    int par = Convert.ToInt32(p);
+                    MainParameters.Add((MainParam) i, par);
+                    i++;
+                }
             }
             if (MainParameters.Count != 3)
             {
-                Debug.LogError("BAD PARAMETERS LOAD");
+                Debug.LogError("BAD PARAMETERS LOAD " + MainParameters.Count + "   bp:" + bp);
+                MainParameters.Clear();
+                MainParameters.Add(global::MainParam.ATTACK, 1);
+                MainParameters.Add(global::MainParam.HP, 1);
+                MainParameters.Add(global::MainParam.DEF, 1);
             }
         }
         else
         {
-            MainParameters = new Dictionary<MainParam, int>();
             MainParameters.Add(global::MainParam.ATTACK, 1);
             MainParameters.Add(global::MainParam.HP, 1);
             MainParameters.Add(global::MainParam.DEF, 1);
@@ -119,8 +130,9 @@ public class PlayerData
         string bsStr = "";
         foreach (var baseParameter in MainParameters)
         {
-            bsStr += baseParameter.Value + ITEMS_DELEMETER;
+            bsStr += baseParameter.Value.ToString() + ITEMS_DELEMETER;
         }
+        Debug.Log("Save ALl DATA :: " + bsStr);
         PlayerPrefs.SetString(BASE_PARAMS, bsStr);
     }
 
@@ -205,6 +217,7 @@ public class PlayerData
         switch (type)
         {
             case ParamType.Speed:
+                v += 3;
                 break;
             case ParamType.MPower:
                 v += MainParameters[MainParam.ATTACK];

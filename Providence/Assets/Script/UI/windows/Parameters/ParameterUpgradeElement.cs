@@ -19,15 +19,15 @@ public class ParameterUpgradeElement : MonoBehaviour
         this.type = type;
         UpgradeData();
 
-        var spr = Resources.Load<Sprite>(DataBaseController.Instance.MainParameterIcon(type));
-        Icon.sprite = spr;
+        Icon.sprite = DataBaseController.Instance.MainParameterIcon(type);
     }
 
     public void UpgradeData()
     {
         var val = MainController.Instance.PlayerData.MainParameters[type];
         CurrentValue.text = val.ToString();
-        nextLevelCost.text = DataBaseController.Instance.costParameterByLvl[val + 1].ToString("0");
+        Debug.Log("UPG: " + val);
+        nextLevelCost.text = DataBaseController.Instance.DataStructs.costParameterByLvl[val].ToString("0");
         UpgradeButton.interactable = MainController.Instance.PlayerData.CanUpgradeParameter(val + 1);
     }
 

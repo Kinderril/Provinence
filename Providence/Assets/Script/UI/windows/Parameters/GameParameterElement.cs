@@ -16,8 +16,7 @@ public class GameParameterElement : MonoBehaviour
     {
         this.type = type;
         UpgradeData();
-        var spr = Resources.Load<Sprite>(DataBaseController.Instance.ParameterIcon(type));
-        Icon.sprite = spr;
+        Icon.sprite = DataBaseController.Instance.ParameterIcon(type);
     }
 
     public void UpgradeData()

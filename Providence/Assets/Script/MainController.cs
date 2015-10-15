@@ -6,7 +6,7 @@ public enum MainState
     start,
     play,
     mission,
-    personage,
+    parameters,
     pause,
     shop,
     end

@@ -35,7 +35,7 @@ public class PlayerItemElement : MonoBehaviour ,IPointerClickHandler,IDragHandle
         rareImage.gameObject.SetActive(item.isRare);
         equpedImage.gameObject.SetActive(item.IsEquped);
         iconImage.sprite = Resources.Load<Sprite>(item.icon);
-        SlotLabel.sprite = Resources.Load<Sprite>(DataBaseController.Instance.SlotIcon(item.Slot));
+        SlotLabel.sprite = DataBaseController.Instance.SlotIcon(item.Slot);
     }
 
     public void OnPointerClick(PointerEventData eventData)

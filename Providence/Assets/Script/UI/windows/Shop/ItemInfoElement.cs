@@ -16,7 +16,7 @@ public class ItemInfoElement : MonoBehaviour
 
     public void Init(PlayerItem item)
     {
-        SlotLabel.sprite = Resources.Load<Sprite>(DataBaseController.Instance.SlotIcon(item.Slot));
+        SlotLabel.sprite = DataBaseController.Instance.SlotIcon(item.Slot);
         foreach (Transform t in layout)
         {
             Destroy(t.gameObject);

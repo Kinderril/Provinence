@@ -60,11 +60,6 @@ public class WindowShop : BaseWindow
     {
         return true;
     }
-
-    public void OnClickBack()
-    {
-        WindowManager.Instance.OpenWindow(MainState.start);
-    }
     private void OnShopSelected(IShopExecute obj)
     {
         selectedShopElement = obj;

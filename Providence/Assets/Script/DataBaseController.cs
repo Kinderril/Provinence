@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
-
 
 public enum ItemId
 {
@@ -13,98 +10,90 @@ public enum ItemId
     health
 }
 
-[Serializable]
-public struct ColorUI
-{
-    public Color color;
-    public ItemId type;
-}
-[Serializable]
-public struct ParameterImage
-{
-    public ParamType type;
-    public string path;
-}
-[Serializable]
-public struct MainParameterImage
-{
-    public MainParam type;
-    public string path;
-}
-[Serializable]
-public struct ItemImage
-{
-    public ItemId type;
-    public string path;
-}
-[Serializable]
-public struct SlotImage
-{
-    public Slot type;
-    public string path;
-}
 
 public class DataBaseController : Singleton<DataBaseController>
 {
-    public List<Weapon> Weapons;
-    public List<BaseMonster> Monsters;
-    public List<IShopExecute> allShopElements; 
-    public GameObject debugCube;
-    public MapItem MapItemPrefab;
+    private readonly Dictionary<ItemId, Sprite> ItemIdSprites = new Dictionary<ItemId, Sprite>();
+    private readonly Dictionary<MainParam, Sprite> MainParamSprites = new Dictionary<MainParam, Sprite>();
+    private readonly Dictionary<ParamType, Sprite> ParamTypeSprites = new Dictionary<ParamType, Sprite>();
+    private readonly Dictionary<Slot, Sprite> SlotSprites = new Dictionary<Slot, Sprite>();
+    public List<IShopExecute> allShopElements;
     public Chest chestPrefab;
-    public Hero prefabHero;
+    public DataStructs DataStructs;
+    public GameObject debugCube;
     public FlyingNumbers FlyingNumber;
-    public ColorUI[] ColorsOfUI;
-    public Dictionary<int,List<BaseMonster>> mosntersLevel = new Dictionary<int, List<BaseMonster>>();
+    public MapItem MapItemPrefab;
     public int maxLevel = 20;
-    public int[] costParameterByLvl;
-    public MainParameterImage[] MainParametersImages;
-    public ParameterImage[] ParametersImages;
-    public ItemImage[] ItemImage;
-    public SlotImage[] SlotImage;
+    public List<BaseMonster> Monsters;
+    public Dictionary<int, List<BaseMonster>> mosntersLevel = new Dictionary<int, List<BaseMonster>>();
+    public Hero prefabHero;
+    public List<Weapon> Weapons;
 
-    void Awake()
+    private void Awake()
     {
-        for (int i = 0; i < maxLevel; i++)
+        for (var i = 0; i < maxLevel; i++)
         {
-            mosntersLevel.Add(i,new List<BaseMonster>());
+            mosntersLevel.Add(i, new List<BaseMonster>());
         }
         foreach (var baseMonster in Monsters)
         {
             mosntersLevel[baseMonster.Parameters.Level].Add(baseMonster);
         }
+        LoadSprites();
     }
 
-    public string MainParameterIcon(MainParam mp)
+    private void LoadSprites()
     {
-        return MainParametersImages.FirstOrDefault(x => x.type == mp).path;
-    }
-    public string SlotIcon(Slot mp)
-    {
-        return SlotImage.FirstOrDefault(x => x.type == mp).path;
-    }
-    public string ItemIcon(ItemId itemId)
-    {
-        return ItemImage.FirstOrDefault(x => x.type == itemId).path;
+        foreach (var mp in DataStructs.MainParametersImages)
+        {
+            MainParamSprites.Add(mp.type, Resources.Load<Sprite>("sprites/MainParameters/" + mp.path));
+        }
+        foreach (var mp in DataStructs.SlotImage)
+        {
+            SlotSprites.Add(mp.type, Resources.Load<Sprite>("sprites/Slots/" + mp.path));
+        }
+        foreach (var mp in DataStructs.ItemImage)
+        {
+            ItemIdSprites.Add(mp.type, Resources.Load<Sprite>("sprites/Items/" + mp.path));
+        }
+        foreach (var mp in DataStructs.ParametersImages)
+        {
+            ParamTypeSprites.Add(mp.type, Resources.Load<Sprite>("sprites/Parameters/" + mp.path));
+        }
     }
 
-    public string ParameterIcon(ParamType mp)
+    public Sprite MainParameterIcon(MainParam mp)
     {
-        return ParametersImages.FirstOrDefault(x => x.type == mp).path;
+        return MainParamSprites[mp];
     }
-    public T GetItem<T>(T item,Vector3 pos) where T : MonoBehaviour
+
+    public Sprite SlotIcon(Slot mp)
     {
-        return (GameObject.Instantiate(item.gameObject, pos, Quaternion.identity) as GameObject).GetComponent<T>();
+        return SlotSprites[mp];
     }
+
+    public Sprite ItemIcon(ItemId itemId)
+    {
+        return ItemIdSprites[itemId];
+    }
+
+    public Sprite ParameterIcon(ParamType mp)
+    {
+        return ParamTypeSprites[mp];
+    }
+
+    public T GetItem<T>(T item, Vector3 pos) where T : MonoBehaviour
+    {
+        return (Instantiate(item.gameObject, pos, Quaternion.identity) as GameObject).GetComponent<T>();
+    }
+
     public T GetItem<T>(T item) where T : MonoBehaviour
     {
-        return (GameObject.Instantiate(item.gameObject, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<T>();
+        return (Instantiate(item.gameObject, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<T>();
     }
 
     public Color GetColor(ItemId f)
     {
-        return ColorsOfUI.FirstOrDefault(x => x.type == f).color;
+        return DataStructs.ColorsOfUI.FirstOrDefault(x => x.type == f).color;
     }
-
 }
-
