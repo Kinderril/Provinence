@@ -18,6 +18,7 @@ public class PlayerItemElement : MonoBehaviour ,IPointerClickHandler,IDragHandle
 {
     public Image rareImage;
     public Image iconImage;
+    public Image SlotLabel;
     public Image equpedImage;
     public PlayerItem PlayerItem;
     private Transform oldTransforml;
@@ -34,6 +35,7 @@ public class PlayerItemElement : MonoBehaviour ,IPointerClickHandler,IDragHandle
         rareImage.gameObject.SetActive(item.isRare);
         equpedImage.gameObject.SetActive(item.IsEquped);
         iconImage.sprite = Resources.Load<Sprite>(item.icon);
+        SlotLabel.sprite = Resources.Load<Sprite>(DataBaseController.Instance.SlotIcon(item.Slot));
     }
 
     public void OnPointerClick(PointerEventData eventData)

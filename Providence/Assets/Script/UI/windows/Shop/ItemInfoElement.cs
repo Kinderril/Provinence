@@ -11,12 +11,12 @@ public class ItemInfoElement : MonoBehaviour
     public ParameterElement Prefab;
     public Text NameLabel;
     public Transform layout;
-    public Text SlotLabel;
+    public Image SlotLabel;
     public Image mainIcon;
 
     public void Init(PlayerItem item)
     {
-        SlotLabel.text = item.Slot.ToString();
+        SlotLabel.sprite = Resources.Load<Sprite>(DataBaseController.Instance.SlotIcon(item.Slot));
         foreach (Transform t in layout)
         {
             Destroy(t.gameObject);

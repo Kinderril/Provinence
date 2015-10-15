@@ -19,6 +19,7 @@ public class WindowShop : BaseWindow
     public Text moneyField;
     public Text crystalField;
     private IShopExecute selectedShopElement;
+    private PlayerItem selectedPlayerItem;
 
     public override void Init()
     {
@@ -137,10 +138,8 @@ public class WindowShop : BaseWindow
         MainController.Instance.PlayerData.OnItemSold -= OnItemSold;
         MainController.Instance.PlayerData.OnCurrensyChanges -= OnCurrensyChanges;
         PlayerItemElements.Clear();
-        foreach (Transform child in layoutMyInventory.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        ClearTransform(layoutMyInventory);
+        ClearTransform(layoutShopItems);
         base.Close();
     }
 }

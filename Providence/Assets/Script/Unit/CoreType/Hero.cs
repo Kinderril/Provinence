@@ -39,10 +39,16 @@ public class Hero : Unit
     public override void Init()
     {
         base.Init();
+        var playerData = MainController.Instance.PlayerData;
+        foreach (ParamType v in Enum.GetValues(typeof(ParamType)))
+        {
+            Parameters.Parameters[v] = playerData.CalcParameter(v);
+        }
+        /*
         foreach (var wearedItem in MainController.Instance.PlayerData.GetAllWearedItems())
         {
             wearedItem.Activate(this);
-        }
+        }*/
         Parameters.Parameters[ParamType.PPower] *= damageBonusFromItem + 1f;
         Parameters.Parameters[ParamType.MPower] *= damageBonusFromItem + 1f;
         OnGetItems.Stop(true);
