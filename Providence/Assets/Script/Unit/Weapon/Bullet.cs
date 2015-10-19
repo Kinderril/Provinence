@@ -16,6 +16,8 @@ public class Bullet : MonoBehaviour
     private Action updateAction;
     public ParticleSystem TrailParticleSystem;
     public ParticleSystem HitParticleSystem;
+    private List<Unit> AffecttedUnits = new List<Unit>();
+    public SpecialAbility SpecialAbility = SpecialAbility.none;
 
     void Awake()
     {
@@ -57,8 +59,34 @@ public class Bullet : MonoBehaviour
 
     private void Hit(Unit unit)
     {
+        AffecttedUnits.Add(unit);
         unit.GetHit(this);
-        Death();
+        switch (SpecialAbility)
+        {
+            case SpecialAbility.none:
+                Death();
+                break;
+            case SpecialAbility.penetrating:
+                if (AffecttedUnits.Count > 3)
+                {
+                    Death();
+                }
+                break;
+            case SpecialAbility.AOE:
+                //TODO Hit others
+                Death();
+                break;
+            case SpecialAbility.homing:
+                Death();
+                break;
+            case SpecialAbility.chain:
+                //TODO find another target
+                if (AffecttedUnits.Count > 3)
+                {
+                    Death();
+                }
+                break;
+        }
     }
 
     private void Death()

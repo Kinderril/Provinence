@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public enum SpicialAbility
+public enum SpecialAbility
 {
-    
+    none,
+    penetrating,
+    AOE,
+    Critical,
+    homing,
+    push,
+    slow,
+    removeDefence,
+    vampire,
+    chain,
+    clear,
 }
 
 public enum Slot

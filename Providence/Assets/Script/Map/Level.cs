@@ -44,7 +44,8 @@ public class Level
 
     private void OnPortalOpen()
     {
-
+        Vector3 placeToBorn;
+        //Find closes bornPositions
     }
 
 

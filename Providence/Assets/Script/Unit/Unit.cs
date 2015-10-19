@@ -25,8 +25,21 @@ public class Unit : MonoBehaviour
     protected bool isDead = false;
     public UnitParameters Parameters;
     private AnimationController animationController;
-    public Action<Unit> OnShootEnd; 
-    
+    public Action<Unit> OnShootEnd;
+
+    public float CurHp
+    {
+        get { return curHp; }
+        set
+        {
+            curHp = Mathf.Clamp(value,-1,Parameters.Parameters[ParamType.Hp]);
+            if (curHp <= 0)
+            {
+                Dead();
+            }
+        }
+    }
+
     public virtual void Init()
     {
         Parameters = Parameters.Copy();
@@ -112,25 +125,56 @@ public class Unit : MonoBehaviour
     public void GetHit(Bullet bullet)
     {
         float power = bullet.weapon.Parameters.power;
+        float mdef = Parameters.Parameters[ParamType.MDef];
+        float pdef = Parameters.Parameters[ParamType.PDef];
+
+        switch (bullet.SpecialAbility)
+        {
+            case SpecialAbility.Critical:
+                var isCrit = UnityEngine.Random.Range(0, 10) < 2;
+                if (isCrit)
+                {
+                    power *= 2.25f;
+                }
+                break;
+            case SpecialAbility.push:
+                var owner2 = bullet.weapon.owner;
+                var dir = (transform.position - owner2.transform.position).normalized;
+                
+                break;
+            case SpecialAbility.slow:
+                Parameters.Parameters[ParamType.Speed] *= 0.92f;
+                break;
+            case SpecialAbility.removeDefence:
+                Parameters.Parameters[ParamType.PDef] *= 0.94f;
+                Parameters.Parameters[ParamType.MDef] *= 0.94f;
+                break;
+            case SpecialAbility.vampire:
+                var owner = bullet.weapon.owner;
+                owner.CurHp += power*0.1f;
+                break;
+            case SpecialAbility.clear:
+                mdef = 0;
+                pdef = 0;
+                break;
+        }
+
+
         switch (bullet.weapon.Parameters.type)
         {
             case WeaponType.magic:
-                power *= calcResist(Parameters.Parameters[ParamType.MDef]);
+                power *= calcResist(mdef);
                 break;
             case WeaponType.physics:
-                power *= calcResist(Parameters.Parameters[ParamType.PDef]);
+                power *= calcResist(pdef);
                 break;
         }
         Debug.Log("Get hit:" + bullet.weapon.Parameters.power + " => " + power);
 
-        curHp -= power;
+        CurHp -= power;
         if (OnGetHit != null)
         {
-            OnGetHit(curHp, Parameters.Parameters[ParamType.Hp], power);
-        }
-        if (curHp <= 0)
-        {
-            Dead();
+            OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], power);
         }
     }
 
