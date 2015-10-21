@@ -20,7 +20,8 @@ public class WeaponChooserView : MonoBehaviour
             var linked = views.FirstOrDefault(x => x.WeaponType == v.Parameters.type);
             if (linked != null)
             {
-                dictionary.Add(v,linked);
+                dictionary.Add(v, linked);
+                linked.Select(false);
             }
             else
             {
@@ -33,7 +34,8 @@ public class WeaponChooserView : MonoBehaviour
 
     public void SetWeapon(Weapon weapon)
     {
-        currentSelected.Select(false);
+        if (currentSelected != null)
+            currentSelected.Select(false);
         currentSelected = dictionary[weapon];
         currentSelected.Select(true);
     }

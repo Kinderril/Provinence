@@ -12,7 +12,13 @@ public class FlyingNumbers : MonoBehaviour
     public void Init(float Count,Color textColor,string add = "")
     {
         if (text == null)
+        {
             text = GetComponent<Text>();
+            if (text == null)
+            {
+                text = GetComponentInChildren<Text>();
+            }
+        }
         text.text = add + (Mathf.Abs(Count)).ToString("0");
         text.color = textColor;
     }

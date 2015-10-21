@@ -158,7 +158,7 @@ public class Unit : MonoBehaviour
         return 1 - curResist/(100 + curResist);
     }
 
-    public void GetHit(Bullet bullet)
+    public virtual void GetHit(Bullet bullet)
     {
         float power = 0;
         switch (bullet.weapon.Parameters.type)

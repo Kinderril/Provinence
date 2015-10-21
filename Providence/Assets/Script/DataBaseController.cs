@@ -22,6 +22,7 @@ public class DataBaseController : Singleton<DataBaseController>
     public DataStructs DataStructs;
     public GameObject debugCube;
     public FlyingNumbers FlyingNumber;
+    public FlyingNumbers InGameFlyingNumber;
     public MapItem MapItemPrefab;
     public int maxLevel = 20;
     public List<BaseMonster> Monsters;

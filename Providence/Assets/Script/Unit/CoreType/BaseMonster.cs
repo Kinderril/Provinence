@@ -61,6 +61,22 @@ public class BaseMonster : Unit
 
     }
 
+    public override void GetHit(Bullet bullet)
+    {
+        var hp = CurHp;
+        base.GetHit(bullet);
+        hp -= CurHp;
+        if (hp > 0)
+        {
+            var fn = DataBaseController.Instance.GetItem(DataBaseController.Instance.InGameFlyingNumber);
+            var canvas = fn.GetComponent<Canvas>();
+            canvas.worldCamera = MainController.Instance.MainCamera;
+            fn.transform.SetParent(Map.Instance.effectsContainer);
+            fn.transform.position = transform.position;
+            fn.Init(hp,Color.red, "-");fn.transform.LookAt(MainController.Instance.MainCamera.transform);
+        }
+    }
+
     protected override void UpdateUnit()
     {
         if (!isDead)

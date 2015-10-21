@@ -24,7 +24,7 @@ public class WeaponButton : MonoBehaviour
     {
         if (isOpen)
         {
-            MainController.Instance.level.MainHero.ChangeWeaponTo(weapon);
+           // MainController.Instance.level.MainHero.ChangeWeaponTo(weapon);
 
         }
     }

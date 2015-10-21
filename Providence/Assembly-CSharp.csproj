@@ -68,10 +68,12 @@
      <Compile Include="Assets\Script\UI\FlyingNumbers.cs" />
      <Compile Include="Assets\Script\UI\PanelWithDragTest.cs" />
      <Compile Include="Assets\Script\UI\WeaponAnimation.cs" />
-     <Compile Include="Assets\Script\UI\WeaponButton.cs" />
-     <Compile Include="Assets\Script\UI\WeaponChooser.cs" />
      <Compile Include="Assets\Script\UI\WindowManager.cs" />
      <Compile Include="Assets\Script\UI\windows\BaseWindow.cs" />
+     <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponButton.cs" />
+     <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponButtonView.cs" />
+     <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponChooser.cs" />
+     <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponChooserView.cs" />
      <Compile Include="Assets\Script\UI\windows\Parameters\GameParameterElement.cs" />
      <Compile Include="Assets\Script\UI\windows\Parameters\ParameterUpgradeElement.cs" />
      <Compile Include="Assets\Script\UI\windows\Shop\ItemInfoElement.cs" />
@@ -103,6 +105,7 @@
      <Compile Include="Assets\Script\Unit\CoreType\UnitParameters.cs" />
      <Compile Include="Assets\Script\Unit\Unit.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\Bullet.cs" />
+     <Compile Include="Assets\Script\Unit\Weapon\BulletEffect.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\Weapon.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\WeaponParameters.cs" />
      <Compile Include="Assets\Script\Utils\CameraFollow.cs" />
