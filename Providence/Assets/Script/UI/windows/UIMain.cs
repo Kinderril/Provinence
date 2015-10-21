@@ -28,6 +28,11 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         }
     }
 
+    public void OnChangeWeapon()
+    {
+        mainHero.SwitchWeapon();
+    }
+
     public void OnCrouch()
     {
         if (enable)

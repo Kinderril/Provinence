@@ -9,7 +9,7 @@ public class WindowInGame : BaseWindow
     public Slider TImeSlider;
     public Slider HealthSlider;
     public Text moneyField;
-    public WeaponChooser WeaponChooser;
+    public WeaponChooserView WeaponChooser;
     public UIMain UiControls;
 
     public override void Init()
@@ -19,8 +19,14 @@ public class WindowInGame : BaseWindow
         MainController.Instance.level.OnLeft += OnLeft;
         MainController.Instance.level.OnItemCollected += OnItemCollected;
         MainController.Instance.level.MainHero.OnGetHit += OnHeroHit;
-        WeaponChooser.Init(MainController.Instance.level.MainHero.InventoryWeapons);
+        MainController.Instance.level.MainHero.OnWeaponChanged += OnWeaponChanged;
+        WeaponChooser.Init();
         UiControls.Enable(true);
+    }
+
+    private void OnWeaponChanged(Weapon obj)
+    {
+        WeaponChooser.SetWeapon(obj);
     }
 
     public void EndGame()
@@ -35,6 +41,7 @@ public class WindowInGame : BaseWindow
         MainController.Instance.level.OnLeft -= OnLeft;
         MainController.Instance.level.OnItemCollected -= OnItemCollected;
         MainController.Instance.level.MainHero.OnGetHit -= OnHeroHit;
+        MainController.Instance.level.MainHero.OnWeaponChanged -= OnWeaponChanged;
     }
 
     private void OnItemCollected(ItemId arg1, float arg2,float delta)

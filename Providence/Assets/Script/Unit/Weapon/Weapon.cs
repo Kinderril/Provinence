@@ -12,6 +12,7 @@ public class Weapon : MonoBehaviour
     public Unit owner;
     public ParticleSystem pSystemOnShot;
     public WeaponParameters Parameters;
+    public List<SpecialAbility> Abilities;
 
     public void Init(Unit owner)
     {
