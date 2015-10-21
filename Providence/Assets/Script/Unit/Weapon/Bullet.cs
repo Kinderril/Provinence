@@ -17,7 +17,6 @@ public class Bullet : MonoBehaviour
     public ParticleSystem TrailParticleSystem;
     public ParticleSystem HitParticleSystem;
     private List<Unit> AffecttedUnits = new List<Unit>();
-    public SpecialAbility SpecialAbility = SpecialAbility.none;
 
     void Awake()
     {
@@ -61,31 +60,34 @@ public class Bullet : MonoBehaviour
     {
         AffecttedUnits.Add(unit);
         unit.GetHit(this);
-        switch (SpecialAbility)
+        foreach (var specialAbility in weapon.Abilities)
         {
-            case SpecialAbility.none:
-                Death();
-                break;
-            case SpecialAbility.penetrating:
-                if (AffecttedUnits.Count > 3)
-                {
+            switch (specialAbility)
+            {
+                case SpecialAbility.none:
                     Death();
-                }
-                break;
-            case SpecialAbility.AOE:
-                //TODO Hit others
-                Death();
-                break;
-            case SpecialAbility.homing:
-                Death();
-                break;
-            case SpecialAbility.chain:
-                //TODO find another target
-                if (AffecttedUnits.Count > 3)
-                {
+                    break;
+                case SpecialAbility.penetrating:
+                    if (AffecttedUnits.Count > 3)
+                    {
+                        Death();
+                    }
+                    break;
+                case SpecialAbility.AOE:
+                    //TODO Hit others
                     Death();
-                }
-                break;
+                    break;
+                case SpecialAbility.homing:
+                    Death();
+                    break;
+                case SpecialAbility.chain:
+                    //TODO find another target
+                    if (AffecttedUnits.Count > 3)
+                    {
+                        Death();
+                    }
+                    break;
+            }
         }
     }
 

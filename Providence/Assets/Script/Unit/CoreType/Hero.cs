@@ -43,13 +43,8 @@ public class Hero : Unit
         foreach (ParamType v in Enum.GetValues(typeof(ParamType)))
         {
             Parameters.Parameters[v] = playerData.CalcParameter(v);
-            Debug.Log("CAlc parameter: " + v + " : " + Parameters.Parameters[v]);
+            Debug.Log("Calc parameter: " + v + " : " + Parameters.Parameters[v]);
         }
-        /*
-        foreach (var wearedItem in MainController.Instance.PlayerData.GetAllWearedItems())
-        {
-            wearedItem.Activate(this);
-        }*/
         Parameters.Parameters[ParamType.PPower] *= damageBonusFromItem + 1f;
         Parameters.Parameters[ParamType.MPower] *= damageBonusFromItem + 1f;
         OnGetItems.Stop(true);
@@ -143,10 +138,5 @@ public class Hero : Unit
     {
         base.Dead();
         MainController.Instance.EndLevel();
-    }
-
-    public void ChangeWeaponTo(Weapon weap)
-    {
-
     }
 }

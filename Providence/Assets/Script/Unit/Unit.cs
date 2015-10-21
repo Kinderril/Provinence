@@ -26,6 +26,8 @@ public class Unit : MonoBehaviour
     public UnitParameters Parameters;
     private AnimationController animationController;
     public Action<Unit> OnShootEnd;
+    public Action<Weapon> OnWeaponChanged;
+    private float lastWeaponChangse;
 
     public float CurHp
     {
@@ -98,6 +100,27 @@ public class Unit : MonoBehaviour
         });
     }
 
+    public void SwitchWeapon()
+    {
+        if (Time.time - lastWeaponChangse > 1)
+        {
+
+            if (InventoryWeapons.Count <= 1)
+                return;
+            var index = InventoryWeapons.IndexOf(curWeapon);
+            index++;
+            if (index >= InventoryWeapons.Count)
+            {
+                index = 0;
+            }
+            curWeapon = InventoryWeapons[index];
+            if (OnWeaponChanged != null)
+            {
+                OnWeaponChanged(curWeapon);
+            }
+        }
+    }
+
     void FixedUpdate()
     {
         if (!isDead)
@@ -137,40 +160,53 @@ public class Unit : MonoBehaviour
 
     public void GetHit(Bullet bullet)
     {
-        float power = bullet.weapon.Parameters.power;
+        float power = 0;
+        switch (bullet.weapon.Parameters.type)
+        {
+            case WeaponType.magic:
+                power = bullet.weapon.owner.Parameters.Parameters[ParamType.MPower];
+                break;
+            case WeaponType.physics:
+                power = bullet.weapon.owner.Parameters.Parameters[ParamType.PPower];
+                break;
+        }
         float mdef = Parameters.Parameters[ParamType.MDef];
         float pdef = Parameters.Parameters[ParamType.PDef];
 
-        switch (bullet.SpecialAbility)
+        foreach (var specialAbility in bullet.weapon.Abilities)
         {
-            case SpecialAbility.Critical:
-                var isCrit = UnityEngine.Random.Range(0, 10) < 2;
-                if (isCrit)
-                {
-                    power *= 2.25f;
-                }
-                break;
-            case SpecialAbility.push:
-                var owner2 = bullet.weapon.owner;
-                var dir = (transform.position - owner2.transform.position).normalized;
-                
-                break;
-            case SpecialAbility.slow:
-                Parameters.Parameters[ParamType.Speed] *= 0.92f;
-                break;
-            case SpecialAbility.removeDefence:
-                Parameters.Parameters[ParamType.PDef] *= 0.94f;
-                Parameters.Parameters[ParamType.MDef] *= 0.94f;
-                break;
-            case SpecialAbility.vampire:
-                var owner = bullet.weapon.owner;
-                owner.CurHp += power*0.1f;
-                break;
-            case SpecialAbility.clear:
-                mdef = 0;
-                pdef = 0;
-                break;
+            switch (specialAbility)
+            {
+                case SpecialAbility.Critical:
+                    var isCrit = UnityEngine.Random.Range(0, 10) < 2;
+                    if (isCrit)
+                    {
+                        power *= 2.25f;
+                    }
+                    break;
+                case SpecialAbility.push:
+                    var owner2 = bullet.weapon.owner;
+                    var dir = (transform.position - owner2.transform.position).normalized;
+
+                    break;
+                case SpecialAbility.slow:
+                    Parameters.Parameters[ParamType.Speed] *= 0.92f;
+                    break;
+                case SpecialAbility.removeDefence:
+                    Parameters.Parameters[ParamType.PDef] *= 0.94f;
+                    Parameters.Parameters[ParamType.MDef] *= 0.94f;
+                    break;
+                case SpecialAbility.vampire:
+                    var owner = bullet.weapon.owner;
+                    owner.CurHp += power * 0.1f;
+                    break;
+                case SpecialAbility.clear:
+                    mdef = mdef/2;
+                    pdef = pdef/2;
+                    break;
+            }
         }
+        
 
 
         switch (bullet.weapon.Parameters.type)
@@ -182,6 +218,7 @@ public class Unit : MonoBehaviour
                 power *= calcResist(pdef);
                 break;
         }
+        Debug.Log("Get hit:" +  " => " + power);
 
         CurHp -= power;
         if (OnGetHit != null)
