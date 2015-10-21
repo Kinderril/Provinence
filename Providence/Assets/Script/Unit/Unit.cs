@@ -13,11 +13,11 @@ public enum UnitType
 }
 public class Unit : MonoBehaviour
 {
-    public float curHp;
+    private float curHp;
     public Weapon curWeapon;
     public List<Weapon> InventoryWeapons;
     public BaseControl Control;
-    protected BaseAction action;
+    private BaseAction action;
     public UnitType unitType;
     public Transform weaponsContainer;
     public event Action<Unit> OnDead;
@@ -37,6 +37,19 @@ public class Unit : MonoBehaviour
             {
                 Dead();
             }
+        }
+    }
+
+    protected BaseAction Action
+    {
+        get { return action; }
+        set
+        {
+            if (action != null)
+            {
+                action.Dispose();
+            }
+            action = value;
         }
     }
 
@@ -169,11 +182,11 @@ public class Unit : MonoBehaviour
                 power *= calcResist(pdef);
                 break;
         }
-        Debug.Log("Get hit:" + bullet.weapon.Parameters.power + " => " + power);
 
         CurHp -= power;
         if (OnGetHit != null)
         {
+            Debug.Log("Get hit:" + CurHp + "/" + Parameters.Parameters[ParamType.Hp] + " => " + power);
             OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], power);
         }
     }

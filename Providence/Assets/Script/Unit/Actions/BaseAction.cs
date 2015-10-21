@@ -23,7 +23,13 @@ public class BaseAction
     public virtual void End(string msg = " end action ")
     {
         //Debug.Log(msg);
-        endCallback();
+        if (endCallback != null)
+            endCallback();
+    }
+
+    public virtual void Dispose()
+    {
+        endCallback = null;
     }
 }
 

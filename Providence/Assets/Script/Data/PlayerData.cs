@@ -232,7 +232,7 @@ public class PlayerData
                 v += MainParameters[MainParam.DEF];
                 break;
             case ParamType.Hp:
-                v += MainParameters[MainParam.HP];
+                v += MainParameters[MainParam.HP] * 40;
                 break;
         }
         return v;

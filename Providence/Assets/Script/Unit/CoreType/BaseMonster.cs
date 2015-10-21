@@ -57,7 +57,7 @@ public class BaseMonster : Unit
         mapItem2.transform.SetParent(Map.Instance.miscContainer, true);
         mapItem2.StartFly(transform);
         base.Dead();
-        action = null;
+        Action = null;
 
     }
 
@@ -118,7 +118,7 @@ public class BaseMonster : Unit
         else
         {
             aiStatus = AIStatus.disable;
-            action = null;
+            Action = null;
         }
     }
 
@@ -126,7 +126,7 @@ public class BaseMonster : Unit
     {
         aiStatus = AIStatus.walk;
         int coef = 60;
-        if (action is MoveAction)
+        if (Action is MoveAction)
         {
             coef = 30;
         }
@@ -136,11 +136,11 @@ public class BaseMonster : Unit
             var randPos = new Vector3(bornPosition.x + UnityEngine.Random.Range(-isHomeDist, isHomeDist),
                 bornPosition.y,
                 bornPosition.z + UnityEngine.Random.Range(-isHomeDist, isHomeDist));
-            action = new MoveAction(this, randPos, StartWalk);
+            Action = new MoveAction(this, randPos, StartWalk);
         }
         else
         {
-            action = new StayAction(this, StartWalk);
+            Action = new StayAction(this, StartWalk);
         }
         
     }
@@ -152,13 +152,13 @@ public class BaseMonster : Unit
         switch (AttackType)
         {
             case AttackType.hitAndRun:
-                action = new AttackHitAndRun(this, MainController.Instance.level.MainHero, StartAttack);
+                Action = new AttackHitAndRun(this, MainController.Instance.level.MainHero, StartAttack);
                 break;
             case AttackType.distanceFight:
-                action = new AttackDistance(this, MainController.Instance.level.MainHero, StartAttack);
+                Action = new AttackDistance(this, MainController.Instance.level.MainHero, StartAttack);
                 break;
             case AttackType.closeCombat:
-                action = new AttackCloseCombat(this, MainController.Instance.level.MainHero, StartAttack);
+                Action = new AttackCloseCombat(this, MainController.Instance.level.MainHero, StartAttack);
                 break;
         }
     }
@@ -166,7 +166,7 @@ public class BaseMonster : Unit
     private void EndAttack()
     {
         aiStatus = AIStatus.returnHome;
-        action = new MoveAction(this, bornPosition, StartWalk);
+        Action = new MoveAction(this, bornPosition, StartWalk);
     }
 }
 

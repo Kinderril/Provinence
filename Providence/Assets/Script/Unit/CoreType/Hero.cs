@@ -69,8 +69,8 @@ public class Hero : Unit
             }
         }
         Control.UpdateFromUnit();
-        if (action != null)
-            action.Update();
+        if (Action != null)
+            Action.Update();
     }
 
     public override void TryAttack(Vector3 target)
