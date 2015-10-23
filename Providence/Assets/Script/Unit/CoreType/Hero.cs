@@ -75,6 +75,12 @@ public class Hero : Unit
         base.TryAttack(target);
     }
 
+    public void TryAttackByDirection(Vector3 dir)
+    {
+        (Control as HeroControl).SetDir(dir);
+        base.TryAttack(transform.position + dir.normalized);
+    }
+
     public void GetItems(ItemId type, int count)
     {
         count =(int)(count * (currenthBonus + 1));

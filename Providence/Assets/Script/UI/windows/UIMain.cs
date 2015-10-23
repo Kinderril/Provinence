@@ -62,12 +62,13 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     public void OnPointerUp(PointerEventData eventData)
     {
         var endDrag = eventData.position;
-        var sqrDist = (endDrag - startDrag).sqrMagnitude;
+        var dir = (endDrag - startDrag);
+        var sqrDist = dir.sqrMagnitude;
         var hit = RayCast(eventData);
         if (sqrDist >4200)
         {
             if (hit != Vector3.zero && enable)
-                mainHero.TryAttack(hit);
+                mainHero.TryAttackByDirection(dir);
         }
         else
         {

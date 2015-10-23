@@ -220,22 +220,25 @@ public class PlayerData
                 v += 3;
                 break;
             case ParamType.MPower:
-                v += MainParameters[MainParam.ATTACK];
+                v += MainParameters[MainParam.ATTACK] * 12 + 36;
                 break;
             case ParamType.PPower:
-                v += MainParameters[MainParam.ATTACK];
+                v += MainParameters[MainParam.ATTACK] * 10 + 32;
                 break;
             case ParamType.PDef:
-                v += MainParameters[MainParam.DEF];
+                v += MainParameters[MainParam.DEF] * 10 + 10;
                 break;
             case ParamType.MDef:
-                v += MainParameters[MainParam.DEF];
+                v += MainParameters[MainParam.DEF] * 9;
                 break;
             case ParamType.Hp:
-                v += MainParameters[MainParam.HP] * 40;
+                v += MainParameters[MainParam.HP] * 40 + 200;
                 break;
         }
         return v;
     }
+
+
+
 }
 
