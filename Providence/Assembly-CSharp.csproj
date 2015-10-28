@@ -70,6 +70,7 @@
      <Compile Include="Assets\Script\UI\WeaponAnimation.cs" />
      <Compile Include="Assets\Script\UI\WindowManager.cs" />
      <Compile Include="Assets\Script\UI\windows\BaseWindow.cs" />
+     <Compile Include="Assets\Script\UI\windows\InGameUI\FlyNumberWIthDependence.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponButton.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponButtonView.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponChooser.cs" />

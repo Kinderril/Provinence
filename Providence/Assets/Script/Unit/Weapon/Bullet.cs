@@ -64,21 +64,15 @@ public class Bullet : MonoBehaviour
         {
             switch (specialAbility)
             {
-                case SpecialAbility.none:
-                    Death();
-                    break;
                 case SpecialAbility.penetrating:
                     if (AffecttedUnits.Count > 3)
                     {
                         Death();
                     }
-                    break;
-                case SpecialAbility.AOE:
-                    //TODO Hit others
-                    Death();
-                    break;
-                case SpecialAbility.homing:
-                    Death();
+                    else
+                    {
+                        return;
+                    }
                     break;
                 case SpecialAbility.chain:
                     //TODO find another target
@@ -86,9 +80,14 @@ public class Bullet : MonoBehaviour
                     {
                         Death();
                     }
+                    else
+                    {
+                        return;
+                    }
                     break;
             }
         }
+        Death();
     }
 
     private void Death()

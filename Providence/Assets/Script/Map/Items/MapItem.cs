@@ -42,7 +42,6 @@ public class MapItem : MonoBehaviour
     }
     public void EndAnimation()
     {
-        Debug.Log("EndAnimation");
         canBeTaken = true;//STUB
     }
 
@@ -51,7 +50,6 @@ public class MapItem : MonoBehaviour
         transform.rotation = parentTransform.rotation;
         if (animator != null)
         {
-            Debug.Log("StartAnimation");
             animator.SetBool("isOpen", true);
         }
         else

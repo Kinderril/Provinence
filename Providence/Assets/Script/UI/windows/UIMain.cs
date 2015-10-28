@@ -14,6 +14,7 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     private Vector2 startDrag;
     public SubUIMain subUI;
     private bool enable;
+    public Vector3 keybordDir;
     public void Init()
     {
         mainHero = MainController.Instance.level.MainHero;
@@ -38,15 +39,45 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         if (enable)
             mainHero.DoCrouch();
     }
+
+    void Update()
+    {
+#if UNITY_EDITOR
+        var w = Input.GetKey(KeyCode.W);
+        var s = Input.GetKey(KeyCode.S);
+        var d = Input.GetKey(KeyCode.D);
+        var a = Input.GetKey(KeyCode.A);
+        int x = 0;
+        int y = 0;
+        if (w)
+        {
+            x = 1;
+        }
+        else if (s)
+        {
+            x = -1;
+        }
+
+        if (d)
+        {
+            y = 1;
+        }
+        else if (a)
+        {
+            y = -1;
+        }
+        keybordDir = new Vector3(y,0,x);
+        mainHero.MoveToDirection(keybordDir);
+#endif
+    }
     
     private Vector3 RayCast(PointerEventData eventData)
     {
-
         RaycastHit hit;
         Ray ray = MainCamera.ScreenPointToRay(eventData.position);//Input.mousePosition);
+#if UNITY_EDITOR
         Debug.DrawRay(ray.origin, ray.direction * 11, Color.yellow, 1);
-        //Debug.Log("ray " + ray.direction);
-
+#endif
         if (Physics.Raycast(ray, out hit, 9999999, layerMask))
         {
             return hit.point;
@@ -64,11 +95,12 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         var endDrag = eventData.position;
         var dir = (endDrag - startDrag);
         var sqrDist = dir.sqrMagnitude;
-        var hit = RayCast(eventData);
+        //Debug.Log(">>> " + dir + "    startDrag:" + startDrag + "   endDrag:" + endDrag);
+
         if (sqrDist >4200)
         {
-            if (hit != Vector3.zero && enable)
-                mainHero.TryAttackByDirection(dir);
+            if (/*hit != Vector3.zero && */enable)
+                mainHero.TryAttackByDirection(new Vector3(dir.x,0,dir.y));
         }
         else
         {

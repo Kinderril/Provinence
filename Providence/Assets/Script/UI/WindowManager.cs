@@ -16,6 +16,11 @@ public class WindowManager : Singleton<WindowManager>
     public WindowT[] windows;
     private BaseWindow currentWindow;
 
+    public BaseWindow CurrentWindow
+    {
+        get { return currentWindow; }
+    }
+
     public void Init()
     {
         foreach (var window in windows)
@@ -33,7 +38,8 @@ public class WindowManager : Singleton<WindowManager>
         var window = windows.FirstOrDefault(x => x.state == state).window;
         window.Init();
         currentWindow = window;
-
     }
+
+   
 }
 

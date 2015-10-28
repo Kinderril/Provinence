@@ -218,12 +218,9 @@ public class Unit : MonoBehaviour
                 power *= calcResist(pdef);
                 break;
         }
-        Debug.Log("Get hit:" +  " => " + power);
-
         CurHp -= power;
         if (OnGetHit != null)
         {
-            Debug.Log("Get hit:" + CurHp + "/" + Parameters.Parameters[ParamType.Hp] + " => " + power);
             OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], power);
         }
     }

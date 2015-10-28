@@ -78,7 +78,15 @@ public class Hero : Unit
     public void TryAttackByDirection(Vector3 dir)
     {
         (Control as HeroControl).SetDir(dir);
-        base.TryAttack(transform.position + dir.normalized);
+        var trg = transform.position + dir;
+
+        
+#if UNITY_EDITOR
+        Ray ray = new Ray(transform.position, trg);
+        Debug.DrawRay(ray.origin, ray.direction * 5, Color.red, 1);
+#endif
+        
+        base.TryAttack(trg);
     }
 
     public void GetItems(ItemId type, int count)

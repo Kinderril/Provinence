@@ -11,6 +11,7 @@ public class WindowInGame : BaseWindow
     public Text moneyField;
     public WeaponChooserView WeaponChooser;
     public UIMain UiControls;
+    public Transform hitTransform;
 
     public override void Init()
     {
@@ -68,7 +69,7 @@ public class WindowInGame : BaseWindow
 
     private void OnHeroHit(float arg1, float arg2,float delta)
     {
-        var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, HealthSlider.transform.position);
+        var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, hitTransform.position);
         item.transform.SetParent(transform);
         Color color = DataBaseController.Instance.GetColor(ItemId.health);
         item.Init(delta, color, (delta > 0) ? "-" : "+");

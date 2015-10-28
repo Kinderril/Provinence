@@ -68,12 +68,11 @@ public class BaseMonster : Unit
         hp -= CurHp;
         if (hp > 0)
         {
-            var fn = DataBaseController.Instance.GetItem(DataBaseController.Instance.InGameFlyingNumber);
-            var canvas = fn.GetComponent<Canvas>();
-            canvas.worldCamera = MainController.Instance.MainCamera;
-            fn.transform.SetParent(Map.Instance.effectsContainer);
-            fn.transform.position = transform.position;
-            fn.Init(hp,Color.red, "-");fn.transform.LookAt(MainController.Instance.MainCamera.transform);
+            var fn = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyNumberWIthDependence);
+            fn.transform.SetParent(WindowManager.Instance.CurrentWindow.TopPanel.transform);
+            //fn.transform.position = transform.position;
+            fn.Init(transform,hp,Color.red, "-");
+            //fn.transform.LookAt(MainController.Instance.MainCamera.transform);
         }
     }
 
@@ -163,7 +162,6 @@ public class BaseMonster : Unit
 
     private void StartAttack()
     {
-        Debug.Log("Start attack " + this);
         aiStatus = AIStatus.attack;
         switch (AttackType)
         {

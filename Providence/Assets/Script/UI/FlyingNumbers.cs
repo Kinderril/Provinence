@@ -9,8 +9,10 @@ using UnityEngine.UI;
 public class FlyingNumbers : MonoBehaviour
 {
     private Text text;
-    public void Init(float Count,Color textColor,string add = "")
+    private Action OnDead;
+    public void Init(float Count, Color textColor, string add = "", Action OnDead = null)
     {
+        this.OnDead = OnDead;
         if (text == null)
         {
             text = GetComponent<Text>();
@@ -25,6 +27,13 @@ public class FlyingNumbers : MonoBehaviour
 
     public void EndAnimation()
     {
-        Destroy(gameObject);
+        if (OnDead != null)
+        {
+            OnDead();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

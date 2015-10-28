@@ -51,7 +51,6 @@ public class Level
 
     public void AddItem(ItemId type, int value)
     {
-        Debug.Log("OnItemCollected");
         switch (type)
         {
             case ItemId.money:
