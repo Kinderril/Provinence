@@ -13,6 +13,8 @@ public enum MainParam
 
 public class PlayerData
 {
+    public const string LEVEL = "LEVEL_";
+    public const string ALLOCATED = "ALLOCATED_";
     public const string INVENTORY = "INVENTORY_";
     public const string ITEMS = "ITEMS";
     public const string BASE_PARAMS = "BASE_PARAMS";
@@ -23,36 +25,59 @@ public class PlayerData
     public event Action<PlayerItem,bool> OnItemEquiped;
     public event Action<PlayerItem> OnItemSold;
     public event Action<Dictionary<MainParam, int>> OnParametersChange;
+    public event Action<int> OnLevelUp;
     public event Action<ItemId, int> OnCurrensyChanges;
+    public int AllocatedPoints;
+    private int CurrentLevel;
     public Dictionary<MainParam,int> MainParameters;
-    private int level;
 
     public int Level
     {
-        get { return level; }
+        get { return CurrentLevel; }
     }
 
     public void UpgdareParameter(MainParam parameter)
     {
-        Debug.Log("Upgdare Main Parameter " + parameter);
-        var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[MainParameters[parameter]];
-        AddCurrensy(ItemId.money,-cost);
-        MainParameters[parameter] += 1;
-        if (OnParametersChange != null)
+        if (CanUpgradeParameter())
         {
-            OnParametersChange(MainParameters);
+            Debug.Log("Upgdare Main Parameter " + parameter);
+            var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[MainParameters[parameter]];
+            AddCurrensy(ItemId.money, -cost);
+            AllocatedPoints -= 1;
+            MainParameters[parameter] += 1;
+            if (OnParametersChange != null)
+            {
+                OnParametersChange(MainParameters);
+            }
+            Save();
         }
-        Save();
     }
 
-    public bool CanUpgradeParameter(int nextLvl)
+    public bool CanUpgradeParameter()
     {
-        if (DataBaseController.Instance.DataStructs.costParameterByLvl.Length < nextLvl)
+        return (AllocatedPoints > 0);
+    }
+
+    public bool CanUpgradeLevel()
+    {
+        if (DataBaseController.Instance.DataStructs.costParameterByLvl.Length < CurrentLevel)
         {
-            var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[nextLvl];
+            var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[CurrentLevel];
             return CanPay(ItemId.money, cost);
         }
         return false;
+    }
+
+    public void LevelUp()
+    {
+        var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[CurrentLevel];
+        AllocatedPoints += 2;
+        CurrentLevel++;
+        if (OnLevelUp != null)
+        {
+            OnLevelUp(CurrentLevel);
+        }
+        AddCurrensy(ItemId.money, -cost);
     }
 
     public bool CanPay(ItemId t, int cost)
@@ -63,6 +88,8 @@ public class PlayerData
 
     public void Load()
     {
+        CurrentLevel = PlayerPrefs.GetInt(LEVEL, 1);
+        AllocatedPoints = PlayerPrefs.GetInt(ALLOCATED, 0);
         foreach (ItemId v in Enum.GetValues(typeof(ItemId)))
         {
             var count = PlayerPrefs.GetInt(INVENTORY + v,0);
@@ -107,18 +134,23 @@ public class PlayerData
             MainParameters.Add(global::MainParam.HP, 1);
             MainParameters.Add(global::MainParam.DEF, 1);
         }
-
-        level = 0;
-        foreach (var baseParameter in MainParameters)
-        {
-            level += baseParameter.Value;
-        }
-        level -= 2;
+        CheckIfFirstLevel();
     }
 
-    public IEnumerable<PlayerItem> GetAllWearedItems()
+    private void CheckIfFirstLevel()
     {
-        return playerItems.Where(x => x.IsEquped);
+        var money = playerInv[ItemId.money] == 0;
+        var lvl = Level == 0;
+        var items = playerItems.Count == 0;
+        if (money && lvl && items)
+        {
+            PlayerItem item1 = new PlayerItem(new Dictionary<ParamType, float>() { {ParamType.PPower, 15} },Slot.physical_weapon, false,1);
+            PlayerItem item2 = new PlayerItem(new Dictionary<ParamType, float>() { { ParamType.MPower, 10 } }, Slot.magic_weapon, false, 1);
+            playerItems.Add(item2);
+            playerItems.Add(item1);
+            EquipItem(item1);
+            EquipItem(item2);
+        }
     }
 
     public void Save()
@@ -134,6 +166,12 @@ public class PlayerData
         }
         Debug.Log("Save ALl DATA :: " + bsStr);
         PlayerPrefs.SetString(BASE_PARAMS, bsStr);
+        PlayerPrefs.SetInt(LEVEL,CurrentLevel);
+        PlayerPrefs.SetInt(ALLOCATED, AllocatedPoints);
+    }
+    public IEnumerable<PlayerItem> GetAllWearedItems()
+    {
+        return playerItems.Where(x => x.IsEquped);
     }
 
     public void AddInventory(DictionaryOfItemAndInt inventory)

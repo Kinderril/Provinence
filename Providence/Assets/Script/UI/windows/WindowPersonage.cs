@@ -14,20 +14,32 @@ public class WindowPersonage : BaseWindow
     private List<GameParameterElement> elementsParams = new List<GameParameterElement>();
     public Transform layout;
     public Transform layoutGameElements;
+    public Button LevelUpButton;
     public Text moneyField;
     public Text crystalField;
+    public Text levelField;
+    public Text alocatedField;
 
     public override void Init()
     {
         base.Init();
         moneyField.text = MainController.Instance.PlayerData.playerInv[ItemId.money].ToString("0");
         crystalField.text = MainController.Instance.PlayerData.playerInv[ItemId.crystal].ToString("0");
+        OnLevelUp(0);
         elements.Clear();
         elementsParams.Clear();
         LoadParameters();
         LoadTotalParameters();
         MainController.Instance.PlayerData.OnParametersChange += OnParametersChange;
         MainController.Instance.PlayerData.OnCurrensyChanges += OnCurrensyChanges;
+        MainController.Instance.PlayerData.OnLevelUp += OnLevelUp;
+    }
+
+    private void OnLevelUp(int obj)
+    {
+        LevelUpButton.interactable = MainController.Instance.PlayerData.CanUpgradeLevel();
+        alocatedField.text = MainController.Instance.PlayerData.AllocatedPoints.ToString("0");
+        levelField.text = MainController.Instance.PlayerData.Level.ToString("0");
     }
 
     private void OnCurrensyChanges(ItemId arg1, int arg2)
@@ -52,6 +64,7 @@ public class WindowPersonage : BaseWindow
         {
             parameterUpgradeElement.UpgradeData();
         }
+        OnLevelUp(0);
     }
 
     private void LoadTotalParameters()
@@ -63,6 +76,11 @@ public class WindowPersonage : BaseWindow
             item.gameObject.transform.SetParent(layoutGameElements);
             elementsParams.Add(item);
         }
+    }
+
+    public void OnLevelUpClicked()
+    {
+        MainController.Instance.PlayerData.LevelUp();
     }
 
     private void LoadParameters()
@@ -84,6 +102,7 @@ public class WindowPersonage : BaseWindow
         ClearTransform(layoutGameElements);
         MainController.Instance.PlayerData.OnParametersChange -= OnParametersChange;
         MainController.Instance.PlayerData.OnCurrensyChanges -= OnCurrensyChanges;
+        MainController.Instance.PlayerData.OnLevelUp -= OnLevelUp;
     }
 }
 

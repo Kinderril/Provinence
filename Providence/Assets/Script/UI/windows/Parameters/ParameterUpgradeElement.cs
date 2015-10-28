@@ -12,7 +12,7 @@ public class ParameterUpgradeElement : MonoBehaviour
     public Text CurrentValue;
     private MainParam type;
     public Image Icon;
-    public Text nextLevelCost;
+    //public Text nextLevelCost;
 
     public void Init(MainParam type)
     {
@@ -26,9 +26,9 @@ public class ParameterUpgradeElement : MonoBehaviour
     {
         var val = MainController.Instance.PlayerData.MainParameters[type];
         CurrentValue.text = val.ToString();
-        Debug.Log("UPG: " + val);
-        nextLevelCost.text = DataBaseController.Instance.DataStructs.costParameterByLvl[val].ToString("0");
-        UpgradeButton.interactable = MainController.Instance.PlayerData.CanUpgradeParameter(val + 1);
+        //ebug.Log("UPG: " + val);
+        //nextLevelCost.text = DataBaseController.Instance.DataStructs.costParameterByLvl[val].ToString("0");
+        UpgradeButton.interactable = MainController.Instance.PlayerData.CanUpgradeParameter();
     }
 
     public void OnUpgradeClick()
