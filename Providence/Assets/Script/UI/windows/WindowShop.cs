@@ -20,10 +20,12 @@ public class WindowShop : BaseWindow
     public Text crystalField;
     private IShopExecute selectedShopElement;
     private PlayerItem selectedPlayerItem;
+    public AllParametersContainer AllParametersContainer;
 
     public override void Init()
     {
         base.Init();
+        AllParametersContainer.Init();
         moneyField.text = MainController.Instance.PlayerData.playerInv[ItemId.money].ToString("0");
         crystalField.text = MainController.Instance.PlayerData.playerInv[ItemId.crystal].ToString("0");
         PlayerItemElements = new List<PlayerItemElement>();
@@ -42,11 +44,10 @@ public class WindowShop : BaseWindow
             element.Init(shopExecute,OnShopSelected);
             element.transform.SetParent(layoutShopItems);
         }
-
-
+        
         MainController.Instance.PlayerData.OnNewItem += OnNewItem;
-        MainController.Instance.PlayerData.OnItemEquiped += OnItemEquiped;
-        MainController.Instance.PlayerData.OnItemSold += OnItemSold;
+        MainController.Instance.PlayerData.OnItemEquiped += OnItemEquipedCallback;
+        MainController.Instance.PlayerData.OnItemSold += OnItemSoldCallback;
         MainController.Instance.PlayerData.OnCurrensyChanges += OnCurrensyChanges;
     }
 
@@ -56,9 +57,19 @@ public class WindowShop : BaseWindow
             ShopController.Instance.BuyItem(selectedShopElement);
     }
 
+    public void OnUnequipItem()
+    {
+        if (selectedPlayerItem != null)
+        {
+            MainController.Instance.PlayerData.EquipItem(selectedPlayerItem,false);
+        }
+    }
+
     private bool EnoughtMoney(IShopExecute selectedShopElement)
     {
-        return true;
+        bool haveMoney = MainController.Instance.PlayerData.CanPay(ItemId.money,selectedShopElement.MoneyCost);
+        bool haveCrystal = MainController.Instance.PlayerData.CanPay(ItemId.crystal, selectedShopElement.CrystalCost);
+        return haveMoney && haveCrystal;
     }
     private void OnShopSelected(IShopExecute obj)
     {
@@ -79,7 +90,7 @@ public class WindowShop : BaseWindow
         }
     }
 
-    private void OnItemSold(PlayerItem obj)
+    private void OnItemSoldCallback(PlayerItem obj)
     {
         Debug.Log("OnItemSold");
         var item = PlayerItemElements.FirstOrDefault(x => x.PlayerItem == obj);
@@ -103,7 +114,7 @@ public class WindowShop : BaseWindow
         return UnderUi.none;
     }
 
-    private void OnItemEquiped(PlayerItem obj,bool val)
+    private void OnItemEquipedCallback(PlayerItem obj,bool val)
     {
         Debug.Log("OnItemEquiped");
         var item = PlayerItemElements.FirstOrDefault(x => x.PlayerItem == obj);
@@ -111,7 +122,7 @@ public class WindowShop : BaseWindow
         {
             item.Equip(val);
         }
-
+        AllParametersContainer.UpgradeValues();
     }
 
     public void OnSelected(PlayerItemElement item)
@@ -129,8 +140,8 @@ public class WindowShop : BaseWindow
     public override void Close()
     {
         MainController.Instance.PlayerData.OnNewItem -= OnNewItem;
-        MainController.Instance.PlayerData.OnItemEquiped -= OnItemEquiped;
-        MainController.Instance.PlayerData.OnItemSold -= OnItemSold;
+        MainController.Instance.PlayerData.OnItemEquiped -= OnItemEquipedCallback;
+        MainController.Instance.PlayerData.OnItemSold -= OnItemSoldCallback;
         MainController.Instance.PlayerData.OnCurrensyChanges -= OnCurrensyChanges;
         PlayerItemElements.Clear();
         ClearTransform(layoutMyInventory);

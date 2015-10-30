@@ -30,10 +30,21 @@ public class PlayerData
     public int AllocatedPoints;
     private int CurrentLevel;
     public Dictionary<MainParam,int> MainParameters;
+    private readonly Dictionary<Slot,int> slotsCount = new Dictionary<Slot, int>() { {Slot.Talisman, 2} }; 
 
     public int Level
     {
         get { return CurrentLevel; }
+    }
+
+    private int GetSlotCount(Slot s)
+    {
+        var c = 1;
+        if (slotsCount.TryGetValue(s, out c))
+        {
+            return c;
+        }
+        return 1;
     }
 
     public void UpgdareParameter(MainParam parameter)
@@ -82,7 +93,7 @@ public class PlayerData
 
     public bool CanPay(ItemId t, int cost)
     {
-        return cost < playerInv[t];
+        return cost <= playerInv[t];
     }
 
 
@@ -208,22 +219,38 @@ public class PlayerData
         return playerItems;
     }
 
-    public void EquipItem(PlayerItem playerItem)
+    public void EquipItem(PlayerItem playerItem,bool equip = true)
     {
-        var oldEquipedItem = playerItems.FirstOrDefault(x => x.IsEquped && x.Slot == playerItem.Slot);
-        if (oldEquipedItem != null)
+        PlayerItem oldEquipedItem = null;
+        if (equip)
         {
-            oldEquipedItem.IsEquped = false;
-        }
-        playerItem.IsEquped = true;
-
-        if (OnItemEquiped != null)
-        {
-            if (oldEquipedItem != null)
+            var oldEquipedItems = playerItems.Where(x => x.IsEquped && x.Slot == playerItem.Slot);
+            var slotCount = GetSlotCount(playerItem.Slot);
+            if (oldEquipedItems.Count() >= slotCount)
             {
-                OnItemEquiped(oldEquipedItem, false);
+                var item2Unquip = oldEquipedItems.GetEnumerator().Current;
+                item2Unquip.IsEquped = false;
+                if (OnItemEquiped != null)
+                {
+                    OnItemEquiped(item2Unquip, false);
+                }
+
             }
-            OnItemEquiped(playerItem, true);
+            playerItem.IsEquped = true;
+            if (OnItemEquiped != null)
+            {
+                OnItemEquiped(playerItem, true);
+            }
+
+        }
+        else
+        {
+            playerItem.IsEquped = false;
+            if (OnItemEquiped != null)
+            {
+                OnItemEquiped(playerItem, false);
+            }
+
         }
         Save();
     }

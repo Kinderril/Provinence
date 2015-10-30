@@ -9,11 +9,9 @@ using UnityEngine.UI;
 public class WindowPersonage : BaseWindow
 {
     public ParameterUpgradeElement PrefabParameterUpgrade;
-    public GameParameterElement PrefabGameElement;
     private List<ParameterUpgradeElement> elements = new List<ParameterUpgradeElement>();
-    private List<GameParameterElement> elementsParams = new List<GameParameterElement>();
+    public AllParametersContainer AllParametersContainer;
     public Transform layout;
-    public Transform layoutGameElements;
     public Button LevelUpButton;
     public Text moneyField;
     public Text crystalField;
@@ -27,9 +25,9 @@ public class WindowPersonage : BaseWindow
         crystalField.text = MainController.Instance.PlayerData.playerInv[ItemId.crystal].ToString("0");
         OnLevelUp(0);
         elements.Clear();
-        elementsParams.Clear();
+        //elementsParams.Clear();
         LoadParameters();
-        LoadTotalParameters();
+        AllParametersContainer.Init();
         MainController.Instance.PlayerData.OnParametersChange += OnParametersChange;
         MainController.Instance.PlayerData.OnCurrensyChanges += OnCurrensyChanges;
         MainController.Instance.PlayerData.OnLevelUp += OnLevelUp;
@@ -60,23 +58,10 @@ public class WindowPersonage : BaseWindow
         {
             parameterUpgradeElement.UpgradeData();
         }
-        foreach (var parameterUpgradeElement in elementsParams)
-        {
-            parameterUpgradeElement.UpgradeData();
-        }
+        AllParametersContainer.UpgradeValues();
         OnLevelUp(0);
     }
 
-    private void LoadTotalParameters()
-    {
-        foreach (ParamType v in Enum.GetValues(typeof(ParamType)))
-        {
-            var item = DataBaseController.Instance.GetItem(PrefabGameElement);
-            item.Init(v);
-            item.gameObject.transform.SetParent(layoutGameElements);
-            elementsParams.Add(item);
-        }
-    }
 
     public void OnLevelUpClicked()
     {
@@ -99,7 +84,6 @@ public class WindowPersonage : BaseWindow
     {
         base.Close();
         ClearTransform(layout);
-        ClearTransform(layoutGameElements);
         MainController.Instance.PlayerData.OnParametersChange -= OnParametersChange;
         MainController.Instance.PlayerData.OnCurrensyChanges -= OnCurrensyChanges;
         MainController.Instance.PlayerData.OnLevelUp -= OnLevelUp;
