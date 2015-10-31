@@ -75,6 +75,7 @@
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponButtonView.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponChooser.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponChooserView.cs" />
+     <Compile Include="Assets\Script\UI\windows\Parameters\AllParametersContainer.cs" />
      <Compile Include="Assets\Script\UI\windows\Parameters\GameParameterElement.cs" />
      <Compile Include="Assets\Script\UI\windows\Parameters\ParameterUpgradeElement.cs" />
      <Compile Include="Assets\Script\UI\windows\Shop\ItemInfoElement.cs" />
@@ -107,6 +108,8 @@
      <Compile Include="Assets\Script\Unit\Unit.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\Bullet.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\BulletEffect.cs" />
+     <Compile Include="Assets\Script\Unit\Weapon\Talisman.cs" />
+     <Compile Include="Assets\Script\Unit\Weapon\TalismanParameters.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\Weapon.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\WeaponParameters.cs" />
      <Compile Include="Assets\Script\Utils\CameraFollow.cs" />

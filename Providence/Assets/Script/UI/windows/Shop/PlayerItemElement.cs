@@ -14,7 +14,7 @@ public enum UnderUi
     equip
 }
 
-public class PlayerItemElement : MonoBehaviour ,IPointerClickHandler,IDragHandler ,IPointerDownHandler , IPointerUpHandler, IEndDragHandler
+public class PlayerItemElement : MonoBehaviour
 {
     public Image rareImage;
     public Image iconImage;
@@ -22,35 +22,34 @@ public class PlayerItemElement : MonoBehaviour ,IPointerClickHandler,IDragHandle
     public Image equpedImage;
     public PlayerItem PlayerItem;
     private Transform oldTransforml;
-    private Action<PlayerItemElement> OnClicked;
-    private Func<Vector2, UnderUi> IsOnWhat;
+    private Action<PlayerItemElement> callback;
     private float startTakeTime = 0;
     private bool isDrag = false;
         
-    public void Init(PlayerItem item,Action<PlayerItemElement> OnClicked, Func<Vector2, UnderUi> IsOnWhat)
+    public void Init(PlayerItem item,Action<PlayerItemElement> OnClicked)
     {
         PlayerItem = item;
-        this.IsOnWhat = IsOnWhat;
-        this.OnClicked = OnClicked;
+        this.callback = OnClicked;
         rareImage.gameObject.SetActive(item.isRare);
         equpedImage.gameObject.SetActive(item.IsEquped);
         iconImage.sprite = Resources.Load<Sprite>(item.icon);
         SlotLabel.sprite = DataBaseController.Instance.SlotIcon(item.Slot);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerClick()
     {
-        //OnClicked(this);
+        callback(this);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         startTakeTime = Time.time;
+        /*
         if (!isDrag)
         {
             StartCoroutine(Wait());
-            OnClicked(this);
-        }
+            callback(this);
+        }*/
     }
 
     private IEnumerator Wait()
@@ -64,7 +63,8 @@ public class PlayerItemElement : MonoBehaviour ,IPointerClickHandler,IDragHandle
     public void OnPointerUp(PointerEventData eventData)
     {
         isDrag = false;
-        var deltaTime = Time.time - startTakeTime; 
+        //var deltaTime = Time.time - startTakeTime; 
+        /*
         var res = IsOnWhat(eventData.position);
         transform.SetParent(oldTransforml);
         switch (res)
@@ -75,7 +75,7 @@ public class PlayerItemElement : MonoBehaviour ,IPointerClickHandler,IDragHandle
             case UnderUi.equip:
                 MainController.Instance.PlayerData.EquipItem(PlayerItem);
                 break;
-        }
+        }*/
     }
 
     public void Equip(bool val)

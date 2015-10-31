@@ -30,10 +30,11 @@ public class WindowShop : BaseWindow
         crystalField.text = MainController.Instance.PlayerData.playerInv[ItemId.crystal].ToString("0");
         PlayerItemElements = new List<PlayerItemElement>();
         List<PlayerItem> items = MainController.Instance.PlayerData.GetAllItems();
+        Debug.Log("items count = " + items.Count);
         foreach (var playerItem in items)
         {
             var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
-            element.Init(playerItem, OnSelected, OnIsOnWhat);
+            element.Init(playerItem, OnSelected);
             element.transform.SetParent(layoutMyInventory);
             PlayerItemElements.Add(element);
         }
@@ -100,18 +101,20 @@ public class WindowShop : BaseWindow
         }
     }
 
-    private UnderUi OnIsOnWhat(Vector2 arg1)
+    public void OnEquip()
     {
-        var dc = arg1 - new Vector2(deletePlace.position.x, deletePlace.position.y);
-        if (deletePlace.rect.Contains(dc))
+        if (selectedPlayerItem == null)
         {
-            return UnderUi.delete;
+            Debug.Log("no one selected");
+            return;
         }
-        if (equipPlace.rect.Contains(arg1))
-        {
-            return UnderUi.equip;
-        }
-        return UnderUi.none;
+        MainController.Instance.PlayerData.EquipItem(selectedPlayerItem);
+    }
+
+
+    public void OnSell()
+    {
+        MainController.Instance.PlayerData.Sell(selectedPlayerItem);
     }
 
     private void OnItemEquipedCallback(PlayerItem obj,bool val)
@@ -127,13 +130,14 @@ public class WindowShop : BaseWindow
 
     public void OnSelected(PlayerItemElement item)
     {
-        ItemInfoElement.Init(item.PlayerItem);
+        selectedPlayerItem = item.PlayerItem;
+        ItemInfoElement.Init(selectedPlayerItem);
     }
 
     private void OnNewItem(PlayerItem playerItem)
     {
         var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
-        element.Init(playerItem, OnSelected, OnIsOnWhat);
+        element.Init(playerItem, OnSelected);
         element.transform.SetParent(layoutMyInventory);
     }
 

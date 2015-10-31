@@ -13,12 +13,6 @@ public class BonusItem : PlayerItem
 {
     private float val;
     private Bonustype bonustype;
-    public BonusItem(string item)
-        : base(item)
-    {
-
-    }
-
     public override void Activate(Hero hero)
     {
 
@@ -31,6 +25,12 @@ public class BonusItem : PlayerItem
                 hero.moneyBonusFromItem = val;
                 break;
         }
+    }
+
+    public BonusItem(Dictionary<ParamType, float> pparams, Slot slot, bool isRare, float totalPoints) 
+        : base(pparams, slot, isRare, totalPoints)
+    {
+
     }
 }
 

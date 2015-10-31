@@ -14,13 +14,13 @@ public class ParameterElement : MonoBehaviour
     public void Init(ParamType param,float val)
     {
         Icon.sprite = DataBaseController.Instance.ParameterIcon(param);
-        label.text = param + "   " + val.ToString("0");
+        label.text = val.ToString("0");
     }
 
     public void Init(ItemId param, float val)
     {
         Icon.sprite = DataBaseController.Instance.ItemIcon(param);
-        label.text = param + "   " + val.ToString("0");
+        label.text = val.ToString("0");
     }
 }
 

@@ -71,9 +71,11 @@ public class PlayerData
 
     public bool CanUpgradeLevel()
     {
-        if (DataBaseController.Instance.DataStructs.costParameterByLvl.Length < CurrentLevel)
+        Debug.Log("costParameterByLvl " + DataBaseController.Instance.DataStructs.costParameterByLvl.Length);
+        if (DataBaseController.Instance.DataStructs.costParameterByLvl.Length > CurrentLevel)
         {
             var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[CurrentLevel];
+            Debug.Log("cost level " + cost);
             return CanPay(ItemId.money, cost);
         }
         return false;
@@ -111,7 +113,7 @@ public class PlayerData
         {
             if (item.Length > 4)
             {
-                PlayerItem playerItem = new PlayerItem(item);
+                PlayerItem playerItem = PlayerItem.Creat(item);
                 playerItems.Add(playerItem);
             }
         }
@@ -151,10 +153,11 @@ public class PlayerData
     private void CheckIfFirstLevel()
     {
         var money = playerInv[ItemId.money] == 0;
-        var lvl = Level == 0;
+        var lvl = Level == 1;
         var items = playerItems.Count == 0;
         if (money && lvl && items)
         {
+
             PlayerItem item1 = new PlayerItem(new Dictionary<ParamType, float>() { {ParamType.PPower, 15} },Slot.physical_weapon, false,1);
             PlayerItem item2 = new PlayerItem(new Dictionary<ParamType, float>() { { ParamType.MPower, 10 } }, Slot.magic_weapon, false, 1);
             playerItems.Add(item2);
@@ -175,7 +178,13 @@ public class PlayerData
         {
             bsStr += baseParameter.Value.ToString() + ITEMS_DELEMETER;
         }
-        Debug.Log("Save ALl DATA :: " + bsStr);
+        string itemsStr = "";
+        foreach (var playerItem in playerItems)
+        {
+            itemsStr += playerItem.Save() + ITEMS_DELEMETER;
+            
+        }
+        PlayerPrefs.SetString(ITEMS, itemsStr);
         PlayerPrefs.SetString(BASE_PARAMS, bsStr);
         PlayerPrefs.SetInt(LEVEL,CurrentLevel);
         PlayerPrefs.SetInt(ALLOCATED, AllocatedPoints);
@@ -224,11 +233,15 @@ public class PlayerData
         PlayerItem oldEquipedItem = null;
         if (equip)
         {
+            if (playerItem.IsEquped)
+                return;
+
             var oldEquipedItems = playerItems.Where(x => x.IsEquped && x.Slot == playerItem.Slot);
             var slotCount = GetSlotCount(playerItem.Slot);
             if (oldEquipedItems.Count() >= slotCount)
             {
-                var item2Unquip = oldEquipedItems.GetEnumerator().Current;
+                var l = oldEquipedItems.ToList();
+                var item2Unquip = l[0];
                 item2Unquip.IsEquped = false;
                 if (OnItemEquiped != null)
                 {

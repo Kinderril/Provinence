@@ -7,7 +7,14 @@ using UnityEngine;
 
 public class ProfileControllerInspector : EditorWindow
 {
-    [MenuItem("Window/ProfileController")]
+    [MenuItem("Construct/ProfileControllerInspector")]
+
+    static void Init()
+    {
+        // Get existing open window or if none, make a new one:
+        ProfileControllerInspector window = (ProfileControllerInspector)EditorWindow.GetWindow(typeof(ProfileControllerInspector));
+        window.Show();
+    }
     public void OnGUI()
     {
         if (!Application.isPlaying)

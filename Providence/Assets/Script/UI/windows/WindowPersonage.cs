@@ -17,6 +17,7 @@ public class WindowPersonage : BaseWindow
     public Text crystalField;
     public Text levelField;
     public Text alocatedField;
+    public Text costNextLevelField;
 
     public override void Init()
     {
@@ -38,6 +39,18 @@ public class WindowPersonage : BaseWindow
         LevelUpButton.interactable = MainController.Instance.PlayerData.CanUpgradeLevel();
         alocatedField.text = MainController.Instance.PlayerData.AllocatedPoints.ToString("0");
         levelField.text = MainController.Instance.PlayerData.Level.ToString("0");
+        var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[MainController.Instance.PlayerData.Level];
+        costNextLevelField.text = cost.ToString("0");
+        UpgradeAllMainElements();
+    }
+
+    private void UpgradeAllMainElements()
+    {
+
+        foreach (var parameterUpgradeElement in elements)
+        {
+            parameterUpgradeElement.UpgradeData();
+        }
     }
 
     private void OnCurrensyChanges(ItemId arg1, int arg2)
@@ -54,10 +67,7 @@ public class WindowPersonage : BaseWindow
     }
     private void OnParametersChange(Dictionary<MainParam, int> obj)
     {
-        foreach (var parameterUpgradeElement in elements)
-        {
-            parameterUpgradeElement.UpgradeData();
-        }
+        UpgradeAllMainElements();
         AllParametersContainer.UpgradeValues();
         OnLevelUp(0);
     }
