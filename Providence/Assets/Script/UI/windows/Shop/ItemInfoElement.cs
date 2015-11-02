@@ -14,19 +14,22 @@ public class ItemInfoElement : MonoBehaviour
     public Image SlotLabel;
     public Image mainIcon;
 
-    public void Init(PlayerItem item)
+    public void Init(BaseItem item)
     {
         SlotLabel.sprite = DataBaseController.Instance.SlotIcon(item.Slot);
         foreach (Transform t in layout)
         {
             Destroy(t.gameObject);
         }
-
-        foreach (var p in item.parameters)
+        var playerItem = item as PlayerItem;
+        if (playerItem != null)
         {
-            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
-            element.Init(p.Key, p.Value);
-            element.transform.SetParent(layout);
+            foreach (var p in playerItem.parameters)
+            {
+                var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
+                element.Init(p.Key, p.Value);
+                element.transform.SetParent(layout);
+            }
         }
 
     }

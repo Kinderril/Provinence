@@ -19,7 +19,7 @@ public class WindowShop : BaseWindow
     public Text moneyField;
     public Text crystalField;
     private IShopExecute selectedShopElement;
-    private PlayerItem selectedPlayerItem;
+    private BaseItem selectedPlayerItem;
     public AllParametersContainer AllParametersContainer;
 
     public override void Init()
@@ -29,7 +29,7 @@ public class WindowShop : BaseWindow
         moneyField.text = MainController.Instance.PlayerData.playerInv[ItemId.money].ToString("0");
         crystalField.text = MainController.Instance.PlayerData.playerInv[ItemId.crystal].ToString("0");
         PlayerItemElements = new List<PlayerItemElement>();
-        List<PlayerItem> items = MainController.Instance.PlayerData.GetAllItems();
+        List<BaseItem> items = MainController.Instance.PlayerData.GetAllItems();
         Debug.Log("items count = " + items.Count);
         foreach (var playerItem in items)
         {
@@ -91,7 +91,7 @@ public class WindowShop : BaseWindow
         }
     }
 
-    private void OnItemSoldCallback(PlayerItem obj)
+    private void OnItemSoldCallback(BaseItem obj)
     {
         Debug.Log("OnItemSold");
         var item = PlayerItemElements.FirstOrDefault(x => x.PlayerItem == obj);
@@ -117,7 +117,7 @@ public class WindowShop : BaseWindow
         MainController.Instance.PlayerData.Sell(selectedPlayerItem);
     }
 
-    private void OnItemEquipedCallback(PlayerItem obj,bool val)
+    private void OnItemEquipedCallback(BaseItem obj,bool val)
     {
         Debug.Log("OnItemEquiped");
         var item = PlayerItemElements.FirstOrDefault(x => x.PlayerItem == obj);
@@ -134,7 +134,7 @@ public class WindowShop : BaseWindow
         ItemInfoElement.Init(selectedPlayerItem);
     }
 
-    private void OnNewItem(PlayerItem playerItem)
+    private void OnNewItem(BaseItem playerItem)
     {
         var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
         element.Init(playerItem, OnSelected);

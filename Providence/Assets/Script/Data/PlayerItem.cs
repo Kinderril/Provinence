@@ -29,29 +29,13 @@ public enum Slot
     Talisman
 }
 
-public class PlayerItem
+public class PlayerItem : BaseItem
 {
-    private const char DELEM = '/';
-    private const char DPAR = '{';
-    private const char MDEL = '>';
-    public Slot Slot;
     public Dictionary<ParamType, float> parameters;
-    private bool isEquped;
     public bool isRare;
-    public string icon = "";
-    public string name= "";
-    public int cost;
-    public bool IsEquped
-    {
-        get { return isEquped; }
-        set
-        {
-            isEquped = value;
-            Save();
-        }
-    }
-    
-    
+    public const char FIRSTCHAR = '%';
+
+
     public PlayerItem(Dictionary<ParamType, float> pparams, Slot slot, bool isRare, float totalPoints)
     {
         this.cost = PointsToCost(totalPoints,isRare);
@@ -83,7 +67,7 @@ public class PlayerItem
         return (int)( points*5*(isRare ? 1.4f : 1) );
     }
     
-    public virtual string Save()
+    public override string Save()
     {
         StringBuilder par = new StringBuilder();
         foreach (var parameter in parameters)
@@ -111,7 +95,12 @@ public class PlayerItem
         return result;
     }
 
-    public virtual void Activate(Hero hero)
+    public override char FirstChar()
+    {
+        return FIRSTCHAR;
+    }
+
+    public override void Activate(Hero hero)
     {
         foreach (var parameter in parameters)
         {
@@ -122,9 +111,7 @@ public class PlayerItem
     public static PlayerItem Creat(string item)
     {
         Debug.Log("Creat from:   " + item);
-
         var mainPart = item.Split(MDEL);
-
         var secondPart = mainPart[1].Split(DELEM);
         Slot slot = (Slot) Convert.ToInt32(secondPart[0]);
         bool isRare = Convert.ToBoolean(secondPart[1]);

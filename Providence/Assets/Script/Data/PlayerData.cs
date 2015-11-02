@@ -20,10 +20,10 @@ public class PlayerData
     public const string BASE_PARAMS = "BASE_PARAMS";
     public const char ITEMS_DELEMETER = ':';
     public DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
-    private List<PlayerItem> playerItems = new List<PlayerItem>();
-    public event Action<PlayerItem> OnNewItem;
-    public event Action<PlayerItem,bool> OnItemEquiped;
-    public event Action<PlayerItem> OnItemSold;
+    private List<BaseItem> playerItems = new List<BaseItem>();
+    public event Action<BaseItem> OnNewItem;
+    public event Action<BaseItem, bool> OnItemEquiped;
+    public event Action<BaseItem> OnItemSold;
     public event Action<Dictionary<MainParam, int>> OnParametersChange;
     public event Action<int> OnLevelUp;
     public event Action<ItemId, int> OnCurrensyChanges;
@@ -113,8 +113,23 @@ public class PlayerData
         {
             if (item.Length > 4)
             {
-                PlayerItem playerItem = PlayerItem.Creat(item);
-                playerItems.Add(playerItem);
+                var fchar = item[0];
+                BaseItem itemBase = null;
+                var subStr = item.Substring(1);
+                switch (fchar)
+                {
+                    case PlayerItem.FIRSTCHAR:
+                        itemBase  = PlayerItem.Creat(subStr);
+                        break;
+                    case BonusItem.FIRSTCHAR:
+                        itemBase = BonusItem.Creat(subStr);
+                        break;
+                    case TalismanItem.FIRSTCHAR:
+                        itemBase = TalismanItem.Creat(subStr);
+                        break;
+                }
+                if (itemBase != null)
+                    playerItems.Add(itemBase);
             }
         }
         MainParameters = new Dictionary<MainParam, int>();
@@ -189,7 +204,7 @@ public class PlayerData
         PlayerPrefs.SetInt(LEVEL,CurrentLevel);
         PlayerPrefs.SetInt(ALLOCATED, AllocatedPoints);
     }
-    public IEnumerable<PlayerItem> GetAllWearedItems()
+    public IEnumerable<BaseItem> GetAllWearedItems()
     {
         return playerItems.Where(x => x.IsEquped);
     }
@@ -223,12 +238,12 @@ public class PlayerData
         Save();
     }
 
-    public List<PlayerItem> GetAllItems()
+    public List<BaseItem> GetAllItems()
     {
         return playerItems;
     }
 
-    public void EquipItem(PlayerItem playerItem,bool equip = true)
+    public void EquipItem(BaseItem playerItem,bool equip = true)
     {
         PlayerItem oldEquipedItem = null;
         if (equip)
@@ -268,7 +283,7 @@ public class PlayerData
         Save();
     }
 
-    public void Sell(PlayerItem playerItem)
+    public void Sell(BaseItem playerItem)
     {
         AddCurrensy(ItemId.money, -playerItem.cost/3);
         playerItem.IsEquped = false;
@@ -282,7 +297,7 @@ public class PlayerData
     public float CalcParameter(ParamType type)
     {
         float v = 0;
-        foreach (var playerItem in playerItems.Where(x=>x.IsEquped && x.parameters.ContainsKey(type)))
+        foreach (PlayerItem playerItem in playerItems.Where(x=>x.IsEquped &&  x is PlayerItem && (x as PlayerItem).parameters.ContainsKey(type)))
         {
             foreach (var parameter in playerItem.parameters)
             {

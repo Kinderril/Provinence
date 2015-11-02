@@ -20,17 +20,20 @@ public class PlayerItemElement : MonoBehaviour
     public Image iconImage;
     public Image SlotLabel;
     public Image equpedImage;
-    public PlayerItem PlayerItem;
+    public BaseItem PlayerItem;
     private Transform oldTransforml;
     private Action<PlayerItemElement> callback;
     private float startTakeTime = 0;
     private bool isDrag = false;
         
-    public void Init(PlayerItem item,Action<PlayerItemElement> OnClicked)
+    public void Init(BaseItem item,Action<PlayerItemElement> OnClicked)
     {
         PlayerItem = item;
         this.callback = OnClicked;
-        rareImage.gameObject.SetActive(item.isRare);
+        if (item is PlayerItem)
+        {
+            rareImage.gameObject.SetActive((item as PlayerItem).isRare);
+        }
         equpedImage.gameObject.SetActive(item.IsEquped);
         iconImage.sprite = Resources.Load<Sprite>(item.icon);
         SlotLabel.sprite = DataBaseController.Instance.SlotIcon(item.Slot);

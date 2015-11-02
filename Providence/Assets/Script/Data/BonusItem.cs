@@ -9,10 +9,16 @@ public enum Bonustype
     money
 }
 
-public class BonusItem : PlayerItem
+public class BonusItem : BaseItem
 {
     private float val;
     private Bonustype bonustype;
+    public const char FIRSTCHAR = '+';
+    public override char FirstChar()
+    {
+        return FIRSTCHAR;
+    }
+
     public override void Activate(Hero hero)
     {
 
@@ -27,10 +33,14 @@ public class BonusItem : PlayerItem
         }
     }
 
-    public BonusItem(Dictionary<ParamType, float> pparams, Slot slot, bool isRare, float totalPoints) 
-        : base(pparams, slot, isRare, totalPoints)
+    public override string Save()
     {
+        return "";
+    }
 
+    public static BaseItem Creat(string subStr)
+    {
+        return null;
     }
 }
 
