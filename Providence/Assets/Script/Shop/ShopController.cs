@@ -6,9 +6,14 @@ using System.Text;
 
 public class ShopController : Singleton<ShopController>
 {
+    public static List<TalismanType> AllTalismanstypes = new List<TalismanType>(); 
     public void Init()
     {
         Connections.Init();
+        foreach (TalismanType talic_type in Enum.GetValues(typeof(TalismanType)))
+        {
+            AllTalismanstypes.Add(talic_type);
+        }
     }
 
     public void BuyItem(IShopExecute shopItem)
@@ -33,9 +38,10 @@ public class ShopController : Singleton<ShopController>
         var slots = new WDictionary<Slot>(new Dictionary<Slot, float>()
         {
             { Slot.body,3f },
-            { Slot.helm,3f },
+            { Slot.helm,4f },
             { Slot.magic_weapon,3f },
-            { Slot.physical_weapon,3f },
+            { Slot.physical_weapon, 5f },
+            { Slot.Talisman, 1f },
         });
         return slots.Random();
     }

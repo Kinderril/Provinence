@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UI;
 
 public class WindowInGame : BaseWindow
@@ -12,6 +14,7 @@ public class WindowInGame : BaseWindow
     public WeaponChooserView WeaponChooser;
     public UIMain UiControls;
     public Transform hitTransform;
+    public List<TalismanButton> TalismanButtons; 
 
     public override void Init()
     {
@@ -23,6 +26,17 @@ public class WindowInGame : BaseWindow
         MainController.Instance.level.MainHero.OnWeaponChanged += OnWeaponChanged;
         WeaponChooser.Init();
         UiControls.Enable(true);
+        int index = 0;
+        foreach (var talic in MainController.Instance.PlayerData.GetAllWearedItems().Where(x =>x.Slot == Slot.Talisman))
+        {
+            var talismain = talic as TalismanItem;
+            TalismanButtons[0].Init(talismain);
+            index++;
+        }
+        for (int i = index; i < TalismanButtons.Count; i++)
+        {
+            TalismanButtons[i].gameObject.SetActive(false);
+        }
     }
 
     private void OnWeaponChanged(Weapon obj)

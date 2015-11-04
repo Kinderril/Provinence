@@ -228,7 +228,7 @@ public class PlayerData
 
     }
 
-    public void AddItem(PlayerItem item)
+    public void AddItem(BaseItem item)
     {
         if (OnNewItem != null)
         {

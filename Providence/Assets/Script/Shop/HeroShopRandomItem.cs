@@ -10,7 +10,26 @@ public class HeroShopRandomItem : IShopExecute
     {
         var slot = ShopController.RandomSlot();
         var levelResult = ShopController.RandomizeLvl(level);
-        Switcher(slot, levelResult);
+        switch (slot)
+        {
+            case Slot.physical_weapon:
+            case Slot.magic_weapon:
+            case Slot.body:
+            case Slot.helm:
+                Switcher(slot, levelResult);
+                break;
+            case Slot.Talisman:
+                CreaTalic(levelResult);
+                break;
+        }
+    }
+
+    private void CreaTalic(int levelResult)
+    {
+        var totalPoints = GetPointsByLvl(levelResult);
+        var type = ShopController.AllTalismanstypes.RandomElement();
+        TalismanItem item = new TalismanItem(totalPoints, type);
+        MainController.Instance.PlayerData.AddItem(item);
     }
 
     private void Switcher(Slot slot, int levelResult)

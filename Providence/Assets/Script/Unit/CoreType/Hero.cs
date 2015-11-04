@@ -45,6 +45,7 @@ public class Hero : Unit
             Parameters.Parameters[v] = playerData.CalcParameter(v);
             Debug.Log("Calc parameter: " + v + " : " + Parameters.Parameters[v]);
         }
+
         Parameters.Parameters[ParamType.PPower] *= damageBonusFromItem + 1f;
         Parameters.Parameters[ParamType.MPower] *= damageBonusFromItem + 1f;
         OnGetItems.Stop(true);
