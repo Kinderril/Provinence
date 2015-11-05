@@ -173,9 +173,9 @@ public class Unit : MonoBehaviour
         float mdef = Parameters.Parameters[ParamType.MDef];
         float pdef = Parameters.Parameters[ParamType.PDef];
 
-        foreach (var specialAbility in bullet.weapon.Abilities)
-        {
-            switch (specialAbility)
+//        foreach (var specialAbility in bullet.weapon.PlayerItem.specialAbilities)
+//        {
+            switch (bullet.weapon.PlayerItem.specialAbilities)
             {
                 case SpecialAbility.Critical:
                     var isCrit = UnityEngine.Random.Range(0, 10) < 2;
@@ -205,7 +205,7 @@ public class Unit : MonoBehaviour
                     pdef = pdef/2;
                     break;
             }
-        }
+//        }
         
 
 

@@ -30,6 +30,7 @@ public class Level
     public int difficult = 1;
     public bool isPLaying = true;
     private PortalsController PortalsController = new PortalsController();
+    public Action OnEndLevel;
 
     public Level()
     {
@@ -108,6 +109,10 @@ public class Level
         GameObject.Destroy(MainHero.gameObject);
         PlayerData.AddInventory(inventory);
         PlayerData.Save();
+        if (OnEndLevel != null)
+        {
+            OnEndLevel();
+        }
     }
 
     public DictionaryOfItemAndInt GetAllCollectedItems()

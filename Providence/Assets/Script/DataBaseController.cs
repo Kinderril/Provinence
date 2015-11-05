@@ -14,6 +14,8 @@ public enum ItemId
 public class DataBaseController : Singleton<DataBaseController>
 {
     private readonly Dictionary<ItemId, Sprite> ItemIdSprites = new Dictionary<ItemId, Sprite>();
+    private readonly Dictionary<TalismanType, Sprite> TalismansSprites = new Dictionary<TalismanType, Sprite>();
+    private readonly Dictionary<SpecialAbility, Sprite> SpecialsSprites = new Dictionary<SpecialAbility, Sprite>();
     private readonly Dictionary<MainParam, Sprite> MainParamSprites = new Dictionary<MainParam, Sprite>();
     private readonly Dictionary<ParamType, Sprite> ParamTypeSprites = new Dictionary<ParamType, Sprite>();
     private readonly Dictionary<Slot, Sprite> SlotSprites = new Dictionary<Slot, Sprite>();
@@ -62,6 +64,14 @@ public class DataBaseController : Singleton<DataBaseController>
         {
             ParamTypeSprites.Add(mp.type, Resources.Load<Sprite>("sprites/Parameters/" + mp.path));
         }
+        foreach (var mp in DataStructs.SpecialAbilityImage)
+        {
+            SpecialsSprites.Add(mp.type, Resources.Load<Sprite>("sprites/Specials/" + mp.path));
+        }
+        foreach (var mp in DataStructs.TalismanImage)
+        {
+            TalismansSprites.Add(mp.type, Resources.Load<Sprite>("sprites/Talisman/" + mp.path));
+        }
     }
 
     public Sprite MainParameterIcon(MainParam mp)
@@ -82,6 +92,15 @@ public class DataBaseController : Singleton<DataBaseController>
     public Sprite ParameterIcon(ParamType mp)
     {
         return ParamTypeSprites[mp];
+    }
+    public Sprite SpecialAbilityIcon(SpecialAbility itemId)
+    {
+        return SpecialsSprites[itemId];
+    }
+
+    public Sprite TalismanIcon(TalismanType mp)
+    {
+        return TalismansSprites[mp];
     }
 
     public T GetItem<T>(T item, Vector3 pos) where T : MonoBehaviour

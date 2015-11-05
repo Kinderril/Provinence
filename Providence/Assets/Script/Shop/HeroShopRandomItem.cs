@@ -39,7 +39,7 @@ public class HeroShopRandomItem : IShopExecute
         //Debug.Log("iffff " + diff);
         bool isRare = diff > 0.95f;
         totalPoints *= diff;
-        float contest = UnityEngine.Random.Range(0.65f, 1f);
+        float contest = UnityEngine.Random.Range(0.60f, 1f);
         if (contest > 0.9f)
             contest = 1f;
         var pparams = new Dictionary<ParamType,float>();
@@ -53,6 +53,11 @@ public class HeroShopRandomItem : IShopExecute
             pparams.Add(secondary, secondaryValue);
         }
         PlayerItem item = new PlayerItem(pparams,slot,isRare, totalPoints);
+        if (contest < 0.65f)
+        {
+            var spec = ShopController.AllSpecialAbilities.RandomElement();
+            item.specialAbilities = spec;
+        }
         MainController.Instance.PlayerData.AddItem(item);
     }
 

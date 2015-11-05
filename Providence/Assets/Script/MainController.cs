@@ -22,8 +22,6 @@ public class MainController : Singleton<MainController>
     public MainState MainState;
     public PlayerData PlayerData;
     
-
-	// Use this for initialization
 	void Start () {
         WindowManager.Instance.Init();
         ShopController.Instance.Init();

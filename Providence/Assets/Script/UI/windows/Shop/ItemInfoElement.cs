@@ -13,6 +13,7 @@ public class ItemInfoElement : MonoBehaviour
     public Transform layout;
     public Image SlotLabel;
     public Image mainIcon;
+    public Image SpecIcon;
 
     public void Init(BaseItem item)
     {
@@ -30,8 +31,30 @@ public class ItemInfoElement : MonoBehaviour
                 element.Init(p.Key, p.Value);
                 element.transform.SetParent(layout);
             }
+            if (playerItem.specialAbilities != SpecialAbility.none)
+            {
+                SpecIcon.sprite = DataBaseController.Instance.SpecialAbilityIcon(playerItem.specialAbilities);
+            }
+            mainIcon.sprite = Resources.Load<Sprite>("sprites/PlayerItems/" + playerItem.icon);
+            return;
         }
+        var talismanItem = item as TalismanItem;
+        if (talismanItem != null)
+        {
+            mainIcon.sprite = DataBaseController.Instance.TalismanIcon(talismanItem.TalismanType);
+            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
+            element.Init(ParamType.PPower, talismanItem.power);
+            element.Init(ParamType.MDef, talismanItem.costShoot);
+            element.transform.SetParent(layout);
+        }
+        var bonusItem = item as BonusItem;
+        if (bonusItem != null)
+        {
+//            mainIcon.sprite = DataBaseController.Instance.TalismanIcon(bonusItem.Bonustype);
+            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
+            element.Init(ParamType.PPower, bonusItem.power);
 
+        }
     }
 
     public void Init(IShopExecute item)

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum SpecialAbility
 {
-    none,
+    none = 0,
     penetrating,
     AOE,
     Critical,
@@ -32,6 +32,7 @@ public enum Slot
 public class PlayerItem : BaseItem
 {
     public Dictionary<ParamType, float> parameters;
+    public SpecialAbility specialAbilities = SpecialAbility.none; 
     public bool isRare;
     public const char FIRSTCHAR = '%';
 
@@ -90,7 +91,9 @@ public class PlayerItem : BaseItem
         ss.Append(DELEM);
         ss.Append(isEquped.ToString());
         ss.Append(DELEM);
-        var result = par.ToString() + MDEL + ss.ToString();
+        StringBuilder specials = new StringBuilder();
+        specials.Append((int)specialAbilities);
+        var result = par.ToString() + MDEL + ss.ToString() + MDEL + specials.ToString();
         Debug.Log("ITEM SAVE STRING :" + result);
         return result;
     }
@@ -111,18 +114,19 @@ public class PlayerItem : BaseItem
     public static PlayerItem Creat(string item)
     {
         Debug.Log("Creat from:   " + item);
-        var mainPart = item.Split(MDEL);
-        var secondPart = mainPart[1].Split(DELEM);
-        Slot slot = (Slot) Convert.ToInt32(secondPart[0]);
-        bool isRare = Convert.ToBoolean(secondPart[1]);
-        string icon = secondPart[2];
-        string name = secondPart[3];
-        int cost = Convert.ToInt32(secondPart[4]);
-        bool isEquped = Convert.ToBoolean(secondPart[5]);
+        var Part1 = item.Split(MDEL);
+        var Part2 = Part1[1].Split(DELEM);
+        var Part3 = Part1[2].Split(DELEM);
+        Slot slot = (Slot) Convert.ToInt32(Part2[0]);
+        bool isRare = Convert.ToBoolean(Part2[1]);
+        string icon = Part2[2];
+        string name = Part2[3];
+        int cost = Convert.ToInt32(Part2[4]);
+        bool isEquped = Convert.ToBoolean(Part2[5]);
 
-        var firstPart = mainPart[0].Split(DELEM);
+        var firstPart = Part1[0].Split(DELEM);
         Dictionary<ParamType, float> itemParameters = new Dictionary<ParamType, float>();
-        Debug.Log(">>>mainPart[1]   " + mainPart[0]);
+        Debug.Log(">>>mainPart[1]   " + Part1[0]);
         foreach (var s in firstPart)
         {
             Debug.Log(">>>>>   " + s);
@@ -133,9 +137,9 @@ public class PlayerItem : BaseItem
             float value = Convert.ToSingle(pp[1]);
             itemParameters.Add(type,value);
         }
-
         PlayerItem playerItem = new PlayerItem(itemParameters,slot,isRare,cost,isEquped,name,icon);
-
+        var spec = (SpecialAbility)Convert.ToInt32(Part3);
+        playerItem.specialAbilities = spec;
         return playerItem;
     }
 }

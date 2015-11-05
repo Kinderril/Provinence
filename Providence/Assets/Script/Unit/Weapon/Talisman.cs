@@ -25,7 +25,18 @@ public class Talisman
     {
         switch (sourseItem.TalismanType)
         {
-
+            case TalismanType.firewave:
+                break;
+            case TalismanType.chain:
+                break;
+            case TalismanType.massSlow:
+                break;
+            case TalismanType.heal:
+                break;
+            case TalismanType.doubleDamage:
+                TimeEffect effect = new TimeEffect();
+                effect.Start(MainController.Instance.level.MainHero, EffectType.doubleDamage);
+                break;
         }
         AddEnergy(-sourseItem.costShoot);
         DoCallback();

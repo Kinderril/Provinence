@@ -34,6 +34,18 @@ public struct SlotImage
     public Slot type;
     public string path;
 }
+[Serializable]
+public struct SpecialAbilityImage
+{
+    public SpecialAbility type;
+    public string path;
+}
+[Serializable]
+public struct TalismanImage
+{
+    public TalismanType type;
+    public string path;
+}
 public class DataStructs : MonoBehaviour
 {
     public MainParameterImage[] MainParametersImages;
@@ -41,6 +53,8 @@ public class DataStructs : MonoBehaviour
     public ItemImage[] ItemImage;
     public SlotImage[] SlotImage;
     public ColorUI[] ColorsOfUI;
+    public TalismanImage[] TalismanImage;
+    public SpecialAbilityImage[] SpecialAbilityImage;
     public int[] costParameterByLvl;
 }
 

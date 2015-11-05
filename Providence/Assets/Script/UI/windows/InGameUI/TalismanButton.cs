@@ -30,6 +30,7 @@ public class TalismanButton : MonoBehaviour
 
     public void OnClick()
     {
+        Debug.Log("Talisman USE!");
         talicLogic.Use();
     }
 

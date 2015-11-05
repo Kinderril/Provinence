@@ -6,7 +6,8 @@ using System.Text;
 
 public class ShopController : Singleton<ShopController>
 {
-    public static List<TalismanType> AllTalismanstypes = new List<TalismanType>(); 
+    public static List<TalismanType> AllTalismanstypes = new List<TalismanType>();
+    public static List<SpecialAbility> AllSpecialAbilities = new List<SpecialAbility>();
     public void Init()
     {
         Connections.Init();

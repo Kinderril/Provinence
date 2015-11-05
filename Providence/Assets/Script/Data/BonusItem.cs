@@ -11,8 +11,8 @@ public enum Bonustype
 
 public class BonusItem : BaseItem
 {
-    private float val;
-    private Bonustype bonustype;
+    public float power;
+    public Bonustype Bonustype;
     public const char FIRSTCHAR = '+';
     public override char FirstChar()
     {
@@ -22,13 +22,13 @@ public class BonusItem : BaseItem
     public override void Activate(Hero hero)
     {
 
-        switch (bonustype)
+        switch (Bonustype)
         {
             case Bonustype.damage:
-                hero.damageBonusFromItem = val;
+                hero.damageBonusFromItem = power;
                 break;
             case Bonustype.money:
-                hero.moneyBonusFromItem = val;
+                hero.moneyBonusFromItem = power;
                 break;
         }
     }
