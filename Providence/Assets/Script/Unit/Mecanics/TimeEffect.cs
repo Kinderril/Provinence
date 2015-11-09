@@ -7,6 +7,8 @@ public enum EffectType
 {
     doubleDamage,
     slow,
+    speed,
+    freez
 }
 
 public class TimeEffect
@@ -32,6 +34,9 @@ public class TimeEffect
             case EffectType.slow:
                 targetUnit.Parameters.Parameters[ParamType.Speed] /= 3f;
                 break;
+            case EffectType.freez:
+
+                break;
         }
     }
 
@@ -51,6 +56,9 @@ public class TimeEffect
             case EffectType.slow:
 
                 targetUnit.Parameters.Parameters[ParamType.Speed] *= 3f;
+                break;
+            case EffectType.freez:
+
                 break;
         }
         OnEndLevel();

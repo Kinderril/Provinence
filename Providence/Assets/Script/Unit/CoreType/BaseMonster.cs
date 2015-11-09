@@ -176,6 +176,10 @@ public class BaseMonster : Unit
                 break;
         }
     }
+    public bool IsInRadius(float rad)
+    {
+        return mainHeroDist < rad;
+    }
 
     private void EndAttack()
     {

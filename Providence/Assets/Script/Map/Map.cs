@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -78,6 +79,16 @@ public class Map : Singleton<Map>
         obj.OnDead -= OnEnemyDead;
         enemies.Remove(obj);
     }
+
+    public List<BaseMonster> GetEnimiesInRadius(float rad)
+    {
+        List < BaseMonster > list = new List<BaseMonster>();
+        foreach (var enemy in enemies.Where(x => x is BaseMonster && (x as BaseMonster).IsInRadius(rad)))
+        {
+            list.Add(enemy as BaseMonster);
+        }
+        return list;
+    } 
 
     public Unit FindClosesEnemy(Vector3 v)
     {

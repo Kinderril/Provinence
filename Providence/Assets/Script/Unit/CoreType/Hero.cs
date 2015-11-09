@@ -154,4 +154,9 @@ public class Hero : Unit
         base.Dead();
         MainController.Instance.EndLevel();
     }
+
+    public void GetHeal(float currentPower)
+    {
+        CurHp += currentPower;
+    }
 }
