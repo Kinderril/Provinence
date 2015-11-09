@@ -141,7 +141,7 @@ public class Unit : MonoBehaviour
     
     public void MoveToPosition(Vector3 vector3)
     {
-        Debug.Log("MOve to: " + vector3);
+//        Debug.Log("MOve to: " + vector3);
         if (action != null)
         {
             action.End();
@@ -252,4 +252,5 @@ public class Unit : MonoBehaviour
     {
         isDead = true;
     }
+
 }

@@ -25,13 +25,24 @@ public class Talisman
     {
         switch (sourseItem.TalismanType)
         {
+            case  TalismanType.speed:
+                TimeEffect effectDouble = new TimeEffect();
+                effectDouble.Start(MainController.Instance.level.MainHero, EffectType.speed);
+                break;
+            case TalismanType.massPush:
+                break;
             case TalismanType.firewave:
                 break;
-            case TalismanType.chain:
-                break;
-            case TalismanType.massSlow:
+            case TalismanType.massFreez:
+                var targets = Map.Instance.GetEnimiesInRadius(80);
+                foreach (var baseMonster in targets)
+                {
+                    TimeEffect freezEffect = new TimeEffect();
+                    freezEffect.Start(MainController.Instance.level.MainHero, EffectType.freez);
+                }
                 break;
             case TalismanType.heal:
+                MainController.Instance.level.MainHero.GetHeal(currentPower);
                 break;
             case TalismanType.doubleDamage:
                 TimeEffect effect = new TimeEffect();

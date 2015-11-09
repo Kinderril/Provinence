@@ -7,10 +7,12 @@ using System.Text;
 public enum TalismanType
 {
     firewave,
-    chain,
-    massSlow,
+    massPush,
+    massFreez,
     heal,
     doubleDamage,
+    speed,
+    megaArmor
 }
 
 public class TalismanItem : BaseItem
