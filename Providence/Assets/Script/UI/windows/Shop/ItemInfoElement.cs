@@ -31,7 +31,9 @@ public class ItemInfoElement : MonoBehaviour
                 element.Init(p.Key, p.Value);
                 element.transform.SetParent(layout);
             }
-            if (playerItem.specialAbilities != SpecialAbility.none)
+            var haveSpec = playerItem.specialAbilities != SpecialAbility.none;
+            SpecIcon.gameObject.SetActive(haveSpec);
+            if (haveSpec)
             {
                 SpecIcon.sprite = DataBaseController.Instance.SpecialAbilityIcon(playerItem.specialAbilities);
             }

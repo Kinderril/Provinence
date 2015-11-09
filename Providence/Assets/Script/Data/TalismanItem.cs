@@ -26,6 +26,7 @@ public class TalismanItem : BaseItem
         this.power = totalPoints;
         this.TalismanType = type;
         costShoot = power*1.5f;
+        Slot = Slot.Talisman;
     }
 
     public override char FirstChar()

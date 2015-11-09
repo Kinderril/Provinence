@@ -139,6 +139,7 @@ public class WindowShop : BaseWindow
         var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
         element.Init(playerItem, OnSelected);
         element.transform.SetParent(layoutMyInventory);
+        PlayerItemElements.Add(element);
     }
 
     public override void Close()

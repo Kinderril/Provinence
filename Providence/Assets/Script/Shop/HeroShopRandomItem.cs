@@ -53,10 +53,11 @@ public class HeroShopRandomItem : IShopExecute
             pparams.Add(secondary, secondaryValue);
         }
         PlayerItem item = new PlayerItem(pparams,slot,isRare, totalPoints);
-        if (contest < 0.65f)
+        if (contest < 0.85f)//.65f
         {
             var spec = ShopController.AllSpecialAbilities.RandomElement();
             item.specialAbilities = spec;
+            Debug.Log("WITH SPEC::: " + item.specialAbilities);
         }
         MainController.Instance.PlayerData.AddItem(item);
     }

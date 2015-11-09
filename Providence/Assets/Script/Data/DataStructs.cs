@@ -32,19 +32,19 @@ public struct ItemImage
 public struct SlotImage
 {
     public Slot type;
-    public string path;
+    public Sprite path;
 }
 [Serializable]
 public struct SpecialAbilityImage
 {
     public SpecialAbility type;
-    public string path;
+    public Sprite path;
 }
 [Serializable]
 public struct TalismanImage
 {
     public TalismanType type;
-    public string path;
+    public Sprite path;
 }
 public class DataStructs : MonoBehaviour
 {

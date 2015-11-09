@@ -54,7 +54,7 @@ public class DataBaseController : Singleton<DataBaseController>
         }
         foreach (var mp in DataStructs.SlotImage)
         {
-            SlotSprites.Add(mp.type, Resources.Load<Sprite>("sprites/Slots/" + mp.path));
+            SlotSprites.Add(mp.type, mp.path);
         }
         foreach (var mp in DataStructs.ItemImage)
         {
@@ -66,11 +66,11 @@ public class DataBaseController : Singleton<DataBaseController>
         }
         foreach (var mp in DataStructs.SpecialAbilityImage)
         {
-            SpecialsSprites.Add(mp.type, Resources.Load<Sprite>("sprites/Specials/" + mp.path));
+            SpecialsSprites.Add(mp.type,  mp.path);
         }
         foreach (var mp in DataStructs.TalismanImage)
         {
-            TalismansSprites.Add(mp.type, Resources.Load<Sprite>("sprites/Talisman/" + mp.path));
+            TalismansSprites.Add(mp.type,  mp.path);
         }
     }
 

@@ -15,6 +15,10 @@ public class ShopController : Singleton<ShopController>
         {
             AllTalismanstypes.Add(talic_type);
         }
+        foreach (SpecialAbility type in Enum.GetValues(typeof(SpecialAbility)))
+        {
+            AllSpecialAbilities.Add(type);
+        }
     }
 
     public void BuyItem(IShopExecute shopItem)

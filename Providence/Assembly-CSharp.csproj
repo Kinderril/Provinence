@@ -45,11 +45,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\Data\BaseItem.cs" />
      <Compile Include="Assets\Script\Data\BonusItem.cs" />
      <Compile Include="Assets\Script\Data\DataStructs.cs" />
      <Compile Include="Assets\Script\Data\PlayerData.cs" />
      <Compile Include="Assets\Script\Data\PlayerItem.cs" />
      <Compile Include="Assets\Script\Data\ShopItem.cs" />
+     <Compile Include="Assets\Script\Data\TalismanItem.cs" />
      <Compile Include="Assets\Script\DataBaseController.cs" />
      <Compile Include="Assets\Script\MainController.cs" />
      <Compile Include="Assets\Script\Map\BaseBornPosition.cs" />
@@ -71,6 +73,7 @@
      <Compile Include="Assets\Script\UI\WindowManager.cs" />
      <Compile Include="Assets\Script\UI\windows\BaseWindow.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\FlyNumberWIthDependence.cs" />
+     <Compile Include="Assets\Script\UI\windows\InGameUI\TalismanButton.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponButton.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponButtonView.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponChooser.cs" />
@@ -105,6 +108,7 @@
      <Compile Include="Assets\Script\Unit\CoreType\BaseMonster.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\Hero.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\UnitParameters.cs" />
+     <Compile Include="Assets\Script\Unit\Mecanics\TimeEffect.cs" />
      <Compile Include="Assets\Script\Unit\Unit.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\Bullet.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\BulletEffect.cs" />
