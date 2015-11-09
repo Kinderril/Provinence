@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 
 public enum TalismanType
@@ -31,6 +32,14 @@ public class TalismanItem : BaseItem
         Slot = Slot.Talisman;
     }
 
+    public TalismanItem(float power1, float costShoot1, global::TalismanType type)
+    {
+        this.power = power1;
+        this.costShoot = costShoot1;
+        this.TalismanType = type;
+        Slot = Slot.Talisman;
+    }
+
     public override char FirstChar()
     {
         return FIRSTCHAR;
@@ -43,12 +52,20 @@ public class TalismanItem : BaseItem
 
     public override string Save()
     {
-        return "";
+        return power.ToString() + MDEL + costShoot.ToString() + MDEL + (int)TalismanType + MDEL + IsEquped;
     }
 
-    public static BaseItem Creat(string subStr)
+    public static TalismanItem Creat(string subStr)
     {
-        return null;
+        Debug.Log("TalismanItem Creat from:   " + subStr);
+        var pp = subStr.Split(MDEL);
+        float power = Convert.ToSingle(pp[0]);
+        float costShoot = Convert.ToSingle(pp[1]);
+        global::TalismanType type = (TalismanType)Convert.ToInt32(pp[2]);
+        bool isEquiped = Convert.ToBoolean(pp[3]);
+        TalismanItem talic = new TalismanItem(power,costShoot,type);
+        talic.IsEquped = isEquiped;
+        return talic;
     }
 }
 

@@ -14,17 +14,20 @@ public class WindowShop : BaseWindow
     public ShopItemElement PrefabShopItemElement;
     public ItemInfoElement ItemInfoElement;
     private List<PlayerItemElement> PlayerItemElements;
-    public RectTransform deletePlace;
-    public RectTransform equipPlace;
     public Text moneyField;
     public Text crystalField;
     private IShopExecute selectedShopElement;
     private BaseItem selectedPlayerItem;
     public AllParametersContainer AllParametersContainer;
+    public Button BuyButton;
+    public Button SellButton;
+    public Button EquipButton;
+    public Button UnEquipButton;
 
     public override void Init()
     {
         base.Init();
+        ItemInfoElement.SetCallBack(OnItemInit);
         AllParametersContainer.Init();
         moneyField.text = MainController.Instance.PlayerData.playerInv[ItemId.money].ToString("0");
         crystalField.text = MainController.Instance.PlayerData.playerInv[ItemId.crystal].ToString("0");
@@ -50,6 +53,22 @@ public class WindowShop : BaseWindow
         MainController.Instance.PlayerData.OnItemEquiped += OnItemEquipedCallback;
         MainController.Instance.PlayerData.OnItemSold += OnItemSoldCallback;
         MainController.Instance.PlayerData.OnCurrensyChanges += OnCurrensyChanges;
+    }
+
+    private void OnItemInit(ItemOwner obj)
+    {
+        Debug.Log(obj);
+        bool val = false;
+        switch (obj)
+        {
+            case ItemOwner.Shop:
+                val = true;
+                break;
+        }
+        BuyButton.gameObject.SetActive(val);
+        EquipButton.gameObject.SetActive(!val);
+        UnEquipButton.gameObject.SetActive(!val);
+        SellButton.gameObject.SetActive(!val);
     }
 
     public void OnBuySimpleChest()

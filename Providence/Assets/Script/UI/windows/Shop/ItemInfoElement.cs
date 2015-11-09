@@ -5,23 +5,32 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+public enum ItemOwner
+{
+    Shop,
+    Player
+}
 public class ItemInfoElement : MonoBehaviour
 {
     public ParameterElement Prefab;
     public Text NameLabel;
     public Transform layout;
+    public Transform moneyLayout;
     public Image SlotLabel;
     public Image mainIcon;
     public Image SpecIcon;
+    public Action<ItemOwner> OnInitCallback;
+
+    public void SetCallBack(Action<ItemOwner> OnInitCallback)
+    {
+        this.OnInitCallback = OnInitCallback;
+    }
+
 
     public void Init(BaseItem item)
     {
+        Clear();
         SlotLabel.sprite = DataBaseController.Instance.SlotIcon(item.Slot);
-        foreach (Transform t in layout)
-        {
-            Destroy(t.gameObject);
-        }
         var playerItem = item as PlayerItem;
         if (playerItem != null)
         {
@@ -35,10 +44,10 @@ public class ItemInfoElement : MonoBehaviour
             SpecIcon.gameObject.SetActive(haveSpec);
             if (haveSpec)
             {
+                SpecIcon.gameObject.SetActive(true);
                 SpecIcon.sprite = DataBaseController.Instance.SpecialAbilityIcon(playerItem.specialAbilities);
             }
             mainIcon.sprite = Resources.Load<Sprite>("sprites/PlayerItems/" + playerItem.icon);
-            return;
         }
         var talismanItem = item as TalismanItem;
         if (talismanItem != null)
@@ -57,28 +66,48 @@ public class ItemInfoElement : MonoBehaviour
             element.Init(ParamType.PPower, bonusItem.power);
 
         }
+        InitCost(0, item.cost / 3);
+        OnInitCallback(ItemOwner.Player);
     }
 
     public void Init(IShopExecute item)
     {
+        Clear();
+        SpecIcon.gameObject.SetActive(false);
+        NameLabel.text = "Level:" + item.Parameter;
+        mainIcon.sprite = item.icon;
+        InitCost(item.CrystalCost, item.MoneyCost);
+        OnInitCallback(ItemOwner.Shop);
+    }
+
+    private void InitCost(int crystals,int money)
+    {
+        Debug.Log("Init cost : " + crystals + "    " + money);
+        if (crystals > 0)
+        {
+            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
+            element.Init(ItemId.crystal, crystals);
+            element.transform.SetParent(moneyLayout);
+        }
+        if (money > 0)
+        {
+            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
+            element.Init(ItemId.money, money);
+            element.transform.SetParent(moneyLayout);
+        }
+    }
+
+    private void Clear()
+    {
+
         foreach (Transform t in layout)
         {
             Destroy(t.gameObject);
         }
-        NameLabel.text = "Level:" + item.Parameter;
-        if (item.CrystalCost > 0)
+        foreach (Transform t in moneyLayout)
         {
-            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
-            element.Init(ItemId.crystal, item.CrystalCost);
-            element.transform.SetParent(layout);
+            Destroy(t.gameObject);
         }
-        if (item.MoneyCost > 0)
-        {
-            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
-            element.Init(ItemId.money, item.MoneyCost);
-            element.transform.SetParent(layout);
-        }
-        mainIcon.sprite = item.icon;
     }
 }
 

@@ -27,7 +27,9 @@ public class WindowInGame : BaseWindow
         WeaponChooser.Init();
         UiControls.Enable(true);
         int index = 0;
-        foreach (var talic in MainController.Instance.PlayerData.GetAllWearedItems().Where(x =>x.Slot == Slot.Talisman))
+        var allTalismans = MainController.Instance.PlayerData.GetAllWearedItems().Where(x => x.Slot == Slot.Talisman);
+        Debug.Log("allTalismans " + allTalismans.Count());
+        foreach (var talic in allTalismans)
         {
             var talismain = talic as TalismanItem;
             TalismanButtons[0].Init(talismain);

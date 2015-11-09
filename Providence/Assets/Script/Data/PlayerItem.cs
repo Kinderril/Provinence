@@ -39,7 +39,7 @@ public class PlayerItem : BaseItem
 
     public PlayerItem(Dictionary<ParamType, float> pparams, Slot slot, bool isRare, float totalPoints)
     {
-        this.cost = PointsToCost(totalPoints,isRare);
+        this.cost = PointsToCost(totalPoints, isRare);
         this.parameters = pparams;
         this.Slot = slot;
         this.isRare = isRare;
@@ -94,7 +94,7 @@ public class PlayerItem : BaseItem
         StringBuilder specials = new StringBuilder();
         specials.Append((int)specialAbilities);
         var result = par.ToString() + MDEL + ss.ToString() + MDEL + specials.ToString();
-        //Debug.Log("ITEM SAVE STRING :" + result);
+        Debug.Log("ITEM SAVE STRING :" + result);
         return result;
     }
 
@@ -116,7 +116,7 @@ public class PlayerItem : BaseItem
         Debug.Log("Creat from:   " + item);
         var Part1 = item.Split(MDEL);
         var Part2 = Part1[1].Split(DELEM);
-        var Part3 = Part1[2].Split(DELEM);
+        var Part3 = Part1[2];
         Slot slot = (Slot) Convert.ToInt32(Part2[0]);
         bool isRare = Convert.ToBoolean(Part2[1]);
         string icon = Part2[2];
@@ -126,10 +126,9 @@ public class PlayerItem : BaseItem
 
         var firstPart = Part1[0].Split(DELEM);
         Dictionary<ParamType, float> itemParameters = new Dictionary<ParamType, float>();
-        Debug.Log(">>>mainPart[1]   " + Part1[0]);
+        //Debug.Log(">>>Part1[0]   " + Part1[0]);
         foreach (var s in firstPart)
         {
-            Debug.Log(">>>>>   " + s);
             if (s.Length < 3)
                 break;
             var pp = s.Split(DPAR);
@@ -137,9 +136,11 @@ public class PlayerItem : BaseItem
             float value = Convert.ToSingle(pp[1]);
             itemParameters.Add(type,value);
         }
-        PlayerItem playerItem = new PlayerItem(itemParameters,slot,isRare,cost,isEquped,name,icon);
-        var spec = (SpecialAbility)Convert.ToInt32(Part3);
+        PlayerItem playerItem = new PlayerItem(itemParameters, slot, isRare, cost, isEquped, name, icon);
+        //Debug.Log(">>>Part3[0]   :" + Part3.ToString());
+        var spec = (SpecialAbility) Convert.ToInt32(Part3.ToString());
         playerItem.specialAbilities = spec;
+        
         return playerItem;
     }
 }

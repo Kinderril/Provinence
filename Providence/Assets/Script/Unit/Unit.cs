@@ -175,6 +175,7 @@ public class Unit : MonoBehaviour
 
 //        foreach (var specialAbility in bullet.weapon.PlayerItem.specialAbilities)
 //        {
+
             switch (bullet.weapon.PlayerItem.specialAbilities)
             {
                 case SpecialAbility.Critical:

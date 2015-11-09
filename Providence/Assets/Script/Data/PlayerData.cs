@@ -114,6 +114,7 @@ public class PlayerData
             if (item.Length > 4)
             {
                 var fchar = item[0];
+                Debug.Log("Split FC " + fchar + "   " + item);
                 BaseItem itemBase = null;
                 var subStr = item.Substring(1);
                 switch (fchar)
@@ -175,11 +176,19 @@ public class PlayerData
 
             PlayerItem item1 = new PlayerItem(new Dictionary<ParamType, float>() { {ParamType.PPower, 15} },Slot.physical_weapon, false,1);
             PlayerItem item2 = new PlayerItem(new Dictionary<ParamType, float>() { { ParamType.MPower, 10 } }, Slot.magic_weapon, false, 1);
-            playerItems.Add(item2);
-            playerItems.Add(item1);
-            EquipItem(item1);
-            EquipItem(item2);
+            var talisman = new TalismanItem(1,TalismanType.doubleDamage);
+            
+            AddAndEquip(item1);
+            AddAndEquip(item2);
+            AddAndEquip(talisman);
         }
+    }
+
+    private void AddAndEquip(BaseItem item)
+    {
+        playerItems.Add(item);
+        EquipItem(item);
+        
     }
 
     public void Save()
@@ -196,7 +205,7 @@ public class PlayerData
         string itemsStr = "";
         foreach (var playerItem in playerItems)
         {
-            itemsStr += playerItem.Save() + ITEMS_DELEMETER;
+            itemsStr += playerItem.FirstChar() + playerItem.Save() + ITEMS_DELEMETER;
             
         }
         PlayerPrefs.SetString(ITEMS, itemsStr);
@@ -285,7 +294,7 @@ public class PlayerData
 
     public void Sell(BaseItem playerItem)
     {
-        AddCurrensy(ItemId.money, -playerItem.cost/3);
+        AddCurrensy(ItemId.money, playerItem.cost/3);
         playerItem.IsEquped = false;
         if (OnItemSold != null)
         {

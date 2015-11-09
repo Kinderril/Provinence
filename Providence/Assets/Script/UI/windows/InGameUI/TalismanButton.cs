@@ -18,6 +18,10 @@ public class TalismanButton : MonoBehaviour
         this.TalismanItem = talic;
         talicLogic = new Talisman(TalismanItem);
         talicLogic.OnReady += OnReady;
+        gameObject.SetActive(true);
+        icon.sprite = DataBaseController.Instance.TalismanIcon(talic.TalismanType);
+        Debug.Log("Talisman inited");
+        OnReady(false, 0);
     }
 
     private void OnReady(bool isReady, float percent)

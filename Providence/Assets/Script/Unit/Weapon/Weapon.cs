@@ -14,8 +14,9 @@ public class Weapon : MonoBehaviour
     public WeaponParameters Parameters;
     public PlayerItem PlayerItem;
 
-    public void Init(Unit owner)
+    public void Init(Unit owner,PlayerItem PlayerItem)
     {
+        this.PlayerItem = PlayerItem;
         pSystemOnShot = GetComponentInChildren<ParticleSystem>();
         if (pSystemOnShot != null)
         {
