@@ -60,8 +60,8 @@ public class Bullet : MonoBehaviour
     {
         AffecttedUnits.Add(unit);
         unit.GetHit(this);
-//        foreach (var specialAbility in weapon.PlayerItem.specialAbilities)
-//        {
+        if (weapon.PlayerItem != null)
+        {
             switch (weapon.PlayerItem.specialAbilities)
             {
                 case SpecialAbility.penetrating:
@@ -86,7 +86,7 @@ public class Bullet : MonoBehaviour
                     }
                     break;
             }
-//        }
+        }
         Death();
     }
 

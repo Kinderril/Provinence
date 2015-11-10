@@ -64,26 +64,26 @@ public class Unit : MonoBehaviour
         if(animationController == null)
             Debug.LogError("NO ANImator Controller");
         curHp = Parameters.Parameters[ParamType.Hp];
-        List<Weapon> weapons = new List<Weapon>();
+        //List<Weapon> weapons = new List<Weapon>();
         foreach (var inventoryWeapon in InventoryWeapons)
         {
-            var w = GameObject.Instantiate(inventoryWeapon.gameObject).GetComponent<Weapon>();
-            weapons.Add(w);
-            w.Init(this);
-            if (weaponsContainer != null)
-                w.transform.SetParent(weaponsContainer,true);
-            else
-                w.transform.SetParent(transform, true);
-            w.transform.localPosition = Vector3.zero;
+            inventoryWeapon.Init(this,null);
         }
         Control.SetSpped(Parameters.Parameters[ParamType.Speed]);
-        InventoryWeapons = weapons;
         if (InventoryWeapons.Count == 0)
         {
             Debug.LogWarning("NO WEAPON!!! " + gameObject.name);
             return;
         }
         curWeapon = InventoryWeapons[0];
+    }
+
+    protected virtual void InitWEapons()
+    {
+        foreach (var inventoryWeapon in InventoryWeapons)
+        {
+            inventoryWeapon.Init(this, null);
+        }
     }
     
     public virtual void TryAttack(Vector3 target)
@@ -173,9 +173,8 @@ public class Unit : MonoBehaviour
         float mdef = Parameters.Parameters[ParamType.MDef];
         float pdef = Parameters.Parameters[ParamType.PDef];
 
-//        foreach (var specialAbility in bullet.weapon.PlayerItem.specialAbilities)
-//        {
-
+        if (bullet.weapon.PlayerItem != null)
+        {
             switch (bullet.weapon.PlayerItem.specialAbilities)
             {
                 case SpecialAbility.Critical:
@@ -199,16 +198,14 @@ public class Unit : MonoBehaviour
                     break;
                 case SpecialAbility.vampire:
                     var owner = bullet.weapon.owner;
-                    owner.CurHp += power * 0.1f;
+                    owner.CurHp += power*0.1f;
                     break;
                 case SpecialAbility.clear:
                     mdef = mdef/2;
                     pdef = pdef/2;
                     break;
             }
-//        }
-        
-
+        }
 
         switch (bullet.weapon.Parameters.type)
         {
@@ -219,7 +216,7 @@ public class Unit : MonoBehaviour
                 power *= calcResist(pdef);
                 break;
         }
-        CurHp -= power;
+        CurHp -= GreatRandom.RandomizeValue(power);
         if (OnGetHit != null)
         {
             OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], power);

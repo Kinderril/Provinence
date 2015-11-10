@@ -52,7 +52,24 @@ public class Hero : Unit
         Utils.GroundTransform(transform);
     }
 
-
+    protected override void InitWEapons()
+    {
+        var allWearedItems = MainController.Instance.PlayerData.GetAllWearedItems();
+        foreach (var inventoryWeapon in InventoryWeapons)
+        {
+            PlayerItem additionItem =null;
+            switch (inventoryWeapon.Parameters.type)
+            {
+                case WeaponType.magic:
+                    additionItem = allWearedItems.FirstOrDefault(x => x.Slot == Slot.magic_weapon) as PlayerItem;
+                    break;
+                case WeaponType.physics:
+                    additionItem = allWearedItems.FirstOrDefault(x => x.Slot == Slot.physical_weapon) as PlayerItem;
+                    break;
+            }
+            inventoryWeapon.Init(this,additionItem);
+        }
+    }
 
     void FixedUpdate()
     {
