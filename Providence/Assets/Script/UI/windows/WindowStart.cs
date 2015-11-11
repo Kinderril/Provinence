@@ -11,5 +11,10 @@ public class WindowStart : BaseWindow
     {
         Application.Quit();
     }
+
+    public void OnClearAllClick()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }
 

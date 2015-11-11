@@ -67,6 +67,7 @@ public class Hero : Unit
                     additionItem = allWearedItems.FirstOrDefault(x => x.Slot == Slot.physical_weapon) as PlayerItem;
                     break;
             }
+            Debug.Log("Weapon inited: " + additionItem + "   ::" +additionItem.specialAbilities);
             inventoryWeapon.Init(this,additionItem);
         }
     }

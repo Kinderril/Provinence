@@ -9,6 +9,7 @@ public class HeroShopBonusItem : IShopExecute
     public override void Execute(int id)
     {
         //TODO creae random bonus
+        base.Execute(id);
     }
 }
 

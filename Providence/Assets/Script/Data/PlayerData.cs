@@ -176,11 +176,13 @@ public class PlayerData
 
             PlayerItem item1 = new PlayerItem(new Dictionary<ParamType, float>() { {ParamType.PPower, 15} },Slot.physical_weapon, false,1);
             PlayerItem item2 = new PlayerItem(new Dictionary<ParamType, float>() { { ParamType.MPower, 10 } }, Slot.magic_weapon, false, 1);
-            var talisman = new TalismanItem(1,TalismanType.doubleDamage);
-            
+            var talisman = new TalismanItem(10,TalismanType.doubleDamage);
+            var talisman2 = new TalismanItem(10, TalismanType.heal);
+            item1.specialAbilities = SpecialAbility.Critical;
             AddAndEquip(item1);
             AddAndEquip(item2);
             AddAndEquip(talisman);
+            AddAndEquip(talisman2);
         }
     }
 
@@ -340,7 +342,9 @@ public class PlayerData
         return v;
     }
 
-
-
+    public void Pay(ItemId itemId, int cost)
+    {
+        AddCurrensy(itemId, -cost);
+    }
 }
 

@@ -12,15 +12,16 @@ public class TalismanButton : MonoBehaviour
     public Slider sliderReady;
     public Button button;
     public Image icon;
-    
-    public void Init(TalismanItem talic)
+
+    public void Init(TalismanItem talic, int countTalismans)
     {
         this.TalismanItem = talic;
-        talicLogic = new Talisman(TalismanItem);
+        talicLogic = new Talisman(TalismanItem, countTalismans);
         talicLogic.OnReady += OnReady;
         gameObject.SetActive(true);
-        icon.sprite = DataBaseController.Instance.TalismanIcon(talic.TalismanType);
-        Debug.Log("Talisman inited");
+        var spr = DataBaseController.Instance.TalismanIcon(talic.TalismanType);
+        Debug.Log("Talisman inited " + talic.TalismanType + "   " + icon.gameObject.name);
+        icon.sprite = spr;
         OnReady(false, 0);
     }
 

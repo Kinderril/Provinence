@@ -71,6 +71,8 @@
      <Compile Include="Assets\Script\UI\PanelWithDragTest.cs" />
      <Compile Include="Assets\Script\UI\WeaponAnimation.cs" />
      <Compile Include="Assets\Script\UI\WindowManager.cs" />
+     <Compile Include="Assets\Script\UI\helpers\ConfirmWindow.cs" />
+     <Compile Include="Assets\Script\UI\helpers\InfoWindow.cs" />
      <Compile Include="Assets\Script\UI\windows\BaseWindow.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\FlyNumberWIthDependence.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\TalismanButton.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 
 public class Talisman
@@ -10,19 +11,20 @@ public class Talisman
     public float currentPower;
     public Action<bool,float> OnReady;
 
-    public Talisman(TalismanItem sourseItem)
+    public Talisman(TalismanItem sourseItem,int countTalismans)
     {
         this.sourseItem = sourseItem;
         MainController.Instance.level.OnItemCollected += (id, f, delta) =>
         {
             if (id == ItemId.energy)
             {
-                AddEnergy(delta);
+                AddEnergy(delta / countTalismans);
             }
         };
     }
     public void Use()
     {
+        Debug.Log("Use!!! " + sourseItem.TalismanType);
         switch (sourseItem.TalismanType)
         {
             case  TalismanType.speed:
@@ -49,13 +51,14 @@ public class Talisman
                 effect.Start(MainController.Instance.level.MainHero, EffectType.doubleDamage);
                 break;
         }
-        AddEnergy(-sourseItem.costShoot);
+        AddEnergy(sourseItem.costShoot);
         DoCallback();
     }
 
     public void AddEnergy(float val)
     {
-        currentPower += val;
+        currentPower = Mathf.Clamp(currentPower - val, 0, (float)sourseItem.costShoot + 1);
+        Debug.Log("add energy " + currentPower + "/" + sourseItem.costShoot);
         DoCallback();
     }
 

@@ -18,7 +18,11 @@ public abstract class IShopExecute : MonoBehaviour
 
     public  virtual void Execute(int parameter)
     {
-        
+        if (MoneyCost > 0)
+            MainController.Instance.PlayerData.Pay(ItemId.money, MoneyCost);
+        if (CrystalCost > 0)
+            MainController.Instance.PlayerData.Pay(ItemId.crystal, CrystalCost);
+
     }
 }
 

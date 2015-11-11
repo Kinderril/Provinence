@@ -60,6 +60,7 @@ public class Bullet : MonoBehaviour
     {
         AffecttedUnits.Add(unit);
         unit.GetHit(this);
+        //Debug.Log("Get Hit " + unit);
         if (weapon.PlayerItem != null)
         {
             switch (weapon.PlayerItem.specialAbilities)

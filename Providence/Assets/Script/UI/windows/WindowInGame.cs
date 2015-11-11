@@ -28,11 +28,10 @@ public class WindowInGame : BaseWindow
         UiControls.Enable(true);
         int index = 0;
         var allTalismans = MainController.Instance.PlayerData.GetAllWearedItems().Where(x => x.Slot == Slot.Talisman);
-        Debug.Log("allTalismans " + allTalismans.Count());
         foreach (var talic in allTalismans)
         {
             var talismain = talic as TalismanItem;
-            TalismanButtons[0].Init(talismain);
+            TalismanButtons[index].Init(talismain, allTalismans.Count());
             index++;
         }
         for (int i = index; i < TalismanButtons.Count; i++)

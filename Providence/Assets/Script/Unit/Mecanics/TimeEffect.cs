@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 public enum EffectType
 {
@@ -13,7 +14,7 @@ public enum EffectType
 
 public class TimeEffect
 {
-    public float totalTime;
+    public float totalTime = 10;
     private Unit targetUnit;
     private TimerManager.ITimer timer;
     private EffectType EffectType;
@@ -25,6 +26,7 @@ public class TimeEffect
         timer.OnTimer += OnTimer;
         MainController.Instance.level.OnEndLevel += OnEndLevel;
         targetUnit.OnDead += OnTargetDead;
+        Debug.Log("Effect setted " + EffectType);
         switch (EffectType)
         {
             case EffectType.doubleDamage:
@@ -54,7 +56,6 @@ public class TimeEffect
                 targetUnit.Parameters.Parameters[ParamType.MPower] /= 2f;
                 break;
             case EffectType.slow:
-
                 targetUnit.Parameters.Parameters[ParamType.Speed] *= 3f;
                 break;
             case EffectType.freez:

@@ -15,6 +15,9 @@ public class WindowManager : Singleton<WindowManager>
 {
     public WindowT[] windows;
     private BaseWindow currentWindow;
+    public Camera MainCamera;
+    public Camera SubCamera;
+    
 
     public BaseWindow CurrentWindow
     {
@@ -31,6 +34,9 @@ public class WindowManager : Singleton<WindowManager>
     public void OpenWindow(MainState state)
     {
         Debug.Log("OpenWindow " + state);
+        var isInGame = state == MainState.play;
+        MainCamera.enabled = isInGame;
+        SubCamera.enabled = !isInGame;
         if (currentWindow != null)
         {
             currentWindow.Close();

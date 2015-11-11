@@ -28,8 +28,9 @@ public class TalismanItem : BaseItem
     {
         this.power = totalPoints;
         this.TalismanType = type;
-        costShoot = power*1.5f;
+        costShoot = power*1.3f;
         Slot = Slot.Talisman;
+        Debug.Log("cost " + costShoot);
     }
 
     public TalismanItem(float power1, float costShoot1, global::TalismanType type)
@@ -38,6 +39,7 @@ public class TalismanItem : BaseItem
         this.costShoot = costShoot1;
         this.TalismanType = type;
         Slot = Slot.Talisman;
+        Debug.Log("cost " + costShoot);
     }
 
     public override char FirstChar()

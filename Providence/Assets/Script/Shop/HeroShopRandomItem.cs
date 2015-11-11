@@ -22,6 +22,7 @@ public class HeroShopRandomItem : IShopExecute
                 CreaTalic(levelResult);
                 break;
         }
+        base.Execute(level);
     }
 
     private void CreaTalic(int levelResult)

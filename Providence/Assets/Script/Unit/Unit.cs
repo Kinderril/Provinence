@@ -75,6 +75,7 @@ public class Unit : MonoBehaviour
             Debug.LogWarning("NO WEAPON!!! " + gameObject.name);
             return;
         }
+        InitWEapons();
         curWeapon = InventoryWeapons[0];
     }
 
@@ -175,10 +176,13 @@ public class Unit : MonoBehaviour
 
         if (bullet.weapon.PlayerItem != null)
         {
+            //Debug.Log("Test bullet.weapon.PlayerItem.specialAbilities : " + bullet.weapon.PlayerItem.specialAbilities);
             switch (bullet.weapon.PlayerItem.specialAbilities)
             {
                 case SpecialAbility.Critical:
+
                     var isCrit = UnityEngine.Random.Range(0, 10) < 2;
+                    //Debug.Log("Test crit : " + isCrit);
                     if (isCrit)
                     {
                         power *= 2.25f;
