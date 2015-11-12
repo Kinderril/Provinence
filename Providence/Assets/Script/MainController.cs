@@ -36,13 +36,18 @@ public class MainController : Singleton<MainController>
         level = new Level();
         WindowManager.Instance.OpenWindow(MainState.play);
     }
+    private IEnumerator w4death()
+    {
+        yield return new WaitForSeconds(1);
+        WindowManager.Instance.OpenWindow(MainState.end);
+    }
 
     public void EndLevel()
     {
         Debug.Log("EndLevel>>");
         level.EndLevel(PlayerData);
         Map.Instance.EndLevel();
-        WindowManager.Instance.OpenWindow(MainState.end);
+        StartCoroutine(w4death());
     }
     
     // Update is called once per frame

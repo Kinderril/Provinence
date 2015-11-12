@@ -19,6 +19,8 @@ public class DataBaseController : Singleton<DataBaseController>
     private readonly Dictionary<MainParam, Sprite> MainParamSprites = new Dictionary<MainParam, Sprite>();
     private readonly Dictionary<ParamType, Sprite> ParamTypeSprites = new Dictionary<ParamType, Sprite>();
     private readonly Dictionary<Slot, Sprite> SlotSprites = new Dictionary<Slot, Sprite>();
+    private readonly Dictionary<EffectType,VisualEffect> visualEffects = new Dictionary<EffectType, VisualEffect>(); 
+
     public List<IShopExecute> allShopElements;
     public Chest chestPrefab;
     public DataStructs DataStructs;
@@ -72,6 +74,18 @@ public class DataBaseController : Singleton<DataBaseController>
         {
             TalismansSprites.Add(mp.type,  mp.path);
         }
+        foreach (var ef in DataStructs.EffectVisuals)
+        {
+            visualEffects.Add(ef.type,ef.path);
+        }
+    }
+
+    public VisualEffect GetEffect(EffectType ef,Transform tr)
+    {
+        var effect =  GetItem(visualEffects[ef]);
+        effect.transform.SetParent(tr);
+        effect.transform.localPosition = Vector3.zero;
+        return effect;
     }
 
     public Sprite MainParameterIcon(MainParam mp)

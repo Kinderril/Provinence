@@ -53,6 +53,6 @@ public class BaseWindow : MonoBehaviour
     {
         WindowManager.Instance.OpenWindow(MainState.end);
     }
-
+    
 }
 

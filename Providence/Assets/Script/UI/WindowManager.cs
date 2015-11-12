@@ -17,7 +17,9 @@ public class WindowManager : Singleton<WindowManager>
     private BaseWindow currentWindow;
     public Camera MainCamera;
     public Camera SubCamera;
-    
+    public ConfirmWindow ConfirmWindow;
+    public InfoWindow InfoWindow;
+
 
     public BaseWindow CurrentWindow
     {
@@ -30,6 +32,8 @@ public class WindowManager : Singleton<WindowManager>
         {
             window.window.gameObject.SetActive(false);
         }
+        ConfirmWindow.gameObject.SetActive(false);
+        InfoWindow.gameObject.SetActive(false);
     }
     public void OpenWindow(MainState state)
     {
@@ -42,6 +46,7 @@ public class WindowManager : Singleton<WindowManager>
             currentWindow.Close();
         }
         var window = windows.FirstOrDefault(x => x.state == state).window;
+        //window.StartAnimation();
         window.Init();
         currentWindow = window;
     }

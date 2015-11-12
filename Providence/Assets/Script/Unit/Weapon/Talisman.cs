@@ -8,7 +8,7 @@ using UnityEngine;
 public class Talisman
 {
     public TalismanItem sourseItem;
-    public float currentPower;
+    public float currentEnergy;
     public Action<bool,float> OnReady;
 
     public Talisman(TalismanItem sourseItem,int countTalismans)
@@ -28,27 +28,29 @@ public class Talisman
         switch (sourseItem.TalismanType)
         {
             case  TalismanType.speed:
-                TimeEffect effectDouble = new TimeEffect();
-                effectDouble.Start(MainController.Instance.level.MainHero, EffectType.speed);
+                TimeEffect.Creat(MainController.Instance.level.MainHero, EffectType.speed);
                 break;
             case TalismanType.massPush:
                 break;
             case TalismanType.firewave:
+                var targets2 = Map.Instance.GetEnimiesInRadius(80);
+                foreach (var baseMonster in targets2)
+                {
+                    TimeEffect.Creat(baseMonster, EffectType.fire, sourseItem.power);
+                }
                 break;
             case TalismanType.massFreez:
                 var targets = Map.Instance.GetEnimiesInRadius(80);
                 foreach (var baseMonster in targets)
                 {
-                    TimeEffect freezEffect = new TimeEffect();
-                    freezEffect.Start(MainController.Instance.level.MainHero, EffectType.freez);
+                    TimeEffect.Creat(baseMonster, EffectType.freez);
                 }
                 break;
             case TalismanType.heal:
-                MainController.Instance.level.MainHero.GetHeal(currentPower);
+                MainController.Instance.level.MainHero.GetHeal(currentEnergy);
                 break;
             case TalismanType.doubleDamage:
-                TimeEffect effect = new TimeEffect();
-                effect.Start(MainController.Instance.level.MainHero, EffectType.doubleDamage);
+                TimeEffect.Creat(MainController.Instance.level.MainHero, EffectType.doubleDamage);
                 break;
         }
         AddEnergy(sourseItem.costShoot);
@@ -57,8 +59,8 @@ public class Talisman
 
     public void AddEnergy(float val)
     {
-        currentPower = Mathf.Clamp(currentPower - val, 0, (float)sourseItem.costShoot + 1);
-        Debug.Log("add energy " + currentPower + "/" + sourseItem.costShoot);
+        currentEnergy = Mathf.Clamp(currentEnergy - val, 0, (float)sourseItem.costShoot + 1);
+        Debug.Log("add energy " + currentEnergy + "/" + sourseItem.costShoot);
         DoCallback();
     }
 
@@ -66,13 +68,13 @@ public class Talisman
     {
         if (OnReady != null)
         {
-            OnReady(CanUse(), currentPower/ (float)sourseItem.costShoot);
+            OnReady(CanUse(), currentEnergy/ (float)sourseItem.costShoot);
         }
     }
 
     public bool CanUse()
     {
-        return currentPower >= sourseItem.costShoot;
+        return currentEnergy >= sourseItem.costShoot;
     }
 }
 

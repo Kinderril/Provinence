@@ -2,10 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace Assets.Script.UI.helpers
+
+public class InfoWindow : MonoBehaviour
 {
-    class InfoWindow
+    private Action onOK;
+    public Text textField;
+    public void Init(Action onOK,string msg)
     {
+        this.onOK = onOK;
+        textField.text = msg;
+        gameObject.SetActive(true);
+    }
+
+    public void OnClickOk()
+    {
+        if (onOK != null)
+            onOK();
     }
 }
+

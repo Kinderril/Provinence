@@ -58,14 +58,14 @@ public class Bullet : MonoBehaviour
 
     private void Hit(Unit unit)
     {
+        bool haveManyTargets = false;
         AffecttedUnits.Add(unit);
-        unit.GetHit(this);
-        //Debug.Log("Get Hit " + unit);
         if (weapon.PlayerItem != null)
         {
             switch (weapon.PlayerItem.specialAbilities)
             {
                 case SpecialAbility.penetrating:
+                    haveManyTargets = true;
                     if (AffecttedUnits.Count > 3)
                     {
                         Death();
@@ -77,6 +77,7 @@ public class Bullet : MonoBehaviour
                     break;
                 case SpecialAbility.chain:
                     //TODO find another target
+                    haveManyTargets = true;
                     if (AffecttedUnits.Count > 3)
                     {
                         Death();
@@ -86,6 +87,14 @@ public class Bullet : MonoBehaviour
                         return;
                     }
                     break;
+            }
+        }
+
+        if (!haveManyTargets)
+        {
+            if (AffecttedUnits.Count < 1)
+            {
+                unit.GetHit(this);
             }
         }
         Death();

@@ -46,6 +46,12 @@ public struct TalismanImage
     public TalismanType type;
     public Sprite path;
 }
+[Serializable]
+public struct EffectVisuals
+{
+    public EffectType type;
+    public VisualEffect path;
+}
 public class DataStructs : MonoBehaviour
 {
     public MainParameterImage[] MainParametersImages;
@@ -55,6 +61,7 @@ public class DataStructs : MonoBehaviour
     public ColorUI[] ColorsOfUI;
     public TalismanImage[] TalismanImage;
     public SpecialAbilityImage[] SpecialAbilityImage;
+    public EffectVisuals[] EffectVisuals;
     public int[] costParameterByLvl;
 }
 

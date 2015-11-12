@@ -50,8 +50,17 @@ public class ShopController : Singleton<ShopController>
         });
         return slots.Random();
     }
+    public static Bonustype RandomBonus()
+    {
+        var slots = new WDictionary<Bonustype>(new Dictionary<Bonustype, float>()
+        {
+            {Bonustype.money,3f },
+            {Bonustype.damage,3f },
+        });
+        return slots.Random();
+    }
 
-    
+
 }
 
 public static class Connections

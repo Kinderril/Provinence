@@ -8,7 +8,9 @@ public class HeroShopBonusItem : IShopExecute
 {
     public override void Execute(int id)
     {
-        //TODO creae random bonus
+        var bonus = ShopController.RandomBonus();
+        BonusItem b = new BonusItem(bonus,id*2,3);
+        MainController.Instance.PlayerData.AddItem(b);
         base.Execute(id);
     }
 }

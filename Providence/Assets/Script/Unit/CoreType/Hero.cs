@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -175,6 +176,15 @@ public class Hero : Unit
 
     public void GetHeal(float currentPower)
     {
+        var effect = DataBaseController.Instance.GetEffect(EffectType.heal, transform);
+        effect.Action();
         CurHp += currentPower;
+        StartCoroutine(WaitForHeal(effect));
     }
+
+    private IEnumerator WaitForHeal(VisualEffect effect)
+    {
+        yield return new WaitForSeconds(0.5f);
+        effect.End();
+    } 
 }

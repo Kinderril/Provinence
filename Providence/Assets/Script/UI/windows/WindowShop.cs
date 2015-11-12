@@ -74,7 +74,15 @@ public class WindowShop : BaseWindow
     public void OnBuySimpleChest()
     {
         if (selectedShopElement != null && selectedShopElement.CanBuy && EnoughtMoney(selectedShopElement))
-            ShopController.Instance.BuyItem(selectedShopElement);
+        {
+            WindowManager.Instance.ConfirmWindow.Init(
+                () => { ShopController.Instance.BuyItem(selectedShopElement); }
+                ,null,"Do u what to but it?");
+        }
+        else
+        {
+            WindowManager.Instance.InfoWindow.Init(null,"not enought money");
+        }
     }
 
     public void OnUnequipItem()
@@ -133,7 +141,8 @@ public class WindowShop : BaseWindow
 
     public void OnSell()
     {
-        MainController.Instance.PlayerData.Sell(selectedPlayerItem);
+        WindowManager.Instance.ConfirmWindow.Init(() => MainController.Instance.PlayerData.Sell(selectedPlayerItem),
+            null, "do you wnat to sell it?");
     }
 
     private void OnItemEquipedCallback(BaseItem obj,bool val)
@@ -155,6 +164,7 @@ public class WindowShop : BaseWindow
 
     private void OnNewItem(BaseItem playerItem)
     {
+        WindowManager.Instance.InfoWindow.Init(null,"you buy new item");
         var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
         element.Init(playerItem, OnSelected);
         element.transform.SetParent(layoutMyInventory);
