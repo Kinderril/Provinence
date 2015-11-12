@@ -59,7 +59,6 @@ public class Bullet : MonoBehaviour
     private void Hit(Unit unit)
     {
         bool haveManyTargets = false;
-        AffecttedUnits.Add(unit);
         if (weapon.PlayerItem != null)
         {
             switch (weapon.PlayerItem.specialAbilities)
@@ -97,6 +96,7 @@ public class Bullet : MonoBehaviour
                 unit.GetHit(this);
             }
         }
+        AffecttedUnits.Add(unit);
         Death();
     }
 

@@ -176,7 +176,7 @@ public class Unit : MonoBehaviour
 
         if (bullet.weapon.PlayerItem != null)
         {
-            //Debug.Log("Test bullet.weapon.PlayerItem.specialAbilities : " + bullet.weapon.PlayerItem.specialAbilities);
+            Debug.Log("Test bullet.weapon.PlayerItem.specialAbilities : " + bullet.weapon.PlayerItem.specialAbilities);
             switch (bullet.weapon.PlayerItem.specialAbilities)
             {
                 case SpecialAbility.Critical:

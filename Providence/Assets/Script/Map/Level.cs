@@ -106,7 +106,7 @@ public class Level
     public void EndLevel(PlayerData PlayerData)
     {
         PortalsController.Stop();
-        GameObject.Destroy(MainHero.gameObject);
+        MainHero.Control.enabled = false;
         PlayerData.AddInventory(inventory);
         PlayerData.Save();
         if (OnEndLevel != null)

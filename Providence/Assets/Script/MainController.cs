@@ -39,6 +39,7 @@ public class MainController : Singleton<MainController>
     private IEnumerator w4death()
     {
         yield return new WaitForSeconds(1);
+        GameObject.Destroy(level.MainHero.gameObject);
         WindowManager.Instance.OpenWindow(MainState.end);
     }
 

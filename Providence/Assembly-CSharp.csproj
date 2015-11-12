@@ -110,7 +110,11 @@
      <Compile Include="Assets\Script\Unit\CoreType\BaseMonster.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\Hero.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\UnitParameters.cs" />
-     <Compile Include="Assets\Script\Unit\Mecanics\TimeEffect.cs" />
+     <Compile Include="Assets\Script\Unit\Mecanics\Base\TimeEffect.cs" />
+     <Compile Include="Assets\Script\Unit\Mecanics\Base\VisualEffect.cs" />
+     <Compile Include="Assets\Script\Unit\Mecanics\DDEffect.cs" />
+     <Compile Include="Assets\Script\Unit\Mecanics\FireEffect.cs" />
+     <Compile Include="Assets\Script\Unit\Mecanics\SpeedEffect.cs" />
      <Compile Include="Assets\Script\Unit\Unit.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\Bullet.cs" />
      <Compile Include="Assets\Script\Unit\Weapon\BulletEffect.cs" />

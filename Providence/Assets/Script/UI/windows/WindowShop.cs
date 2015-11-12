@@ -164,7 +164,7 @@ public class WindowShop : BaseWindow
 
     private void OnNewItem(BaseItem playerItem)
     {
-        WindowManager.Instance.InfoWindow.Init(null,"you buy new item");
+        //WindowManager.Instance.InfoWindow.Init(null,"you buy new item");
         var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
         element.Init(playerItem, OnSelected);
         element.transform.SetParent(layoutMyInventory);

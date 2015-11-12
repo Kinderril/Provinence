@@ -21,6 +21,7 @@ public class InfoWindow : MonoBehaviour
     {
         if (onOK != null)
             onOK();
+        gameObject.SetActive(false);
     }
 }
 
