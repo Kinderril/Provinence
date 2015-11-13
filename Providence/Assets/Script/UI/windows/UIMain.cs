@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
+public class UIMain : MonoBehaviour
 {
     private Camera MainCamera;
     private int layerMask = 1;
@@ -15,6 +15,9 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     public SubUIMain subUI;
     private bool enable;
     public Vector3 keybordDir;
+    private bool isPressed;
+    private Vector3 startClick;
+    private bool isOver;
     public void Init()
     {
         mainHero = MainController.Instance.level.MainHero;
@@ -26,6 +29,39 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         else
         {
             Debug.LogWarning("no sub UI");
+        }
+    }
+
+    void LateUpdate()
+    {
+        //        Debug.Log(">>>> " + Input.touchCount + "   "  + Input.touches.Length + "   " + Input.GetMouseButton(0));
+        if (Input.GetMouseButtonDown(0))
+        {
+            startClick = Input.mousePosition;
+            if (!isPressed)
+            {
+                isOver = EventSystem.current.IsPointerOverGameObject();
+                if (!isOver)
+                {
+                    isPressed = true;
+                }
+            }
+        }
+
+        if (isPressed)
+        {
+            if (Input.GetMouseButtonUp(0))
+            {
+                isOver = EventSystem.current.IsPointerOverGameObject();
+                var dir = Input.mousePosition - startClick;
+                isPressed = false;
+                var sqrDist = dir.sqrMagnitude;
+                if (sqrDist > 4200)
+                {
+                    if (enable)
+                        mainHero.TryAttackByDirection(new Vector3(dir.x, 0, dir.y));
+                }
+            }
         }
     }
 
@@ -66,11 +102,11 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         {
             y = -1;
         }
-        keybordDir = new Vector3(y,0,x);
+        keybordDir = new Vector3(y, 0, x);
         mainHero.MoveToDirection(keybordDir);
 #endif
     }
-    
+
     private Vector3 RayCast(PointerEventData eventData)
     {
         RaycastHit hit;
@@ -85,36 +121,28 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         return Vector3.zero;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        startDrag = eventData.position;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        var endDrag = eventData.position;
-        var dir = (endDrag - startDrag);
-        var sqrDist = dir.sqrMagnitude;
-        //Debug.Log(">>> " + dir + "    startDrag:" + startDrag + "   endDrag:" + endDrag);
-
-        if (sqrDist >4200)
-        {
-            if (/*hit != Vector3.zero && */enable)
-                mainHero.TryAttackByDirection(new Vector3(dir.x,0,dir.y));
-        }
-        else
-        {
-           // if (hit != Vector3.zero)
-             //   mainHero.MoveToPosition(hit);
-            
-        }
-    }
+    //    public void OnPointerDown(PointerEventData eventData)
+    //    {
+    //        startDrag = eventData.position;
+    //    }
+    //
+    //    public void OnPointerUp(PointerEventData eventData)
+    //    {
+    //        var endDrag = eventData.position;
+    //        var dir = (endDrag - startDrag);
+    //        var sqrDist = dir.sqrMagnitude;
+    //
+    //        if (sqrDist >4200)
+    //        {
+    //            if (enable)
+    //                mainHero.TryAttackByDirection(new Vector3(dir.x,0,dir.y));
+    //        }
+    //    }
 
     public void UpdateMoveArrow(Vector3 dir)
     {
         if (enable)
             mainHero.MoveToDirection(dir);
-
     }
 
     public void Enable(bool val)
