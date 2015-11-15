@@ -124,6 +124,8 @@
      <Compile Include="Assets\Script\Unit\Weapon\WeaponParameters.cs" />
      <Compile Include="Assets\Script\Utils\CameraFollow.cs" />
      <Compile Include="Assets\Script\Utils\GreatRandom.cs" />
+     <Compile Include="Assets\Script\Utils\Pool\Pool.cs" />
+     <Compile Include="Assets\Script\Utils\Pool\PoolElement.cs" />
      <Compile Include="Assets\Script\Utils\SerializableDictionary.cs" />
      <Compile Include="Assets\Script\Utils\Singleton.cs" />
      <Compile Include="Assets\Script\Utils\TimerManager.cs" />

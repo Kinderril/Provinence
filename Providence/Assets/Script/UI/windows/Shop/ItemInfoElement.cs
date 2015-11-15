@@ -48,6 +48,7 @@ public class ItemInfoElement : MonoBehaviour
                 SpecIcon.sprite = DataBaseController.Instance.SpecialAbilityIcon(playerItem.specialAbilities);
             }
             mainIcon.sprite = Resources.Load<Sprite>("sprites/PlayerItems/" + playerItem.icon);
+            NameLabel.text = playerItem.name;
         }
         var talismanItem = item as TalismanItem;
         if (talismanItem != null)
@@ -57,14 +58,14 @@ public class ItemInfoElement : MonoBehaviour
             element.Init(ParamType.PPower, talismanItem.power);
             element.Init(ParamType.MDef, talismanItem.costShoot);
             element.transform.SetParent(layout);
+            NameLabel.text = talismanItem.name;
         }
         var bonusItem = item as BonusItem;
         if (bonusItem != null)
         {
-//            mainIcon.sprite = DataBaseController.Instance.TalismanIcon(bonusItem.Bonustype);
             var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
             element.Init(ParamType.PPower, bonusItem.power);
-
+            NameLabel.text = "name (" + bonusItem.remainUsetime + ")";
         }
         InitCost(0, item.cost / 3);
         OnInitCallback(ItemOwner.Player);

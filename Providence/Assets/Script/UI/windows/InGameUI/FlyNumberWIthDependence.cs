@@ -5,13 +5,14 @@ using System.Text;
 using UnityEngine;
 
 
-public class FlyNumberWIthDependence : MonoBehaviour
+public class FlyNumberWIthDependence : PoolElement
 {
     public FlyingNumbers incFlyingNumbers;
     private Transform dependence;
     private Camera cam;
     public void Init(Transform dependence, float Count, Color textColor, string add = "")
     {
+        base.Init();
         cam = MainController.Instance.MainCamera;
         this.dependence = dependence;
         incFlyingNumbers.Init(Count, textColor, add, OnDead);
@@ -19,12 +20,12 @@ public class FlyNumberWIthDependence : MonoBehaviour
 
     private void OnDead()
     {
-        Destroy(gameObject);
+        EndUse();
     }
 
     void Update()
     {
-        if (dependence != null)
+        if (IsUsing && dependence != null)
             transform.position = cam.WorldToScreenPoint(dependence.position);
     }
 }

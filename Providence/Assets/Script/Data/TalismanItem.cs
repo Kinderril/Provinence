@@ -30,7 +30,7 @@ public class TalismanItem : BaseItem
         this.TalismanType = type;
         costShoot = power*1.3f;
         Slot = Slot.Talisman;
-        Debug.Log("cost " + costShoot);
+       // Debug.Log("cost " + costShoot);
     }
 
     public TalismanItem(float power1, float costShoot1, global::TalismanType type)

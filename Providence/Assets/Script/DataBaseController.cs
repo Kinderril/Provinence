@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -10,6 +11,11 @@ public enum ItemId
     health
 }
 
+public enum PoolType
+{
+    flyNumberInGame,
+    flyNumberInUI,
+}
 
 public class DataBaseController : Singleton<DataBaseController>
 {
@@ -19,14 +25,14 @@ public class DataBaseController : Singleton<DataBaseController>
     private readonly Dictionary<MainParam, Sprite> MainParamSprites = new Dictionary<MainParam, Sprite>();
     private readonly Dictionary<ParamType, Sprite> ParamTypeSprites = new Dictionary<ParamType, Sprite>();
     private readonly Dictionary<Slot, Sprite> SlotSprites = new Dictionary<Slot, Sprite>();
-    private readonly Dictionary<EffectType,VisualEffect> visualEffects = new Dictionary<EffectType, VisualEffect>(); 
+    private readonly Dictionary<EffectType, VisualEffect> visualEffects = new Dictionary<EffectType, VisualEffect>();
+    private readonly Dictionary<ItemId, Color> itemsColors = new Dictionary<ItemId, Color>();
 
     public List<IShopExecute> allShopElements;
     public Chest chestPrefab;
     public DataStructs DataStructs;
     public GameObject debugCube;
     public FlyingNumbers FlyingNumber;
-    public FlyingNumbers InGameFlyingNumber;
     public FlyNumberWIthDependence FlyNumberWIthDependence;
     public MapItem MapItemPrefab;
     public int maxLevel = 20;
@@ -34,6 +40,7 @@ public class DataBaseController : Singleton<DataBaseController>
     public Dictionary<int, List<BaseMonster>> mosntersLevel = new Dictionary<int, List<BaseMonster>>();
     public Hero prefabHero;
     public List<Weapon> Weapons;
+    public Pool Pool;
 
     private void Awake()
     {
@@ -46,6 +53,7 @@ public class DataBaseController : Singleton<DataBaseController>
             mosntersLevel[baseMonster.Parameters.Level].Add(baseMonster);
         }
         LoadSprites();
+        Pool = new Pool(this);
     }
 
     private void LoadSprites()
@@ -77,6 +85,10 @@ public class DataBaseController : Singleton<DataBaseController>
         foreach (var ef in DataStructs.EffectVisuals)
         {
             visualEffects.Add(ef.type,ef.path);
+        }
+        foreach (var colorUi in DataStructs.ColorsOfUI)
+        {
+            itemsColors.Add(colorUi.type,colorUi.color);
         }
     }
 
@@ -127,8 +139,9 @@ public class DataBaseController : Singleton<DataBaseController>
         return (Instantiate(item.gameObject, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<T>();
     }
 
+
     public Color GetColor(ItemId f)
     {
-        return DataStructs.ColorsOfUI.FirstOrDefault(x => x.type == f).color;
+        return itemsColors[f];
     }
 }

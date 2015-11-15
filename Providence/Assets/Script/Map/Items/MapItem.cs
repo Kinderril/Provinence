@@ -26,6 +26,7 @@ public class MapItem : MonoBehaviour
             var unit = other.GetComponent<Hero>();
             if (unit != null)
             {
+                canBeTaken = false;
                 unit.GetItems(type,count);
                 if (OpenEffect != null)
                 {

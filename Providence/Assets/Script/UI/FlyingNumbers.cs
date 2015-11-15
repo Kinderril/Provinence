@@ -6,12 +6,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class FlyingNumbers : MonoBehaviour
+public class FlyingNumbers : PoolElement
 {
     private Text text;
     private Action OnDead;
     public void Init(float Count, Color textColor, string add = "", Action OnDead = null)
     {
+        base.Init();
         this.OnDead = OnDead;
         if (text == null)
         {
@@ -33,7 +34,7 @@ public class FlyingNumbers : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            EndUse();
         }
     }
 }

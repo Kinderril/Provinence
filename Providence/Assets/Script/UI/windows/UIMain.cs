@@ -6,15 +6,20 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
+public  class UIMain : MonoBehaviour//,IPointerDownHandler,IPointerUpHandler
 {
     private Camera MainCamera;
     private int layerMask = 1;
     private Hero mainHero;
-    private Vector2 startDrag;
+    //private Vector2 startDrag;
     public SubUIMain subUI;
     private bool enable;
     public Vector3 keybordDir;
+
+    private Vector3 startDrag;
+    private bool isPressed;
+    private bool isOverUI;
+
     public void Init()
     {
         mainHero = MainController.Instance.level.MainHero;
@@ -84,7 +89,7 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
         }
         return Vector3.zero;
     }
-
+    /*
     public void OnPointerDown(PointerEventData eventData)
     {
         startDrag = eventData.position;
@@ -99,7 +104,7 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
 
         if (sqrDist >4200)
         {
-            if (/*hit != Vector3.zero && */enable)
+            if (enable)
                 mainHero.TryAttackByDirection(new Vector3(dir.x,0,dir.y));
         }
         else
@@ -108,6 +113,40 @@ public  class UIMain : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
              //   mainHero.MoveToPosition(hit);
             
         }
+    }
+    */
+    void LateUpdate()
+    {
+        int index = 0;
+        if (Input.touchCount > 1)
+        {
+            index = 1;
+        }
+
+        if (Input.GetMouseButtonDown(index))
+        {
+            isPressed = true;
+            isOverUI = EventSystem.current.IsPointerOverGameObject();
+            startDrag = Input.mousePosition;
+        }
+
+        if (isPressed)
+        {
+            if (Input.GetMouseButtonUp(index))
+            {
+                var isOverUI2 = EventSystem.current.IsPointerOverGameObject();
+                var dir = Input.mousePosition - startDrag;
+                if (isOverUI && isOverUI2)
+                {
+                    return;
+                }
+
+                //var sqrDist = dir.sqrMagnitude;
+                if (enable)
+                    mainHero.TryAttackByDirection(new Vector3(dir.x, 0, dir.y));
+            }
+        }
+
     }
 
     public void UpdateMoveArrow(Vector3 dir)

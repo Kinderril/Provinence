@@ -38,6 +38,7 @@ public class WindowInGame : BaseWindow
         {
             TalismanButtons[i].gameObject.SetActive(false);
         }
+        HealthSlider.value = 1;
     }
 
     private void OnWeaponChanged(Weapon obj)
@@ -67,15 +68,19 @@ public class WindowInGame : BaseWindow
         {
             case ItemId.money:
                 moneyField.text = arg2.ToString("00");
-                item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, moneyField.transform.position);
-        item.transform.SetParent(transform);
+                item = DataBaseController.Instance.Pool.GetItemFromPool<FlyingNumbers>(PoolType.flyNumberInUI);
+                //item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, moneyField.transform.position);
+                item.transform.SetParent(transform);
+                item.transform.position = moneyField.transform.position;
                 item.Init(delta, DataBaseController.Instance.GetColor(arg1), (delta > 0) ? "+" : "-");
                 break;
             case ItemId.crystal:
                 break;
             case ItemId.energy:
-                item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, moneyField.transform.position);
+                item = DataBaseController.Instance.Pool.GetItemFromPool<FlyingNumbers>(PoolType.flyNumberInUI);
+                //item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, moneyField.transform.position);
                 item.transform.SetParent(transform);
+                item.transform.position = moneyField.transform.position;
                 item.Init(delta, DataBaseController.Instance.GetColor(arg1), (delta < 0) ? "+" : "-");
 
                 break;
@@ -84,10 +89,14 @@ public class WindowInGame : BaseWindow
 
     private void OnHeroHit(float arg1, float arg2,float delta)
     {
-        var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, hitTransform.position);
+        //Debug.Log("OnHeroHit " + arg1 + "/" + arg2  + " d:" + delta);
+        var item = DataBaseController.Instance.Pool.GetItemFromPool<FlyingNumbers>(PoolType.flyNumberInUI);
+        //var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, hitTransform.position);
         item.transform.SetParent(transform);
+        item.transform.position = hitTransform.position;
         Color color = DataBaseController.Instance.GetColor(ItemId.health);
-        item.Init(delta, color, (delta > 0) ? "-" : "+");
+        bool isPlus = (delta > 0);
+        item.Init(delta, color, ((isPlus)? "-" : "+"));
         HealthSlider.value =  arg1/ arg2;
     }
 

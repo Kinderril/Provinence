@@ -75,7 +75,7 @@ public class PlayerData
         if (DataBaseController.Instance.DataStructs.costParameterByLvl.Length > CurrentLevel)
         {
             var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[CurrentLevel];
-            Debug.Log("cost level " + cost);
+            //Debug.Log("cost level " + cost);
             return CanPay(ItemId.money, cost);
         }
         return false;
@@ -97,7 +97,6 @@ public class PlayerData
     {
         return cost <= playerInv[t];
     }
-
 
     public void Load()
     {
@@ -178,7 +177,7 @@ public class PlayerData
             PlayerItem item2 = new PlayerItem(new Dictionary<ParamType, float>() { { ParamType.MPower, 10 } }, Slot.magic_weapon, false, 1);
             var talisman = new TalismanItem(10,TalismanType.doubleDamage);
             var talisman2 = new TalismanItem(10, TalismanType.heal);
-            item1.specialAbilities = SpecialAbility.Critical;
+            item1.specialAbilities = SpecialAbility.vampire;
             AddAndEquip(item1);
             AddAndEquip(item2);
             AddAndEquip(talisman);

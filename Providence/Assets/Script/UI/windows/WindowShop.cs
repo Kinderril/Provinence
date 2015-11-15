@@ -27,6 +27,7 @@ public class WindowShop : BaseWindow
     public override void Init()
     {
         base.Init();
+        NullSelection();
         ItemInfoElement.SetCallBack(OnItemInit);
         AllParametersContainer.Init();
         moneyField.text = MainController.Instance.PlayerData.playerInv[ItemId.money].ToString("0");
@@ -55,6 +56,14 @@ public class WindowShop : BaseWindow
         MainController.Instance.PlayerData.OnCurrensyChanges += OnCurrensyChanges;
     }
 
+    private void NullSelection()
+    {
+
+        ItemInfoElement.gameObject.SetActive(false);
+        selectedShopElement = null;
+        selectedPlayerItem = null;
+    }
+
     private void OnItemInit(ItemOwner obj)
     {
         Debug.Log(obj);
@@ -69,6 +78,7 @@ public class WindowShop : BaseWindow
         EquipButton.gameObject.SetActive(!val);
         UnEquipButton.gameObject.SetActive(!val);
         SellButton.gameObject.SetActive(!val);
+        ItemInfoElement.gameObject.SetActive(true);
     }
 
     public void OnBuySimpleChest()
@@ -102,6 +112,7 @@ public class WindowShop : BaseWindow
     private void OnShopSelected(IShopExecute obj)
     {
         selectedShopElement = obj;
+        ItemInfoElement.gameObject.SetActive(true);
         ItemInfoElement.Init(selectedShopElement);
     }
 
@@ -126,6 +137,7 @@ public class WindowShop : BaseWindow
         {
             Destroy(item.gameObject);
         }
+        NullSelection();
     }
 
     public void OnEquip()

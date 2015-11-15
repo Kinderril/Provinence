@@ -46,6 +46,7 @@ public class Hero : Unit
             Parameters.Parameters[v] = playerData.CalcParameter(v);
             Debug.Log("Calc parameter: " + v + " : " + Parameters.Parameters[v]);
         }
+        curHp = Parameters.Parameters[ParamType.Hp];
 
         Parameters.Parameters[ParamType.PPower] *= damageBonusFromItem + 1f;
         Parameters.Parameters[ParamType.MPower] *= damageBonusFromItem + 1f;
@@ -68,7 +69,7 @@ public class Hero : Unit
                     additionItem = allWearedItems.FirstOrDefault(x => x.Slot == Slot.physical_weapon) as PlayerItem;
                     break;
             }
-            Debug.Log("Weapon inited: " + additionItem + "   ::" +additionItem.specialAbilities);
+            //Debug.Log("Weapon inited: " + additionItem + "   ::" +additionItem.specialAbilities);
             inventoryWeapon.Init(this,additionItem);
         }
     }
@@ -177,14 +178,14 @@ public class Hero : Unit
     public void GetHeal(float currentPower)
     {
         var effect = DataBaseController.Instance.GetEffect(EffectType.heal, transform);
-        effect.Action();
+        effect.Action(this);
         CurHp += currentPower;
         StartCoroutine(WaitForHeal(effect));
     }
 
     private IEnumerator WaitForHeal(VisualEffect effect)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(3.5f);
         effect.End();
     } 
 }

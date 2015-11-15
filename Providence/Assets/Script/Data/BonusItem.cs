@@ -25,6 +25,7 @@ public class BonusItem : BaseItem
         this.Bonustype = Bonustype;
         this.power = power;
         this.remainUsetime = remainUsetime;
+        Slot = Slot.bonus;
     }
 
     public override void Activate(Hero hero)

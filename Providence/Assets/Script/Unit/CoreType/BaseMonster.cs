@@ -68,7 +68,7 @@ public class BaseMonster : Unit
         hp -= CurHp;
         if (hp > 0)
         {
-            var fn = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyNumberWIthDependence);
+            var fn = DataBaseController.Instance.Pool.GetItemFromPool<FlyNumberWIthDependence>(PoolType.flyNumberInGame);
             fn.transform.SetParent(WindowManager.Instance.CurrentWindow.TopPanel.transform);
             //fn.transform.position = transform.position;
             fn.Init(transform,hp,Color.red, "-");

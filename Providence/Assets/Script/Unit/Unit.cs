@@ -13,7 +13,7 @@ public enum UnitType
 }
 public class Unit : MonoBehaviour
 {
-    private float curHp;
+    protected float curHp;
     public Weapon curWeapon;
     public List<Weapon> InventoryWeapons;
     public BaseControl Control;
@@ -27,7 +27,7 @@ public class Unit : MonoBehaviour
     private AnimationController animationController;
     public Action<Unit> OnShootEnd;
     public Action<Weapon> OnWeaponChanged;
-    private float lastWeaponChangse;
+    protected float lastWeaponChangse;
 
     public float CurHp
     {
@@ -105,7 +105,6 @@ public class Unit : MonoBehaviour
     {
         if (Time.time - lastWeaponChangse > 1)
         {
-
             if (InventoryWeapons.Count <= 1)
                 return;
             var index = InventoryWeapons.IndexOf(curWeapon);
@@ -176,7 +175,7 @@ public class Unit : MonoBehaviour
 
         if (bullet.weapon.PlayerItem != null)
         {
-            Debug.Log("Test bullet.weapon.PlayerItem.specialAbilities : " + bullet.weapon.PlayerItem.specialAbilities);
+            //Debug.Log("Test bullet.weapon.PlayerItem.specialAbilities : " + bullet.weapon.PlayerItem.specialAbilities);
             switch (bullet.weapon.PlayerItem.specialAbilities)
             {
                 case SpecialAbility.Critical:
@@ -202,7 +201,16 @@ public class Unit : MonoBehaviour
                     break;
                 case SpecialAbility.vampire:
                     var owner = bullet.weapon.owner;
-                    owner.CurHp += power*0.1f;
+                    //Debug.Log("BEfore " + owner.CurHp);
+                    var diff = power*0.1f;
+                    owner.CurHp += diff;
+                    if (owner is Hero)
+                    {
+                        if (owner.OnGetHit != null)
+                        {
+                            owner.OnGetHit(owner.CurHp, owner.Parameters.Parameters[ParamType.Hp], -diff);
+                        }
+                    }
                     break;
                 case SpecialAbility.clear:
                     mdef = mdef/2;
@@ -220,10 +228,14 @@ public class Unit : MonoBehaviour
                 power *= calcResist(pdef);
                 break;
         }
-        CurHp -= GreatRandom.RandomizeValue(power);
-        if (OnGetHit != null)
+        power = GreatRandom.RandomizeValue(power);
+        CurHp = CurHp - power;
+        if (this is Hero)
         {
-            OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], power);
+            if (OnGetHit != null)
+            {
+                OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], power);
+            }
         }
     }
 

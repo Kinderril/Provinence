@@ -12,7 +12,7 @@ public class DDEffect : TimeEffect
         targetUnit.Parameters.Parameters[ParamType.MPower] *= 2f;
         targetUnit.Parameters.Parameters[ParamType.PPower] *= 2f;
         effect = DataBaseController.Instance.GetEffect(EffectType.doubleDamage, targetUnit.transform);
-        effect.Action();
+        effect.Action(targetUnit);
     }
 
     protected override void OnTimer()

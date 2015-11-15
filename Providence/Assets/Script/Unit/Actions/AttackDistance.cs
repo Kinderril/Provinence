@@ -33,6 +33,9 @@ public class AttackDistance : AttackAction
             //Debug.Log("In Range: " + isClose + "  " + isFar + "  " + curRange + "  " + closeRange + "   " + farRange);
             if (!isFar)
             {
+                isAttack = true;
+                DoShoot();
+                /*
                 bool isClose = curRange < closeRange;
                 if (owner.curWeapon.CanShoot())
                 {
@@ -44,7 +47,7 @@ public class AttackDistance : AttackAction
                 if (isClose)
                 {
                     ComeOutTarget();
-                }
+                }*/
             }
             else
             {
