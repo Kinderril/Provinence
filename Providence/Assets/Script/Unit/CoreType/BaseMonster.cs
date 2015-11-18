@@ -74,6 +74,7 @@ public class BaseMonster : Unit
             fn.Init(transform,hp,Color.red, "-");
             //fn.transform.LookAt(MainController.Instance.MainCamera.transform);
         }
+
     }
 
     protected override void UpdateUnit()

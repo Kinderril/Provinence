@@ -53,7 +53,7 @@ public class PlayerData
         {
             Debug.Log("Upgdare Main Parameter " + parameter);
             var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[MainParameters[parameter]];
-            AddCurrensy(ItemId.money, -cost);
+            //AddCurrensy(ItemId.money, -cost);
             AllocatedPoints -= 1;
             MainParameters[parameter] += 1;
             if (OnParametersChange != null)
@@ -71,11 +71,11 @@ public class PlayerData
 
     public bool CanUpgradeLevel()
     {
-        Debug.Log("costParameterByLvl " + DataBaseController.Instance.DataStructs.costParameterByLvl.Length);
+        //Debug.Log("costParameterByLvl " + DataBaseController.Instance.DataStructs.costParameterByLvl.Length);
         if (DataBaseController.Instance.DataStructs.costParameterByLvl.Length > CurrentLevel)
         {
             var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[CurrentLevel];
-            //Debug.Log("cost level " + cost);
+            Debug.Log("cost level " + cost);
             return CanPay(ItemId.money, cost);
         }
         return false;
@@ -86,11 +86,11 @@ public class PlayerData
         var cost = DataBaseController.Instance.DataStructs.costParameterByLvl[CurrentLevel];
         AllocatedPoints += 2;
         CurrentLevel++;
+        AddCurrensy(ItemId.money, -cost);
         if (OnLevelUp != null)
         {
             OnLevelUp(CurrentLevel);
         }
-        AddCurrensy(ItemId.money, -cost);
     }
 
     public bool CanPay(ItemId t, int cost)

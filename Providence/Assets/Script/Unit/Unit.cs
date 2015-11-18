@@ -21,13 +21,14 @@ public class Unit : MonoBehaviour
     public UnitType unitType;
     public Transform weaponsContainer;
     public event Action<Unit> OnDead;
-    public event Action<float, float,float> OnGetHit;
+    public Action<float, float,float> OnGetHit;
     protected bool isDead = false;
     public UnitParameters Parameters;
     private AnimationController animationController;
     public Action<Unit> OnShootEnd;
     public Action<Weapon> OnWeaponChanged;
     protected float lastWeaponChangse;
+    public ParticleSystem HitParticleSystem;
 
     public float CurHp
     {
@@ -216,6 +217,10 @@ public class Unit : MonoBehaviour
                     mdef = mdef/2;
                     pdef = pdef/2;
                     break;
+            }
+            if (HitParticleSystem != null)
+            {
+                HitParticleSystem.Play();
             }
         }
 

@@ -20,7 +20,7 @@ public class TalismanButton : MonoBehaviour
         talicLogic.OnReady += OnReady;
         gameObject.SetActive(true);
         var spr = DataBaseController.Instance.TalismanIcon(talic.TalismanType);
-        Debug.Log("Talisman inited " + talic.TalismanType + "   " + icon.gameObject.name);
+      //  Debug.Log("Talisman inited " + talic.TalismanType + "   " + icon.gameObject.name);
         icon.sprite = spr;
         OnReady(false, 0);
     }
@@ -35,7 +35,7 @@ public class TalismanButton : MonoBehaviour
 
     public void OnClick()
     {
-        Debug.Log("Talisman USE!");
+      //  Debug.Log("Talisman USE!");
         talicLogic.Use();
     }
 

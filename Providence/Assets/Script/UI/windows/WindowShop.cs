@@ -39,7 +39,7 @@ public class WindowShop : BaseWindow
         {
             var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
             element.Init(playerItem, OnSelected);
-            element.transform.SetParent(layoutMyInventory);
+            element.transform.SetParent(layoutMyInventory,false);
             PlayerItemElements.Add(element);
         }
         var allSell = DataBaseController.Instance.allShopElements;
@@ -47,7 +47,7 @@ public class WindowShop : BaseWindow
         {
             var element = DataBaseController.Instance.GetItem<ShopItemElement>(PrefabShopItemElement);
             element.Init(shopExecute,OnShopSelected);
-            element.transform.SetParent(layoutShopItems);
+            element.transform.SetParent(layoutShopItems,false);
         }
         
         MainController.Instance.PlayerData.OnNewItem += OnNewItem;
@@ -179,7 +179,7 @@ public class WindowShop : BaseWindow
         //WindowManager.Instance.InfoWindow.Init(null,"you buy new item");
         var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
         element.Init(playerItem, OnSelected);
-        element.transform.SetParent(layoutMyInventory);
+        element.transform.SetParent(layoutMyInventory,false);
         PlayerItemElements.Add(element);
     }
 

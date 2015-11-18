@@ -179,7 +179,12 @@ public class Hero : Unit
     {
         var effect = DataBaseController.Instance.GetEffect(EffectType.heal, transform);
         effect.Action(this);
-        CurHp += currentPower;
+        var p =  currentPower * 3;
+        CurHp += p;
+        if (OnGetHit != null)
+        {
+            OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], p);
+        }
         StartCoroutine(WaitForHeal(effect));
     }
 
