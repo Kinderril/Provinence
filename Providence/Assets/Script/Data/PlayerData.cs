@@ -320,7 +320,7 @@ public class PlayerData
         switch (type)
         {
             case ParamType.Speed:
-                v += 3;
+                v += 4;
                 break;
             case ParamType.MPower:
                 v += MainParameters[MainParam.ATTACK] * 12 + 36;

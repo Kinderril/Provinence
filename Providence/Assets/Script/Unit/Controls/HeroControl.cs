@@ -10,6 +10,7 @@ public class HeroControl : BaseControl
     private const float CONST_SEC = 1.4f;
     private float RemainBackWalkTimeSec = 0;
     public bool isBackDir;
+    public Transform SpinTransform;
 
 
     public override bool MoveTo(Vector3 v)
@@ -39,6 +40,11 @@ public class HeroControl : BaseControl
                 TargetDirection = new Vector3(-TargetDirection.x, 0, -TargetDirection.z);
             }
         }
+    }
+
+    void Update()
+    {
+        SpinTransform.Rotate(Vector3.right,1f);
     }
 
     protected override void UpdateCharacter()
