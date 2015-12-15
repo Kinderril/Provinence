@@ -42,9 +42,10 @@ public class HeroControl : BaseControl
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
-        SpinTransform.Rotate(Vector3.right,1f);
+        SpinTransform.transform.localRotation = Quaternion.Euler(new Vector3(0,90,0));
+       // SpinTransform.Rotate(Vector3.right,1f);
     }
 
     protected override void UpdateCharacter()
