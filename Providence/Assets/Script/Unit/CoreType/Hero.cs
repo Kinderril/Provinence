@@ -93,15 +93,17 @@ public class Hero : Unit
 
     public override void TryAttack(Vector3 target)
     {
-        var dir = target - transform.position;
-        heorControl.SetLookDir(dir);
-        heorControl.SetDir(dir);
-        base.TryAttack(target);
+        if (curWeapon.CanShoot())
+        {
+            var dir = target - transform.position;
+            heorControl.SetLookDir(dir);
+            heorControl.SetDir(dir);
+            base.TryAttack(target);
+        }
     }
 
     public void TryAttackByDirection(Vector3 dir)
     {
-        heorControl.SetDir(dir);
         var trg = transform.position + dir;
 
         
@@ -110,7 +112,7 @@ public class Hero : Unit
         Debug.DrawRay(ray.origin, ray.direction * 5, Color.red, 1);
 #endif
         
-        base.TryAttack(trg);
+        TryAttack(trg);
     }
 
     public void GetItems(ItemId type, int count)

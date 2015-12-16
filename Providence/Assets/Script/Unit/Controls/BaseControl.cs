@@ -106,7 +106,7 @@ public class BaseControl : MonoBehaviour
         Stop();
     }
 
-    public void PlayAttack()
+    public virtual void PlayAttack()
     {
         Animator.SetTrigger("attack");
         

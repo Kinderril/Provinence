@@ -62,7 +62,7 @@ public class HeroControl : BaseControl
 
     public void SetLookDir(Vector3 dir)
     {
-        lookDir = dir;
+        lookDir = new Vector3(dir.x,SpinTransform.position.y ,dir.z);
         TimeToGoToDefaultLook = CONST_SEC_LOOK + Time.time;
         useLookDir = true;
     }
