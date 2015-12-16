@@ -9,7 +9,8 @@ public class AttackDistance : AttackAction
 {
     private float closeRange;
     private float farRange;
-    private bool isAttack = false;
+    private AttackStatus status;
+
 
     public AttackDistance(BaseMonster owner, Unit target, Action endCallback) 
         : base(owner, target, endCallback)
@@ -27,27 +28,23 @@ public class AttackDistance : AttackAction
     public void UpdateDistance()
     {
         base.Update();
-        if (!isAttack)
+        if (!isMoving)
         {
             bool isFar = curRange < farRange;
             //Debug.Log("In Range: " + isClose + "  " + isFar + "  " + curRange + "  " + closeRange + "   " + farRange);
             if (!isFar)
             {
-                isAttack = true;
-                DoShoot();
-                /*
-                bool isClose = curRange < closeRange;
-                if (owner.curWeapon.CanShoot())
+                if (UnityEngine.Random.Range(0, 100) < 70)
                 {
-                    Stop();
-                    isAttack = true;
+                    status = AttackStatus.shoot;
+                    isMoving = true;
                     DoShoot();
-                    return;
                 }
-                if (isClose)
+                else
                 {
+                    status = AttackStatus.comeOut;
                     ComeOutTarget();
-                }*/
+                }
             }
             else
             {
@@ -59,7 +56,7 @@ public class AttackDistance : AttackAction
     protected override void OnShootEnd(Unit obj)
     {
         base.OnShootEnd(obj);
-        isAttack = false;
+        isMoving = false;
     }
 
     private void Stop()
@@ -69,7 +66,9 @@ public class AttackDistance : AttackAction
 
     private void ComeOutTarget()
     {
-        Vector3 dirToEscape = owner.transform.position - target.transform.position;
+        var x = UnityEngine.Random.Range(-1f, 1f);
+        var y = UnityEngine.Random.Range(-1f, 1f);
+        Vector3 dirToEscape = new Vector3(x,0,y);
         MoveToTarget(dirToEscape.normalized * closeRange + owner.transform.position);
         
     }

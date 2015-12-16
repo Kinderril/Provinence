@@ -13,6 +13,7 @@ public enum AttackType
 
 public enum AttackStatus
 {
+    shoot,
     comeIn,
     comeOut
 }
@@ -24,7 +25,7 @@ public class AttackAction : BaseAction
     protected float curRange;
     protected float lastHitTime;
     protected bool isInRange;
-    private bool isMoving = false;
+    protected bool isMoving = false;
     private Vector3 moveTarget;
 
     public AttackAction(BaseMonster owner, Unit target ,Action endCallback)

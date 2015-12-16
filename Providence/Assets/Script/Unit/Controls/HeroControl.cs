@@ -7,8 +7,12 @@ using UnityStandardAssets.Effects;
 
 public class HeroControl : BaseControl
 {
-    private const float CONST_SEC = 1.4f;
+    private const float CONST_SEC_WALK = 1.4f;
+    private const float CONST_SEC_LOOK = 1.4f;
     private float RemainBackWalkTimeSec = 0;
+    private float TimeToGoToDefaultLook;
+    private bool useLookDir = false;
+    private Vector3 lookDir;
     public bool isBackDir;
     public Transform SpinTransform;
 
@@ -26,8 +30,7 @@ public class HeroControl : BaseControl
     {
         if (value)
         {
-                RemainBackWalkTimeSec = CONST_SEC;
-            //TargetDirection = -TargetDirection;
+            RemainBackWalkTimeSec = CONST_SEC_WALK;
         }
         if (m_Rigidbody.velocity.sqrMagnitude > 0.1f)
         {
@@ -42,15 +45,37 @@ public class HeroControl : BaseControl
         }
     }
 
+
+
     void LateUpdate()
     {
-        SpinTransform.transform.localRotation = Quaternion.Euler(new Vector3(0,90,0));
+        if (useLookDir)
+        {
+            SpinTransform.transform.LookAt(lookDir);// = Quaternion.Euler(new Vector3(0,90,0));
+            if (Time.time > TimeToGoToDefaultLook)
+            {
+                useLookDir = false;
+            }
+        }
        // SpinTransform.Rotate(Vector3.right,1f);
+    }
+
+    public void SetLookDir(Vector3 dir)
+    {
+        lookDir = dir;
+        TimeToGoToDefaultLook = CONST_SEC_LOOK + Time.time;
+        useLookDir = true;
     }
 
     protected override void UpdateCharacter()
     {
         base.UpdateCharacter();
+        CheckRemainBackDir();
+        RotateToTarget(isBackDir ? -TargetDirection : TargetDirection);
+    }
+
+    private void CheckRemainBackDir()
+    {
         if (RemainBackWalkTimeSec > 0)
         {
             RemainBackWalkTimeSec -= Time.deltaTime;
@@ -61,13 +86,13 @@ public class HeroControl : BaseControl
                     if (isBackDir)
                     {
                         TargetDirection -= TargetDirection;
-                        m_Rigidbody.velocity = TargetDirection;
+//                        m_Rigidbody.velocity = TargetDirection;
                     }
                     SetBackDir(false);
                 }
+                isBackDir = false;
             }
         }
-        RotateToTarget(isBackDir ? -TargetDirection : TargetDirection);
     }
     
     public void SetDir(Vector3 nDir)

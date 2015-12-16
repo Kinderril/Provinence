@@ -23,6 +23,7 @@ public class Hero : Unit
     public Action<float> CurrentBonusUpdateX;
     public float moneyBonusFromItem = 0.0f;
     public float damageBonusFromItem = 0.0f;
+    private HeroControl heorControl;
 
     public float CurrenthBonus
     {
@@ -51,6 +52,7 @@ public class Hero : Unit
         Parameters.Parameters[ParamType.PPower] *= damageBonusFromItem + 1f;
         Parameters.Parameters[ParamType.MPower] *= damageBonusFromItem + 1f;
         OnGetItems.Stop(true);
+        heorControl = Control as HeroControl;
         Utils.GroundTransform(transform);
     }
 
@@ -92,13 +94,14 @@ public class Hero : Unit
     public override void TryAttack(Vector3 target)
     {
         var dir = target - transform.position;
-        (Control as HeroControl).SetDir(dir);
+        heorControl.SetLookDir(dir);
+        heorControl.SetDir(dir);
         base.TryAttack(target);
     }
 
     public void TryAttackByDirection(Vector3 dir)
     {
-        (Control as HeroControl).SetDir(dir);
+        heorControl.SetDir(dir);
         var trg = transform.position + dir;
 
         
