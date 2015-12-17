@@ -4,9 +4,9 @@
 #Use at your own risk, this may totally destroy your project, but it worked for us
  
 #NOTE: this will cause your collaborators to re-import assets periodically
-Temp/*
-Library/*
-Build/*
+Providence/Temp/*
+Providence/Library/*
+Providence/Build/*
 
 #ignoring pidb, they are just code completion caching data according to:
 # http://stackoverflow.com/questions/1022111/what-are-monodevelops-pidb-files
