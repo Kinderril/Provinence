@@ -53,8 +53,10 @@ public class Hero : Unit
         Parameters.Parameters[ParamType.MPower] *= damageBonusFromItem + 1f;
         OnGetItems.Stop(true);
         heorControl = Control as HeroControl;
+        heorControl.Init();
         Utils.GroundTransform(transform);
     }
+
 
     protected override void InitWEapons()
     {

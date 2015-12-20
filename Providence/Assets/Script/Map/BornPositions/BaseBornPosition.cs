@@ -13,6 +13,7 @@ public class BaseBornPosition : MonoBehaviour
     protected Map map;
     public int unitsCout = 1;
     protected bool work = false;
+    public int ID;
 
     public virtual void Init(Map map)
     {

@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class RotateByQuaterhnion : MonoBehaviour
 {
 
     private float yy = 0;
-    private const float waitTime = 2f;
+    private const float waitTime = 1.6f;
     private const int border = 360;
     public float speed = 10;
     private float timeToOffWait;
@@ -16,25 +17,25 @@ public class RotateByQuaterhnion : MonoBehaviour
     public bool shallWait = false;
     public float angle;
     private Quaternion lastQuaternion;
+    private Action endLookRotation;
 
+
+    public void Init(Action endLookRotation)
+    {
+        this.endLookRotation = endLookRotation;
+    }
     void LateUpdate ()
     {
         if (shallRotate)
         {
             yy = lastLookDir.y + Time.deltaTime*speed* side;
-            if (yy > border)
-            {
-                yy -= border;
-            }else if (yy < 0)
-            {
-                yy += border;
-            }
+            yy = FixAngle(yy);
 
             lastLookDir = new Vector3(0, yy, 0);
             lastQuaternion = Quaternion.Euler(lastLookDir);
             transform.rotation = lastQuaternion;
             angle = Mathf.Abs(lastLookDir.y - lookDir.y);// Vector3.Angle(lastLookDir, lookDir);
-//            Debug.Log("q:" + q + "  angle:" + angle + "  lookDir:" + lookDir + "   lastLookDir:" + lastLookDir);
+            //Debug.Log("q:" + lastQuaternion + "  angle:" + angle + "  lookDir:" + lookDir + "   lastLookDir:" + lastLookDir);
             if (angle < 4)
             {
                 timeToOffWait = waitTime + Time.time;
@@ -48,9 +49,24 @@ public class RotateByQuaterhnion : MonoBehaviour
             if (timeToOffWait < Time.time)
             {
                 shallWait = false;
+                endLookRotation();
             }
         }
 
+    }
+
+    private float FixAngle(float a)
+    {
+
+        if (a > border)
+        {
+            a -= border;
+        }
+        else if (a < 0)
+        {
+            a += border;
+        }
+        return a;
     }
 
 //    void Update()
@@ -61,9 +77,24 @@ public class RotateByQuaterhnion : MonoBehaviour
 
     public void SetLookDir(Vector3 dir)
     {
-        lookDir =
-           lastLookDir = transform.rotation.eulerAngles;
+        var ang = Vector3.Angle(dir, new Vector3(-1, 0, 0)) ;
+        if (dir.z < 0)
+        {
+            ang *= -1;
+            ang -= 57;
+        }
+        else
+        {
+           ang -= 57;
+        }
+        //var ang = Vector3.Angle(dir, new Vector3(1, 0, 0));
+        ang = FixAngle(ang);
+
+        lookDir = new Vector3(0,ang,0);
+           lastLookDir =
+                transform.rotation.eulerAngles;
         shallRotate = true;
+        shallWait = false;
         var a = lookDir.y;
         var b = lastLookDir.y;
         float c;
@@ -93,12 +124,8 @@ public class RotateByQuaterhnion : MonoBehaviour
             }
 
         }
-        Debug.Log("SetNewDir " + lastLookDir + "   " + side + "   " + v);
 
-    }
-    public void SetNewDir()
-    {
-        var rndVec = new Vector3(0, UnityEngine.Random.Range(0, 360), 0);
-        SetLookDir(rndVec);
+        Debug.Log("SetNewDir lookDir:" + lookDir + "   last:" + lastLookDir + "   " + side + "   dir:" + dir);
+
     }
 }

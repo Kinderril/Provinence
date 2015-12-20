@@ -16,6 +16,7 @@ public class Weapon : MonoBehaviour
 
     public void Init(Unit owner,PlayerItem PlayerItem)
     {
+        nexAttackTime = 0;
         this.PlayerItem = PlayerItem;
         pSystemOnShot = GetComponentInChildren<ParticleSystem>();
         if (pSystemOnShot != null)
@@ -27,6 +28,8 @@ public class Weapon : MonoBehaviour
 
     public bool CanShoot()
     {
+
+       // Debug.Log(Time.time + "look TryAttack " + nexAttackTime);
         return Time.time > nexAttackTime;
     }
 
