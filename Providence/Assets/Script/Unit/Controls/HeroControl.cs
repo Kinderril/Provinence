@@ -14,8 +14,23 @@ public class HeroControl : BaseControl
     private bool useLookDir = false;
     private Vector3 lookDir;
     public bool isBackDir;
-    public Transform SpinTransform;
+    public RotateByQuaterhnion SpinTransform;
 
+    public void Init()
+    {
+        SpinTransform.Init(OnLookEnd);
+    }
+
+    private void OnLookEnd()
+    {
+
+        Animator.SetBool(ANIM_ATTACK, false);
+    }
+
+    public override void PlayAttack()
+    {
+        Animator.SetBool(ANIM_ATTACK,true);
+    }
 
     public override bool MoveTo(Vector3 v)
     {
@@ -46,32 +61,34 @@ public class HeroControl : BaseControl
     }
 
 
-
+    /*
     void LateUpdate()
     {
         if (useLookDir)
         {
-            SpinTransform.transform.LookAt(lookDir);// = Quaternion.Euler(new Vector3(0,90,0));
+            RotateToTarget(SpinTransform,lookDir);
+
+
             if (Time.time > TimeToGoToDefaultLook)
             {
                 useLookDir = false;
             }
         }
-       // SpinTransform.Rotate(Vector3.right,1f);
     }
-
+    */
     public void SetLookDir(Vector3 dir)
     {
-        lookDir = new Vector3(dir.x,SpinTransform.position.y ,dir.z);
-        TimeToGoToDefaultLook = CONST_SEC_LOOK + Time.time;
-        useLookDir = true;
+        SpinTransform.SetLookDir(dir);
+        //lookDir = new Vector3(dir.x,SpinTransform.position.y ,dir.z);
+        //TimeToGoToDefaultLook = CONST_SEC_LOOK + Time.time;
+        //useLookDir = true;
     }
 
     protected override void UpdateCharacter()
     {
         base.UpdateCharacter();
         CheckRemainBackDir();
-        RotateToTarget(isBackDir ? -TargetDirection : TargetDirection);
+        RotateToTarget(transform,isBackDir ? -TargetDirection : TargetDirection);
     }
 
     private void CheckRemainBackDir()

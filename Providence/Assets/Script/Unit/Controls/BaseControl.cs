@@ -8,6 +8,7 @@ public class BaseControl : MonoBehaviour
 {
     private const string ANIM_WALK = "walk";
     private const string ANIM_DEATH = "death";
+    protected const string ANIM_ATTACK = "attack";
     private const float WALK = 0.000001f;
 
 	[SerializeField] float m_MovingTurnSpeed = 360;
@@ -53,13 +54,14 @@ public class BaseControl : MonoBehaviour
     {
     }
 
-    protected virtual void RotateToTarget(Vector3 dir)
+    protected virtual void RotateToTarget(Transform tr2rotate,Vector3 dir)
     {
-        dir = transform.InverseTransformDirection(dir);
-        // Direction = Vector3.ProjectOnPlane(Direction, m_GroundNormal);
+        dir = tr2rotate.InverseTransformDirection(dir);
         m_TurnAmount = Mathf.Atan2(dir.x, dir.z);
         m_ForwardAmount = dir.z;
-        ApplyExtraTurnRotation();
+        float turnSpeed = 360;//Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
+     //   Debug.Log("m_ForwardAmount: " + m_ForwardAmount + "   turnSpeed:" + turnSpeed + "  m_TurnAmount:"+ m_TurnAmount.ToString("0.000") );
+        tr2rotate.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
     }
 
     public void UpdateFromUnit()
@@ -84,12 +86,6 @@ public class BaseControl : MonoBehaviour
 
 
 	}
-    void ApplyExtraTurnRotation()
-    {
-        // help the character turn faster (this is in addition to root rotation in the animation)
-        float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
-        transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
-    }
 
     public void SetDeath()
     {
@@ -108,8 +104,7 @@ public class BaseControl : MonoBehaviour
 
     public virtual void PlayAttack()
     {
-        Animator.SetTrigger("attack");
-        
+        Animator.SetTrigger(ANIM_ATTACK);
     }
 }
 

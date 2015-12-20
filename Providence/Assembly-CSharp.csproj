@@ -54,9 +54,10 @@
      <Compile Include="Assets\Script\Data\TalismanItem.cs" />
      <Compile Include="Assets\Script\DataBaseController.cs" />
      <Compile Include="Assets\Script\MainController.cs" />
-     <Compile Include="Assets\Script\Map\BaseBornPosition.cs" />
      <Compile Include="Assets\Script\Map\BornPosition.cs" />
-     <Compile Include="Assets\Script\Map\ChestBornPosition.cs" />
+     <Compile Include="Assets\Script\Map\BornPositions\BaseBornPosition.cs" />
+     <Compile Include="Assets\Script\Map\BornPositions\ChestBornPosition.cs" />
+     <Compile Include="Assets\Script\Map\BornPositions\HeroBornPosition.cs" />
      <Compile Include="Assets\Script\Map\Items\Bush.cs" />
      <Compile Include="Assets\Script\Map\Items\Chest.cs" />
      <Compile Include="Assets\Script\Map\Items\MapItem.cs" />
@@ -107,6 +108,7 @@
      <Compile Include="Assets\Script\Unit\Controls\AgentControl.cs" />
      <Compile Include="Assets\Script\Unit\Controls\BaseControl.cs" />
      <Compile Include="Assets\Script\Unit\Controls\HeroControl.cs" />
+     <Compile Include="Assets\Script\Unit\Controls\RotateByQuaterhnion.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\BaseMonster.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\Hero.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\UnitParameters.cs" />

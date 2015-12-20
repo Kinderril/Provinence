@@ -31,7 +31,7 @@ public class AgentControl : BaseControl
         var angel = Vector3.Angle(TargetDirection, this.Direction);
 
         if (angel > 5)
-            RotateToTarget(TargetDirection);
+            RotateToTarget(transform,TargetDirection);
 
         UpdateAnimator(agent.velocity);
     }
