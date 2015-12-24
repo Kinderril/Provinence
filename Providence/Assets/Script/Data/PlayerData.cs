@@ -21,16 +21,18 @@ public class PlayerData
     public const char ITEMS_DELEMETER = ':';
     public DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
     private List<BaseItem> playerItems = new List<BaseItem>();
+    public int AllocatedPoints;
+    private int CurrentLevel;
+    public Dictionary<MainParam,int> MainParameters;
+    private readonly Dictionary<Slot,int> slotsCount = new Dictionary<Slot, int>() { {Slot.Talisman, 2} };
+    private readonly Dictionary<int, List<int>> listOfOpendBornPositions = new Dictionary<int, List<int>>(); 
+
     public event Action<BaseItem> OnNewItem;
     public event Action<BaseItem, bool> OnItemEquiped;
     public event Action<BaseItem> OnItemSold;
     public event Action<Dictionary<MainParam, int>> OnParametersChange;
     public event Action<int> OnLevelUp;
     public event Action<ItemId, int> OnCurrensyChanges;
-    public int AllocatedPoints;
-    private int CurrentLevel;
-    public Dictionary<MainParam,int> MainParameters;
-    private readonly Dictionary<Slot,int> slotsCount = new Dictionary<Slot, int>() { {Slot.Talisman, 2} }; 
 
     public int Level
     {
@@ -344,6 +346,11 @@ public class PlayerData
     public void Pay(ItemId itemId, int cost)
     {
         AddCurrensy(itemId, -cost);
+    }
+
+    public void OpenBornPosition(int id)
+    {
+
     }
 }
 

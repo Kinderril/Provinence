@@ -16,16 +16,17 @@ public class BaseMonster : Unit
 {
     public AttackType AttackType;
     private const float isHomeDist = 2;
-    public float attackDist = 40;
+    public float attackDist = 45;
     private float runAwayDist = 0;
     private const float aiDist = 110;
     public float mainHeroDist = 0;
     public Vector3 bornPosition;
-    public AIStatus aiStatus;
-    public Hero mainHero;
+    private AIStatus aiStatus;
+    private Hero mainHero;
     public int moneyCollect;
     public int energyadd = 4;
     private BaseAction attackBehaviour;
+//    public ParticleSystem ParticleSystemBorn;
     public bool haveAction;
 
 
@@ -73,6 +74,10 @@ public class BaseMonster : Unit
             //fn.transform.position = transform.position;
             fn.Init(transform,hp,Color.red, "-");
             //fn.transform.LookAt(MainController.Instance.MainCamera.transform);
+        }
+        if (attackBehaviour == null)
+        {
+            StartAttack();
         }
 
     }

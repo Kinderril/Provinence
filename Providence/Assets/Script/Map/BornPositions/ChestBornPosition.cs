@@ -13,6 +13,10 @@ public class ChestBornPosition : BaseBornPosition
         base.Init(map);
         BornChest(level);
     }
+    public override BornPositionType GetBornPositionType()
+    {
+        return BornPositionType.chest;
+    }
 
     public void BornChest(Level level)
     {

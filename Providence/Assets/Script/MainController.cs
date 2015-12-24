@@ -31,9 +31,9 @@ public class MainController : Singleton<MainController>
         PlayerData.Load();
 	}
 
-    public void StartLevel()
+    public void StartLevel(int index)
     {
-        level = new Level();
+        level = new Level(index);
         WindowManager.Instance.OpenWindow(MainState.play);
     }
     private IEnumerator w4death()
@@ -43,7 +43,7 @@ public class MainController : Singleton<MainController>
         WindowManager.Instance.OpenWindow(MainState.end);
     }
 
-    public void EndLevel()
+    public void EndLevel(bool goodEnd)
     {
         Debug.Log("EndLevel>>");
         level.EndLevel(PlayerData);

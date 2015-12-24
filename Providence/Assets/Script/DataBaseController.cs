@@ -38,6 +38,7 @@ public class DataBaseController : Singleton<DataBaseController>
     public int maxLevel = 20;
     public List<BaseMonster> Monsters;
     public Dictionary<int, List<BaseMonster>> mosntersLevel = new Dictionary<int, List<BaseMonster>>();
+    public List<BossUnit> BossUnits = new List<BossUnit>(); 
     public Hero prefabHero;
     public List<Weapon> Weapons;
     public Pool Pool;

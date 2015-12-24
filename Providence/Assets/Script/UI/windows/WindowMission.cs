@@ -32,7 +32,8 @@ public class WindowMission : BaseWindow
 
     public void OnPlayClick()
     {
-        MainController.Instance.StartLevel();
+        int GetCurrentBornPosIndex = 1;
+        MainController.Instance.StartLevel(GetCurrentBornPosIndex);
     }
 
 }

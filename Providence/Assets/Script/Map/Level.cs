@@ -26,20 +26,21 @@ public class Level
     private float maxpower = 120;
     public Action<float, float> OnLeft;
     public Action<ItemId,float,float> OnItemCollected;
+    public Action<BossUnit> OnBossAppear;
     private DictionaryOfItemAndInt inventory;
     public int difficult = 1;
     public bool isPLaying = true;
     private PortalsController PortalsController = new PortalsController();
     public Action OnEndLevel;
 
-    public Level()
+    public Level(int index)
     {
         inventory = new DictionaryOfItemAndInt();
-        foreach (ItemId suit in Enum.GetValues(typeof(ItemId)))
+        foreach (ItemId id in Enum.GetValues(typeof(ItemId)))
         {
-            inventory.Add(suit,0);
+            inventory.Add(id,0);
         }
-        MainHero = Map.Instance.Init(this);
+        MainHero = Map.Instance.Init(this, index);
         PortalsController.Start((int)maxpower,OnPortalOpen);
     }
 
@@ -90,7 +91,7 @@ public class Level
         if (powerLeft > maxpower)
         {
             isPLaying = false;
-            MainController.Instance.EndLevel();
+            MainController.Instance.EndLevel(false);
         }
     }
 

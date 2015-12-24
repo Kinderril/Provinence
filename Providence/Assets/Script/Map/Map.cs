@@ -8,43 +8,48 @@ using UnityEngine;
 public class Map : Singleton<Map>
 {
     public List<BornPosition> appearPos;
+    public List<BossBornPosition> BossAppearPos;
     private Transform bornPositions;
     public Transform enemiesContainer;
     public List<Unit> enemies = new List<Unit>();
+    private BossSpawner bossSpawner;
     public Transform effectsContainer;
     public Transform miscContainer;
     public Transform heroBornPositions;
     private Level level;
     public CameraFollow CameraFollow;
+    private BossUnit boss;
 
-    public Hero Init(Level lvl)
+    public Hero Init(Level lvl,int heroBornPositionIndex)
     {
         level = lvl;
-        List<Vector3> vector3s = new List<Vector3>();
-        foreach (Transform v in heroBornPositions)
-        {
-            v.GetComponent<MeshRenderer>().enabled = false;
-            vector3s.Add(v.position);
-        }
-        var hero = DataBaseController.Instance.GetItem(DataBaseController.Instance.prefabHero, vector3s.RandomElement());
+        var hero = DataBaseController.Instance.GetItem(DataBaseController.Instance.prefabHero, GetHeroBoenPos(heroBornPositionIndex));
         hero.Init();
         bornPositions = transform.Find("BornPos");
         enemiesContainer = transform.Find("Enemies");
+        appearPos = new List<BornPosition>();
+        BossAppearPos = new List<BossBornPosition>();
         List<ChestBornPosition> chestPositions = new List<ChestBornPosition>();
         foreach (Transform bornPosition in bornPositions)
         {
-            var bp = bornPosition.GetComponent<BornPosition>();
+            var bp = bornPosition.GetComponent<BaseBornPosition>();
             if (bp != null)
             {
-                appearPos.Add(bp);
-                bp.Init(this, OnEnemyDead, lvl,hero);
-            }
-            else
-            {
-                var cbp = bornPosition.GetComponent<ChestBornPosition>();
-                if (cbp != null)
+                switch (bp.GetBornPositionType())
                 {
-                    chestPositions.Add(cbp);
+                    case BornPositionType.chest:
+                        var cBP = (bp as ChestBornPosition);
+                        chestPositions.Add(cBP);
+                        break;
+                    case BornPositionType.monster:
+                        var mBP = (bp as BornPosition);
+                        appearPos.Add(mBP);
+                        mBP.Init(this, OnEnemyDead, lvl, hero);
+                        break;
+                    case BornPositionType.boss:
+                        var bBP = (bp as BossBornPosition);
+                        BossAppearPos.Add(bBP);
+                        break;
                 }
             }
         }
@@ -55,7 +60,43 @@ public class Map : Singleton<Map>
             chestBornPosition.Init(this,lvl);
         }
         CameraFollow.Init(hero.transform);
+        bossSpawner = new BossSpawner(enemies.Count,OnSpawnBoss);
         return hero;
+    }
+
+    private Vector3 GetHeroBoenPos(int index)
+    {
+        Vector3 vector3s = Vector3.zero;
+        foreach (Transform v in heroBornPositions)
+        {
+            v.GetComponent<MeshRenderer>().enabled = false;
+            var heroBP = v.GetComponent<HeroBornPosition>();
+            if (heroBP.ID == index)
+            {
+                vector3s = v.position;
+                break;
+            }
+            vector3s = v.position;
+        }
+        return vector3s;
+    }
+
+    private void OnSpawnBoss()
+    {
+        var pos = BossAppearPos.RandomElement().transform.position;
+        var bossPrefab = DataBaseController.Instance.BossUnits.FirstOrDefault(x => x.Parameters.Level == level.difficult);
+        if (bossPrefab != null)
+        {
+            boss = DataBaseController.Instance.GetItem<BossUnit>(bossPrefab, pos);
+            if (level.OnBossAppear != null)
+            {
+                level.OnBossAppear(boss);
+            }
+        }
+        else
+        {
+            Debug.LogError("Can't find bossPrefab");
+        }
     }
 
     public void EndLevel()
@@ -72,12 +113,21 @@ public class Map : Singleton<Map>
         {
             Destroy(v.gameObject);
         }
+        foreach (var bornPosition in appearPos)
+        {
+            bornPosition.EndLevel();
+        }
+        if (boss != null)
+        {
+            Destroy(boss.gameObject);
+        }
     }
 
     private void OnEnemyDead(Unit obj)
     {
         obj.OnDead -= OnEnemyDead;
         enemies.Remove(obj);
+        bossSpawner.EnemieDead();
     }
 
     public List<BaseMonster> GetEnimiesInRadius(float rad)

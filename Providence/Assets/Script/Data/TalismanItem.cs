@@ -13,7 +13,8 @@ public enum TalismanType
     heal,
     doubleDamage,
     speed,
-    megaArmor
+    megaArmor,
+    fireBall,
 }
 
 public class TalismanItem : BaseItem

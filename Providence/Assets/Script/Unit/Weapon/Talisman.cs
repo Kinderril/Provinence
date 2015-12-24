@@ -52,6 +52,10 @@ public class Talisman
             case TalismanType.doubleDamage:
                 TimeEffect.Creat(MainController.Instance.level.MainHero, EffectType.doubleDamage);
                 break;
+            case TalismanType.fireBall:
+                //TODO creat AOE bullet
+                //TimeEffect.Creat(MainController.Instance.level.MainHero, EffectType.doubleDamage);
+                break;
         }
         AddEnergy(sourseItem.costShoot);
         DoCallback();

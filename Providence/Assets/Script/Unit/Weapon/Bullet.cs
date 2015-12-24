@@ -16,7 +16,8 @@ public class Bullet : MonoBehaviour
     private Action updateAction;
     public ParticleSystem TrailParticleSystem;
     public ParticleSystem HitParticleSystem;
-    private List<Unit> AffecttedUnits = new List<Unit>();
+    protected List<Unit> AffecttedUnits = new List<Unit>();
+//    private UnitType ownerType;
 
     void Awake()
     {
@@ -25,9 +26,10 @@ public class Bullet : MonoBehaviour
             HitParticleSystem.Stop();
         }
     }
-    public void Init(Vector3 target,Weapon weapon)
+    public virtual void Init(Vector3 target,Weapon weapon)
     {
         speed = weapon.Parameters.bulletSpeed;
+//        ownerType = weapon.owner.unitType;
         this.weapon = weapon;
         start = transform.position;
         var dir = target - start;
@@ -48,18 +50,23 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        var unit = other.GetComponent<Unit>();
-        if (unit != null && unit != weapon.owner)
-        {
-            Hit(unit);
-        }
-        
+        OnBulletHit(other);
+//        var unit = other.GetComponent<Unit>();
+//        if (unit != null && unit != weapon.owner)
+//        {
+//            Hit(unit);
+//        }
     }
 
-    private void Hit(Unit unit)
+    protected virtual void OnBulletHit(Collider other)
+    {
+        Debug.LogError("DON'T USE THIS CLASSS");
+    }
+
+    protected virtual void Hit(Unit unit)
     {
         bool haveManyTargets = false;
-        if (weapon.PlayerItem != null)
+        if (weapon != null && weapon.PlayerItem != null)
         {
             switch (weapon.PlayerItem.specialAbilities)
             {
@@ -71,6 +78,8 @@ public class Bullet : MonoBehaviour
                     }
                     else
                     {
+                        AffecttedUnits.Add(unit);
+                        unit.GetHit(this);
                         return;
                     }
                     break;
@@ -83,6 +92,8 @@ public class Bullet : MonoBehaviour
                     }
                     else
                     {
+                        AffecttedUnits.Add(unit);
+                        unit.GetHit(this);
                         return;
                     }
                     break;
@@ -93,10 +104,10 @@ public class Bullet : MonoBehaviour
         {
             if (AffecttedUnits.Count < 1)
             {
+                AffecttedUnits.Add(unit);
                 unit.GetHit(this);
             }
         }
-        AffecttedUnits.Add(unit);
         Death();
     }
 
@@ -116,7 +127,7 @@ public class Bullet : MonoBehaviour
         
     }
 
-    private void updateVector()
+    protected void updateVector()
     {
         time += speed;
         transform.position = Vector3.Lerp(start, trg, time);

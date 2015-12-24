@@ -7,15 +7,23 @@ using UnityEngine;
 
 public class HeroBornPosition : BaseBornPosition
 {
+    private bool isPositionOpend;
 
     void OnTriggerEnter(Collider other)
     {
-        var unit = other.GetComponent<Hero>();
-        if (unit != null)
+        if (!isPositionOpend)
         {
-
+            var unit = other.GetComponent<Hero>();
+            if (unit != null)
+            {
+                MainController.Instance.PlayerData.OpenBornPosition(ID);
+                isPositionOpend = true;
+            }
         }
-
+    }
+    public override BornPositionType GetBornPositionType()
+    {
+        return BornPositionType.chest;
     }
 }
 

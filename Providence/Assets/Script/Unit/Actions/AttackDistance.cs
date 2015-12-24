@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class AttackDistance : AttackAction
 {
-    private float closeRange;
     private float farRange;
     private AttackStatus status;
 
@@ -15,8 +14,7 @@ public class AttackDistance : AttackAction
     public AttackDistance(BaseMonster owner, Unit target, Action endCallback) 
         : base(owner, target, endCallback)
     {
-        closeRange = owner.curWeapon.Parameters.range * 0.5f;
-        farRange = owner.curWeapon.Parameters.range * 1.25f;
+        farRange = owner.curWeapon.Parameters.range;
     }
 
     public override void Update()
@@ -28,13 +26,13 @@ public class AttackDistance : AttackAction
     public void UpdateDistance()
     {
         base.Update();
-        if (!isMoving)
+        if (isMoving)
         {
             bool isFar = curRange < farRange;
             //Debug.Log("In Range: " + isClose + "  " + isFar + "  " + curRange + "  " + closeRange + "   " + farRange);
             if (!isFar)
             {
-                if (UnityEngine.Random.Range(0, 100) < 70)
+                if (UnityEngine.Random.Range(0, 100) < 90)
                 {
                     status = AttackStatus.shoot;
                     isMoving = true;
@@ -69,7 +67,7 @@ public class AttackDistance : AttackAction
         var x = UnityEngine.Random.Range(-1f, 1f);
         var y = UnityEngine.Random.Range(-1f, 1f);
         Vector3 dirToEscape = new Vector3(x,0,y);
-        MoveToTarget(dirToEscape.normalized * closeRange + owner.transform.position);
+        MoveToTarget(dirToEscape.normalized * 1 + owner.transform.position);
         
     }
 

@@ -4,6 +4,14 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+public enum BornPositionType
+{
+    hero,
+    chest,
+    monster,
+    boss,
+    none,
+}
 
 public class BaseBornPosition : MonoBehaviour
 {
@@ -24,6 +32,11 @@ public class BaseBornPosition : MonoBehaviour
             mesh.enabled = false;
         }
         work = UnityEngine.Random.Range(0f, 1f) < chanceToWork;
+    }
+
+    public virtual BornPositionType GetBornPositionType()
+    {
+        return BornPositionType.none;
     }
 }
 

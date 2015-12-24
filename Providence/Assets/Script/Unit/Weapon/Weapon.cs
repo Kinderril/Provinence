@@ -28,8 +28,6 @@ public class Weapon : MonoBehaviour
 
     public bool CanShoot()
     {
-
-       // Debug.Log(Time.time + "look TryAttack " + nexAttackTime);
         return Time.time > nexAttackTime;
     }
 
