@@ -105,14 +105,8 @@ public class Map : Singleton<Map>
         {
             enemy.DeInit();
         }
-        foreach (Transform v in enemiesContainer)
-        {
-            Destroy(v.gameObject);
-        }
-        foreach (Transform v in miscContainer)
-        {
-            Destroy(v.gameObject);
-        }
+        Utils.ClearTransform(enemiesContainer);
+        Utils.ClearTransform(miscContainer);
         foreach (var bornPosition in appearPos)
         {
             bornPosition.EndLevel();

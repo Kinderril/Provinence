@@ -32,6 +32,7 @@ public class Level
     public bool isPLaying = true;
     private PortalsController PortalsController = new PortalsController();
     public Action OnEndLevel;
+    public int MissionIndex = 1;
 
     public Level(int index)
     {

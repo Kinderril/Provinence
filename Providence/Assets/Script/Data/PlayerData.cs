@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ public class PlayerData
     public const string INVENTORY = "INVENTORY_";
     public const string ITEMS = "ITEMS";
     public const string BASE_PARAMS = "BASE_PARAMS";
+    public const string BORN_POSITIONS = "BORN_POSITIONS";
     public const char ITEMS_DELEMETER = ':';
     public DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
     private List<BaseItem> playerItems = new List<BaseItem>();
@@ -165,6 +167,7 @@ public class PlayerData
             MainParameters.Add(global::MainParam.DEF, 1);
         }
         CheckIfFirstLevel();
+        LoadListOfBornPosition();
     }
 
     private void CheckIfFirstLevel()
@@ -350,7 +353,49 @@ public class PlayerData
 
     public void OpenBornPosition(int id)
     {
+        var a = MainController.Instance.level.MissionIndex;
+        listOfOpendBornPositions[a].ForceAddValue(id);
+        SaveListOfBornPosition();
+    }
 
+    private void SaveListOfBornPosition()
+    {
+        string save_string;
+        foreach (var bornPosition in listOfOpendBornPositions)
+        {
+            save_string = "";
+            foreach (var val in bornPosition.Value)
+            {
+                save_string += val + ITEMS_DELEMETER;
+            }
+            PlayerPrefs.SetString(BORN_POSITIONS + bornPosition.Key.ToString(), save_string);
+        }
+    }
+
+    private void LoadListOfBornPosition()
+    {
+        for (int i = 1; i < DataStructs.MISSION_LAST_INDEX + 1; i++)
+        {
+            List<int> list = new List<int>();
+            listOfOpendBornPositions.Add(i, list);
+            var str = PlayerPrefs.GetString(BORN_POSITIONS + i,"");
+            if (str.Length > 1)
+            {
+                var splited = str.Split(ITEMS_DELEMETER);
+                foreach (var s in splited)
+                {
+                    if (s.Length > 0)
+                    {
+                        list.Add(Convert.ToInt32(s));
+                    }
+                }
+            }
+        }
+    }
+
+    public List<int> GetAllBornPositions(int mission)
+    {
+        return listOfOpendBornPositions[mission];
     }
 }
 

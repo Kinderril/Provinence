@@ -63,5 +63,10 @@ public class DataStructs : MonoBehaviour
     public SpecialAbilityImage[] SpecialAbilityImage;
     public EffectVisuals[] EffectVisuals;
     public int[] costParameterByLvl;
+    public const int MISSION_LAST_INDEX = 1;
+    public int GetRespawnPointsCountByMission(int mission)
+    {
+        return 4;
+    }
 }
 

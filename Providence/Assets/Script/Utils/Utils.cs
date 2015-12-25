@@ -71,4 +71,20 @@ public static class Utils
         uselast = true;
         return v1*s;
     }
+
+    public static void ClearTransform(Transform t)
+    {
+        foreach (Transform v in t)
+        {
+            GameObject.Destroy(v.gameObject);
+        }
+    }
+
+    public static void ForceAddValue<T>(this List<T> l, T v)
+    {
+        if (!l.Contains(v))
+        {
+            l.Add(v);
+        }
+    }
 }
