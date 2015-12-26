@@ -125,7 +125,7 @@ public class RotateByQuaterhnion : MonoBehaviour
 
         }
 
-        Debug.Log("SetNewDir lookDir:" + lookDir + "   last:" + lastLookDir + "   " + side + "   dir:" + dir);
+        //Debug.Log("SetNewDir lookDir:" + lookDir + "   last:" + lastLookDir + "   " + side + "   dir:" + dir);
 
     }
 }

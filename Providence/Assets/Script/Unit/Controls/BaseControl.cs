@@ -11,7 +11,7 @@ public class BaseControl : MonoBehaviour
     protected const string ANIM_ATTACK = "attack";
     private const float WALK = 0.000001f;
 
-	[SerializeField] float m_MovingTurnSpeed = 360;
+	[SerializeField] float m_MovingTurnSpeed = 660;
 	[SerializeField] float m_StationaryTurnSpeed = 180;
 
 	protected Rigidbody m_Rigidbody;
@@ -59,7 +59,7 @@ public class BaseControl : MonoBehaviour
         dir = tr2rotate.InverseTransformDirection(dir);
         m_TurnAmount = Mathf.Atan2(dir.x, dir.z);
         m_ForwardAmount = dir.z;
-        float turnSpeed = 360;//Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
+        float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
      //   Debug.Log("m_ForwardAmount: " + m_ForwardAmount + "   turnSpeed:" + turnSpeed + "  m_TurnAmount:"+ m_TurnAmount.ToString("0.000") );
         tr2rotate.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
     }
@@ -83,8 +83,6 @@ public class BaseControl : MonoBehaviour
         float speed = move.magnitude;
 	    moving = speed > WALK;
         Animator.SetBool(ANIM_WALK, moving);
-
-
 	}
 
     public void SetDeath()
@@ -92,7 +90,7 @@ public class BaseControl : MonoBehaviour
         Animator.SetBool(ANIM_DEATH,true);
     }
 
-    public virtual void Stop()
+    public virtual void Stop(bool setSpeedToZero = true)
     {
 
     }

@@ -26,9 +26,9 @@ public class MainController : Singleton<MainController>
         WindowManager.Instance.Init();
         ShopController.Instance.Init();
         TimerManager = new TimerManager();
-        WindowManager.Instance.OpenWindow(MainState.start);
         PlayerData = new PlayerData();
         PlayerData.Load();
+        WindowManager.Instance.OpenWindow(MainState.start);
 	}
 
     public void StartLevel(int index)

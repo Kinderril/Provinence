@@ -36,10 +36,17 @@ public class AttackAction : BaseAction
     }
 
 
-    protected void MoveToTarget(Vector3 trg)
+    protected void MoveToTarget(Vector3 trg,bool check2close = true)
     {
         trg = new Vector3(trg.x,owner.transform.position.y, trg.z);
-        if (((moveTarget-trg).sqrMagnitude > 1 || !isMoving) && owner.Control.MoveTo(trg))
+
+        bool isTooClose = true;
+        if (check2close)
+        {
+            isTooClose = (moveTarget - trg).sqrMagnitude > 1 &&  !isMoving;
+        }
+        Debug.Log("Start move to target " + isTooClose + "  " + isMoving);
+        if (isTooClose && owner.Control.MoveTo(trg))
         {
             moveTarget = trg;
             isMoving = true;
@@ -54,10 +61,15 @@ public class AttackAction : BaseAction
             isMoving = !owner.Control.IsPathComplete();
             if (!isMoving)
             {
-
+                MoveEnd();
             }
         }
         curRange = ((BaseMonster)owner).mainHeroDist;
+    }
+
+    protected virtual void MoveEnd()
+    {
+     
     }
 
     protected void DoShoot()

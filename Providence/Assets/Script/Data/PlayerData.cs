@@ -166,8 +166,8 @@ public class PlayerData
             MainParameters.Add(global::MainParam.HP, 1);
             MainParameters.Add(global::MainParam.DEF, 1);
         }
-        CheckIfFirstLevel();
         LoadListOfBornPosition();
+        CheckIfFirstLevel();
     }
 
     private void CheckIfFirstLevel()
@@ -187,6 +187,12 @@ public class PlayerData
             AddAndEquip(item2);
             AddAndEquip(talisman);
             AddAndEquip(talisman2);
+            listOfOpendBornPositions[1].Add(1);
+            foreach (var a in listOfOpendBornPositions[1])
+            {
+                Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>  " + a);
+            }
+            SaveListOfBornPosition();
         }
     }
 
@@ -366,9 +372,11 @@ public class PlayerData
             save_string = "";
             foreach (var val in bornPosition.Value)
             {
-                save_string += val + ITEMS_DELEMETER;
+                save_string += val.ToString() + ITEMS_DELEMETER;
             }
-            PlayerPrefs.SetString(BORN_POSITIONS + bornPosition.Key.ToString(), save_string);
+            var saveKey = BORN_POSITIONS + bornPosition.Key.ToString();
+            Debug.Log("SaveListOfBornPosition:" + saveKey + "    " + save_string);
+            PlayerPrefs.SetString(saveKey, save_string);
         }
     }
 
@@ -379,7 +387,8 @@ public class PlayerData
             List<int> list = new List<int>();
             listOfOpendBornPositions.Add(i, list);
             var str = PlayerPrefs.GetString(BORN_POSITIONS + i,"");
-            if (str.Length > 1)
+            Debug.Log(i + " LoadListOfBornPosition " + str + "  " + str.Length);
+            if (str.Length > 0)
             {
                 var splited = str.Split(ITEMS_DELEMETER);
                 foreach (var s in splited)

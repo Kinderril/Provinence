@@ -56,8 +56,10 @@
      <Compile Include="Assets\Script\MainController.cs" />
      <Compile Include="Assets\Script\Map\BornPosition.cs" />
      <Compile Include="Assets\Script\Map\BornPositions\BaseBornPosition.cs" />
+     <Compile Include="Assets\Script\Map\BornPositions\BossBornPosition.cs" />
      <Compile Include="Assets\Script\Map\BornPositions\ChestBornPosition.cs" />
      <Compile Include="Assets\Script\Map\BornPositions\HeroBornPosition.cs" />
+     <Compile Include="Assets\Script\Map\BossSpawner.cs" />
      <Compile Include="Assets\Script\Map\Items\Bush.cs" />
      <Compile Include="Assets\Script\Map\Items\Chest.cs" />
      <Compile Include="Assets\Script\Map\Items\MapItem.cs" />
@@ -81,6 +83,7 @@
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponButtonView.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponChooser.cs" />
      <Compile Include="Assets\Script\UI\windows\InGameUI\WeaponChooserView.cs" />
+     <Compile Include="Assets\Script\UI\windows\Mission\RespawnPointToggle.cs" />
      <Compile Include="Assets\Script\UI\windows\Parameters\AllParametersContainer.cs" />
      <Compile Include="Assets\Script\UI\windows\Parameters\GameParameterElement.cs" />
      <Compile Include="Assets\Script\UI\windows\Parameters\ParameterUpgradeElement.cs" />
@@ -105,11 +108,15 @@
      <Compile Include="Assets\Script\Unit\Actions\MoveAction.cs" />
      <Compile Include="Assets\Script\Unit\Actions\StayAction.cs" />
      <Compile Include="Assets\Script\Unit\AnimationController.cs" />
+     <Compile Include="Assets\Script\Unit\Bullets\AOEBullet.cs" />
+     <Compile Include="Assets\Script\Unit\Bullets\HeroBullet.cs" />
+     <Compile Include="Assets\Script\Unit\Bullets\MonsterBullet.cs" />
      <Compile Include="Assets\Script\Unit\Controls\AgentControl.cs" />
      <Compile Include="Assets\Script\Unit\Controls\BaseControl.cs" />
      <Compile Include="Assets\Script\Unit\Controls\HeroControl.cs" />
      <Compile Include="Assets\Script\Unit\Controls\RotateByQuaterhnion.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\BaseMonster.cs" />
+     <Compile Include="Assets\Script\Unit\CoreType\BossUnit.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\Hero.cs" />
      <Compile Include="Assets\Script\Unit\CoreType\UnitParameters.cs" />
      <Compile Include="Assets\Script\Unit\Mecanics\Base\TimeEffect.cs" />

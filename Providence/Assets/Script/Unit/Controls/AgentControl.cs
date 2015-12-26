@@ -17,36 +17,50 @@ public class AgentControl : BaseControl
 
     public override bool MoveTo(Vector3 v)
     {
-        this.Direction = v.normalized;
-        return agent.SetDestination(v);
+        this.TargetDirection = (v - transform.position).normalized;
+        var movingOk = agent.SetDestination(v);
+        //Debug.Log("AGENT control move to:" + v + " from:" + transform.position + "   movingOk:" + movingOk);
+        return movingOk;
     }
 
     public override bool IsPathComplete()
     {
-        return agent.remainingDistance < 1;
+        var isComplete = agent.remainingDistance < 1;
+        return isComplete;
     }
 
     protected override void UpdateCharacter()
     {
+
+        this.TargetDirection = (agent.destination - transform.position).normalized;
         var angel = Vector3.Angle(TargetDirection, this.Direction);
 
-        if (angel > 5)
+        if (angel > 3)
             RotateToTarget(transform,TargetDirection);
 
         UpdateAnimator(agent.velocity);
     }
     public override void SetSpped(float speed)
     {
+
         if (agent != null)
             agent.speed = speed;
     }
 
-    public override void Stop()
+
+    public override void Stop(bool setSpeedToZero = true)
     {
         if (agent != null)
         {
-            agent.Stop();
-            agent.speed = 0;
+            if (setSpeedToZero)
+            {
+                agent.Stop();
+                agent.speed = 0;
+            }
+            else
+            {
+                agent.ResetPath();
+            }
         }
 
     }

@@ -17,7 +17,7 @@ public class BaseMonster : Unit
     public AttackType AttackType;
     private const float isHomeDist = 2;
     public float attackDist = 45;
-    private float runAwayDist = 0;
+    private float runAwayDist = 110;
     private const float aiDist = 110;
     public float mainHeroDist = 0;
     public Vector3 bornPosition;
@@ -38,7 +38,7 @@ public class BaseMonster : Unit
 
     public override void Init()
     {
-        runAwayDist = attackDist * 1.4f;
+        //runAwayDist = attackDist * 1.4f;
         base.Init();
         Parameters.Parameters[ParamType.Speed] = GreatRandom.RandomizeValue(Parameters.Parameters[ParamType.Speed]);
         bornPosition = transform.position;
@@ -189,6 +189,7 @@ public class BaseMonster : Unit
 
     private void EndAttack()
     {
+        Debug.Log("Run AWAY");
         aiStatus = AIStatus.returnHome;
         Action = new MoveAction(this, bornPosition, StartWalk);
     }
