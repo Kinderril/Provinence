@@ -32,11 +32,12 @@ public class AgentControl : BaseControl
     protected override void UpdateCharacter()
     {
 
-        this.TargetDirection = (agent.destination - transform.position).normalized;
-        var angel = Vector3.Angle(TargetDirection, this.Direction);
+//        this.TargetDirection = (agent.destination - transform.position).normalized;
+//        var angel = Vector3.Angle(TargetDirection, this.Direction);
 
-        if (angel > 3)
-            RotateToTarget(transform,TargetDirection);
+//        if (angel > 3)
+//        Debug.Log("TargetDirection" + TargetDirection);
+        RotateToTarget(transform,TargetDirection);
 
         UpdateAnimator(agent.velocity);
     }

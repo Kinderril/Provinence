@@ -19,7 +19,7 @@ public class AttackCloseCombat :AttackAction
     }
     public void UpdateCloseCombat()
     {
-        curRange = (owner.transform.position - target.transform.position).magnitude;
+//        curRange = (owner.transform.position - target.transform.position).magnitude;
         isInRange = (curRange < rangeAttack);
         if (isInRange)
         {
