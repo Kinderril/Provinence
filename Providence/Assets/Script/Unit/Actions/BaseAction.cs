@@ -7,10 +7,10 @@ using UnityEngine;
 
 public class BaseAction
 {
-    protected Unit owner;
+    protected BaseMonster owner;
     protected Action endCallback;
 
-    public BaseAction(Unit owner,Action endCallback)
+    public BaseAction(BaseMonster owner,Action endCallback)
     {
         this.endCallback = endCallback;
         this.owner = owner;

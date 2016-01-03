@@ -13,12 +13,16 @@ public class Weapon : MonoBehaviour
     public ParticleSystem pSystemOnShot;
     public WeaponParameters Parameters;
     public PlayerItem PlayerItem;
+    public Transform bulletComeOut;
 
     public void Init(Unit owner,PlayerItem PlayerItem)
     {
         nexAttackTime = 0;
         this.PlayerItem = PlayerItem;
-        pSystemOnShot = GetComponentInChildren<ParticleSystem>();
+        if (pSystemOnShot == null)
+        {
+            pSystemOnShot = GetComponentInChildren<ParticleSystem>();
+        }
         if (pSystemOnShot != null)
         {
             pSystemOnShot.Stop();
@@ -38,7 +42,7 @@ public class Weapon : MonoBehaviour
 
     public void DoShoot(Vector3 v)
     {
-        v = new Vector3(v.x,transform.position.y, v.z);
+//        v = new Vector3(v.x,transform.position.y, v.z);
             
         if (Parameters.isHoming)
         {
@@ -51,11 +55,21 @@ public class Weapon : MonoBehaviour
             {
                 potentialTarget = MainController.Instance.level.MainHero;
             }
-            var dist = (owner.transform.position - potentialTarget.transform.position).sqrMagnitude;
+            Vector3 outPosVector3;
+            if (bulletComeOut != null)
+            {
+                outPosVector3 = bulletComeOut.position;
+            }
+            else
+            {
+                outPosVector3 = owner.transform.position;
+            }
+
+            var dist = (outPosVector3  - potentialTarget.transform.position).sqrMagnitude;
             if (potentialTarget != null && dist < 30)
             {
                 Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
-                bullet1.transform.position = owner.transform.position;
+                bullet1.transform.position = outPosVector3;
                 bullet1.Init(potentialTarget, this);
             }
             else

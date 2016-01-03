@@ -14,7 +14,6 @@ public enum AIStatus
 
 public class BaseMonster : Unit
 {
-    public AttackType AttackType;
     private const float isHomeDist = 2;
     public float attackDist = 45;
     private float runAwayDist = 110;
@@ -25,6 +24,7 @@ public class BaseMonster : Unit
     private Hero mainHero;
     public int moneyCollect;
     public int energyadd = 4;
+    private bool isHome = true;
     private BaseAction attackBehaviour;
 //    public ParticleSystem ParticleSystemBorn;
     public bool haveAction;
@@ -101,6 +101,7 @@ public class BaseMonster : Unit
         
         if (mainHeroDist < aiDist)
         {
+            isHome = false;
             Control.UpdateFromUnit();
             bool isTargetClose = (mainHeroDist < attackDist);
             switch (aiStatus)
@@ -121,11 +122,11 @@ public class BaseMonster : Unit
                     }
                     else
                     {
-                        var isHome = (transform.position - bornPosition).sqrMagnitude < isHomeDist;
-                        if (isHome)
-                        {
-                            StartWalk();
-                        }
+//                        isHome = (transform.position - bornPosition).sqrMagnitude < isHomeDist;
+//                        if (isHome)
+//                        {
+//                            StartWalk();
+//                        }
                     }
                     break;
                 case AIStatus.walk:
@@ -138,8 +139,13 @@ public class BaseMonster : Unit
         }
         else
         {
-            aiStatus = AIStatus.disable;
-            Action = null;
+            if (aiStatus != AIStatus.returnHome && !isHome)
+            {
+                Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>Start go home 1111111111111 prevStatus " + aiStatus + "    mainHeroDist " + mainHeroDist + "   aiDist:" + aiDist);
+//                aiStatus = AIStatus.disable;
+                //                Action = null;
+                EndAttack();
+            }
         }
     }
 
@@ -166,10 +172,19 @@ public class BaseMonster : Unit
         
     }
 
+    private void EndWalk()
+    {
+        isHome = true;
+        if (aiStatus == AIStatus.returnHome)
+            return;
+        StartWalk();
+        
+    }
+
     private void StartAttack()
     {
         aiStatus = AIStatus.attack;
-        switch (AttackType)
+        switch (Parameters.AttackType)
         {
             case AttackType.hitAndRun:
                 Action = new AttackHitAndRun(this, MainController.Instance.level.MainHero, StartAttack);
@@ -189,9 +204,13 @@ public class BaseMonster : Unit
 
     private void EndAttack()
     {
-        Debug.Log("Run AWAY");
+        Debug.Log("Run AWAY  " + Parameters.AttackType);
         aiStatus = AIStatus.returnHome;
-        Action = new MoveAction(this, bornPosition, StartWalk);
+        if (Action != null)
+        {
+            Action.End();
+        }
+        Action = new MoveAction(this, bornPosition, EndWalk);
     }
 }
 

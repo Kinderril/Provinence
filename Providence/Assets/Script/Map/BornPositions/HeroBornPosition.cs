@@ -23,7 +23,7 @@ public class HeroBornPosition : BaseBornPosition
     }
     public override BornPositionType GetBornPositionType()
     {
-        return BornPositionType.chest;
+        return BornPositionType.hero;
     }
 }
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 
 public class AttackCloseCombat :AttackAction
@@ -19,20 +19,39 @@ public class AttackCloseCombat :AttackAction
     }
     public void UpdateCloseCombat()
     {
-//        curRange = (owner.transform.position - target.transform.position).magnitude;
-        isInRange = (curRange < rangeAttack);
+        TestTargetDist();
+
+    }
+
+    private void TestTargetDist()
+    {
+        isInRange = (curRangeSqr < rangeAttackSqr);
         if (isInRange)
         {
             if (owner.curWeapon.CanShoot())
             {
-                DoShoot();
+                if (attackStatus != AttackStatus.shoot)
+                    DoShoot();
             }
         }
         else
         {
-            MoveToTarget(target.transform.position);
+            if (attackStatus == AttackStatus.none)
+            {
+                MoveToTarget();
+            }
         }
+    }
 
+    protected override void TargetMove()
+    {
+        TestTargetDist();
+    }
+
+    protected override void OnShootEnd(Unit obj)
+    {
+        base.OnShootEnd(obj);
+        TestTargetDist();
     }
 }
 

@@ -25,6 +25,7 @@ public class UnitParameters : ScriptableObject
     public float magicResist = 1f;
     public float physicResist = 1f;
     public int Level = 1;
+    public AttackType AttackType;
     
     public UnitParameters Copy()
     {
@@ -42,7 +43,7 @@ public class UnitParameters : ScriptableObject
         p.Parameters.Add(ParamType.PDef, physicResist);
         p.Parameters.Add(ParamType.MDef, magicResist);
         p.Parameters.Add(ParamType.Hp,MaxHp );
-
+        p.AttackType = AttackType;
         return p;
 
     }

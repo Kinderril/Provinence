@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour
     public ParticleSystem TrailParticleSystem;
     public ParticleSystem HitParticleSystem;
     protected List<Unit> AffecttedUnits = new List<Unit>();
+    public bool rebuildY = true;
 //    private UnitType ownerType;
 
     void Awake()
@@ -28,10 +29,22 @@ public class Bullet : MonoBehaviour
     }
     public virtual void Init(Vector3 target,Weapon weapon)
     {
+        if (rebuildY)
+        {
+            target = new Vector3(target.x, transform.position.y, target.z);
+        }
         speed = weapon.Parameters.bulletSpeed;
 //        ownerType = weapon.owner.unitType;
         this.weapon = weapon;
-        start = transform.position;
+        if (weapon.bulletComeOut)
+        {
+            start = weapon.bulletComeOut.position;
+        }
+        else
+        {
+            start = transform.position;
+            
+        }
         var dir = target - start;
         trg = dir.normalized * weapon.Parameters.range + start;
         time = 0;

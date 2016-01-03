@@ -68,7 +68,8 @@ public class Unit : MonoBehaviour
         //List<Weapon> weapons = new List<Weapon>();
         foreach (var inventoryWeapon in InventoryWeapons)
         {
-            inventoryWeapon.Init(this,null);
+            inventoryWeapon.Init(this, null);
+            inventoryWeapon.gameObject.SetActive(false);
         }
         Control.SetSpped(Parameters.Parameters[ParamType.Speed]);
         if (InventoryWeapons.Count == 0)
@@ -78,6 +79,7 @@ public class Unit : MonoBehaviour
         }
         InitWEapons();
         curWeapon = InventoryWeapons[0];
+        curWeapon.gameObject.SetActive(true);
     }
 
     protected virtual void InitWEapons()
@@ -108,6 +110,7 @@ public class Unit : MonoBehaviour
         {
             if (InventoryWeapons.Count <= 1)
                 return;
+            curWeapon.gameObject.SetActive(false);
             var index = InventoryWeapons.IndexOf(curWeapon);
             index++;
             if (index >= InventoryWeapons.Count)
@@ -115,6 +118,7 @@ public class Unit : MonoBehaviour
                 index = 0;
             }
             curWeapon = InventoryWeapons[index];
+            curWeapon.gameObject.SetActive(true);
             if (OnWeaponChanged != null)
             {
                 OnWeaponChanged(curWeapon);
@@ -140,19 +144,19 @@ public class Unit : MonoBehaviour
         Control.MoveTo(dir * Parameters.Parameters[ParamType.Speed]);
     }
     
-    public void MoveToPosition(Vector3 vector3)
-    {
-//        Debug.Log("MOve to: " + vector3);
-        if (action != null)
-        {
-            action.End();
-        }
-        var moveAction = new MoveAction(this,vector3, () =>
-        {
-            action = null;
-        });
-        action = moveAction;
-    }
+//    public void MoveToPosition(Vector3 vector3)
+//    {
+////        Debug.Log("MOve to: " + vector3);
+//        if (action != null)
+//        {
+//            action.End();
+//        }
+//        var moveAction = new MoveAction(this,vector3, () =>
+//        {
+//            action = null;
+//        });
+//        action = moveAction;
+//    }
 
     private float calcResist(float curResist)
     {

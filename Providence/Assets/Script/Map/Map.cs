@@ -49,6 +49,7 @@ public class Map : Singleton<Map>
                     case BornPositionType.boss:
                         var bBP = (bp as BossBornPosition);
                         BossAppearPos.Add(bBP);
+                        bBP.Init(this);
                         break;
                 }
             }
@@ -58,6 +59,7 @@ public class Map : Singleton<Map>
         foreach (var chestBornPosition in chestPositions)
         {
             chestBornPosition.Init(this,lvl);
+            
         }
         CameraFollow.Init(hero.transform);
         bossSpawner = new BossSpawner(enemies.Count,OnSpawnBoss);
@@ -74,9 +76,9 @@ public class Map : Singleton<Map>
             if (heroBP.ID == index)
             {
                 vector3s = v.position;
-                break;
+//                break;
             }
-            vector3s = v.position;
+//            vector3s = v.position;
         }
         return vector3s;
     }
@@ -88,6 +90,8 @@ public class Map : Singleton<Map>
         if (bossPrefab != null)
         {
             boss = DataBaseController.Instance.GetItem<BossUnit>(bossPrefab, pos);
+            boss.Init(MainController.Instance.level.MainHero);
+            boss.transform.SetParent(enemiesContainer);
             if (level.OnBossAppear != null)
             {
                 level.OnBossAppear(boss);

@@ -375,7 +375,7 @@ public class PlayerData
                 save_string += val.ToString() + ITEMS_DELEMETER;
             }
             var saveKey = BORN_POSITIONS + bornPosition.Key.ToString();
-            Debug.Log("SaveListOfBornPosition:" + saveKey + "    " + save_string);
+//            Debug.Log("SaveListOfBornPosition:" + saveKey + "    " + save_string);
             PlayerPrefs.SetString(saveKey, save_string);
         }
     }
@@ -387,7 +387,7 @@ public class PlayerData
             List<int> list = new List<int>();
             listOfOpendBornPositions.Add(i, list);
             var str = PlayerPrefs.GetString(BORN_POSITIONS + i,"");
-            Debug.Log(i + " LoadListOfBornPosition " + str + "  " + str.Length);
+//            Debug.Log(i + " LoadListOfBornPosition " + str + "  " + str.Length);
             if (str.Length > 0)
             {
                 var splited = str.Split(ITEMS_DELEMETER);

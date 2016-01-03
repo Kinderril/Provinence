@@ -13,80 +13,133 @@ public enum AttackType
 
 public enum AttackStatus
 {
+    none,
     shoot,
-    comeIn,
-    comeOut
+    move,
 }
 
 public class AttackAction : BaseAction
 {
+    private const float MAX_OFFSET_SQR = 8.5f;
+    private const float RADIUS = 1f;
+    private const float DELTA_RECALC = 0.3f;
     protected Unit target;
-    protected float rangeAttack;
-    protected float curRange;
+    private float lastRecalTime;
+    protected float rangeAttackSqr;
+    protected float curRangeFromBornPosition;
+    protected float curRangeSqr;
     protected float lastHitTime;
     protected bool isInRange;
-    protected bool isMoving = false;
+//    protected bool isMoving = false;
     private Vector3 moveTarget;
+    private Vector3 lastTargetScanPos;
+    protected Vector3 targetUnitDir;
+    protected AttackStatus attackStatus = AttackStatus.none;
 
     public AttackAction(BaseMonster owner, Unit target ,Action endCallback)
         : base(owner, endCallback)
     {
         this.target = target;
-        rangeAttack = owner.curWeapon.Parameters.range;
+        lastTargetScanPos = target.transform.position;
+        lastTargetScanPos = new Vector3(lastTargetScanPos.x, owner.transform.position.y, lastTargetScanPos.z);
+        rangeAttackSqr = owner.curWeapon.Parameters.range * owner.curWeapon.Parameters.range;
     }
 
 
-    protected void MoveToTarget(Vector3 trg,bool check2close = true)
+    private void MoveToTarget(Vector3 trg)
     {
-        trg = new Vector3(trg.x,owner.transform.position.y, trg.z);
+        if (lastRecalTime < Time.time + DELTA_RECALC)
+        {
+            trg = new Vector3(trg.x, owner.transform.position.y, trg.z);
+            lastTargetScanPos = trg;
 
-        bool isTooClose = true;
-        if (check2close)
-        {
-            isTooClose = (moveTarget - trg).sqrMagnitude > 1 &&  !isMoving;
-        }
-        Debug.Log("Start move to target " + isTooClose + "  " + isMoving);
-        if (isTooClose && owner.Control.MoveTo(trg))
-        {
-            moveTarget = trg;
-            isMoving = true;
+//        bool isTooClose = true;
+            trg = ClaclNearTargetPosition(trg);
+//        isTooClose = (moveTarget - trg).sqrMagnitude > 1;
+//            Debug.Log("Start move to target " + trg);
+            if ( /*isTooClose && */owner.Control.MoveTo(trg))
+            {
+                lastRecalTime = Time.time;
+                moveTarget = trg;
+                attackStatus = AttackStatus.move;
+            }
         }
     }
 
+    private Vector3 ClaclNearTargetPosition(Vector3 trg)
+    {
+        var ownPos = owner.transform.position;
+        var dir = trg - ownPos;
+        var dist = dir.magnitude;
+        var a = dist - RADIUS;
+        return ownPos + dir.normalized*a;
+    }
+
+    protected void MoveToTarget()
+    {
+        MoveToTarget(target.transform.position);
+    }
 
     public override void Update()
     {
-        if (isMoving)
+        if (attackStatus == AttackStatus.move)
         {
-            isMoving = !owner.Control.IsPathComplete();
+            var isMoving = !owner.Control.IsPathComplete();
             if (!isMoving)
             {
                 MoveEnd();
             }
         }
-        curRange = ((BaseMonster)owner).mainHeroDist;
+        curRangeFromBornPosition = owner.mainHeroDist;
+        if (target != null)
+        {
+            curRangeSqr = (owner.transform.position - target.transform.position).sqrMagnitude;
+            var curp = target.transform.position;
+            targetUnitDir = lastTargetScanPos - curp;
+            var offset = (targetUnitDir).sqrMagnitude;
+//            Debug.Log("Offset test  " + offset);
+            if (offset > MAX_OFFSET_SQR)
+            {
+                //                lastTargetScanPos = curp;
+//                Debug.Log("TargetMove By Offset " + offset);
+                TargetMove();
+            }
+        }
+    }
+
+    protected virtual void TargetMove()
+    {
+        
     }
 
     protected virtual void MoveEnd()
     {
+        attackStatus = AttackStatus.none;
      
     }
 
-    protected void DoShoot()
+    protected void DoShoot(bool shallStop = false)
     {
         owner.TryAttack(target.transform.position);
         owner.Control.SetToDirection(target.transform.position - owner.transform.position);
         owner.OnShootEnd += OnShootEnd;
+        attackStatus = AttackStatus.shoot;
+        if (shallStop)
+        {
+            ((AgentControl)owner.Control).Stop(false);
+        }
     }
 
     protected virtual void OnShootEnd(Unit obj)
     {
+        attackStatus = AttackStatus.none;
         owner.OnShootEnd -= OnShootEnd;
     }
 
     public override void End(string msg = " end action ")
     {
         owner.OnShootEnd -= OnShootEnd;
+        ((AgentControl)owner.Control).Stop(false);
         base.End(msg);
     }
 }

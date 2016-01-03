@@ -7,7 +7,7 @@ using System.Text;
 public class StayAction : BaseAction
 {
     private TimerManager.ITimer timer;
-    public StayAction(Unit owner, Action endCallback) 
+    public StayAction(BaseMonster owner, Action endCallback) 
         : base(owner, endCallback)
     {
         timer = MainController.Instance.TimerManager.MakeTimer(TimeSpan.FromSeconds(UnityEngine.Random.Range(2, 10)));

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 public class BossSpawner
 {
@@ -14,7 +15,7 @@ public class BossSpawner
     {
         OnSpawnBoss = SpawnBoss;
         this.EnemiesOnStart = count;
-        ToSpawnBossOnStart =(int)( EnemiesOnStart*0.35f );
+        ToSpawnBossOnStart =(int)( EnemiesOnStart*0.99f );
     }
 
     public void EnemieDead()
@@ -22,6 +23,7 @@ public class BossSpawner
         if (!isBossSpawned)
         {
             EnemiesOnStart--;
+            Debug.Log("ToSpawnBossOnStart " + ToSpawnBossOnStart + " > " + EnemiesOnStart);
             if (ToSpawnBossOnStart > EnemiesOnStart)
             {
                 isBossSpawned = true;

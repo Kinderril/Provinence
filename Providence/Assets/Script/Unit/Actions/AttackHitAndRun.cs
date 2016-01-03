@@ -23,35 +23,35 @@ public class AttackHitAndRun : AttackAction
 
     public void UpdateHitAndRun()
     {
-        switch (status)
-        {
-            case AttackStatus.comeIn:
-                curRange = (owner.transform.position - target.transform.position).magnitude;
-                isInRange = (curRange < rangeAttack);
-                if (isInRange)
-                {
-                    DoShoot();
-                    backPosition = ((BaseMonster)owner).bornPosition;
-                    status = AttackStatus.comeOut;
-                }
-                else
-                {
-                    MoveToTarget(target.transform.position);
-                }
-                break;
-            case AttackStatus.comeOut:
-                curRange = (owner.transform.position - backPosition).magnitude;
-                isInRange = (curRange < rangeAttack);
-                if (isInRange)
-                {
-                    status = AttackStatus.comeIn;
-                }
-                else
-                {
-                    MoveToTarget(backPosition);
-                }
-                break;
-        }
+//        switch (status)
+//        {
+//            case AttackStatus.comeIn:
+//                curRange = (owner.transform.position - target.transform.position).magnitude;
+//                isInRange = (curRange < rangeAttack);
+//                if (isInRange)
+//                {
+//                    DoShoot();
+//                    backPosition = ((BaseMonster)owner).bornPosition;
+//                    status = AttackStatus.comeOut;
+//                }
+//                else
+//                {
+//                    MoveToTarget(target.transform.position);
+//                }
+//                break;
+//            case AttackStatus.comeOut:
+//                curRange = (owner.transform.position - backPosition).magnitude;
+//                isInRange = (curRange < rangeAttack);
+//                if (isInRange)
+//                {
+//                    status = AttackStatus.comeIn;
+//                }
+//                else
+//                {
+//                    MoveToTarget(backPosition);
+//                }
+//                break;
+//        }
     }
 
     public override string ToString()
