@@ -15,6 +15,7 @@ public enum PoolType
 {
     flyNumberInGame,
     flyNumberInUI,
+    flyNumberWithPicture,
 }
 
 public class DataBaseController : Singleton<DataBaseController>
@@ -33,6 +34,7 @@ public class DataBaseController : Singleton<DataBaseController>
     public DataStructs DataStructs;
     public GameObject debugCube;
     public FlyingNumbers FlyingNumber;
+    public FlyingNumbers FlyingNumberWithPicture;
     public FlyNumberWIthDependence FlyNumberWIthDependence;
     public MapItem MapItemPrefab;
     public int maxLevel = 20;

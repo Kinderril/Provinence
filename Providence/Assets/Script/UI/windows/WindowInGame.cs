@@ -75,6 +75,7 @@ public class WindowInGame : BaseWindow
                 item.Init(delta, DataBaseController.Instance.GetColor(arg1), (delta > 0) ? "+" : "-");
                 break;
             case ItemId.crystal:
+                MainController.Instance.level.MessageAppear("You found crystal", Color.green, DataBaseController.Instance.ItemIcon(ItemId.crystal));
                 break;
             case ItemId.energy:
                 item = DataBaseController.Instance.Pool.GetItemFromPool<FlyingNumbers>(PoolType.flyNumberInUI);
@@ -89,15 +90,18 @@ public class WindowInGame : BaseWindow
 
     private void OnHeroHit(float arg1, float arg2,float delta)
     {
-        //Debug.Log("OnHeroHit " + arg1 + "/" + arg2  + " d:" + delta);
-        var item = DataBaseController.Instance.Pool.GetItemFromPool<FlyingNumbers>(PoolType.flyNumberInUI);
-        //var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, hitTransform.position);
-        item.transform.SetParent(transform);
-        item.transform.position = hitTransform.position;
-        Color color = DataBaseController.Instance.GetColor(ItemId.health);
-        bool isPlus = (delta > 0);
-        item.Init(delta, color, ((isPlus)? "-" : "+"));
-        HealthSlider.value =  arg1/ arg2;
+        if (delta > 1)
+        {
+            //Debug.Log("OnHeroHit " + arg1 + "/" + arg2  + " d:" + delta);
+            var item = DataBaseController.Instance.Pool.GetItemFromPool<FlyingNumbers>(PoolType.flyNumberInUI);
+            //var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, hitTransform.position);
+            item.transform.SetParent(transform);
+            item.transform.position = hitTransform.position;
+            Color color = DataBaseController.Instance.GetColor(ItemId.health);
+            bool isPlus = (delta > 0);
+            item.Init(delta, color, ((isPlus) ? "-" : "+"));
+        }
+        HealthSlider.value = arg1 / arg2;
     }
 
     private void OnLeft(float arg1, float arg2)

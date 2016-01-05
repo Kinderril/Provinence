@@ -9,6 +9,12 @@ public class HeroBornPosition : BaseBornPosition
 {
     private bool isPositionOpend;
 
+    public void Init(Map map,bool isOpen)
+    {
+        base.Init(map);
+        isPositionOpend = isOpen;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (!isPositionOpend)
@@ -17,6 +23,7 @@ public class HeroBornPosition : BaseBornPosition
             if (unit != null)
             {
                 MainController.Instance.PlayerData.OpenBornPosition(ID);
+                MainController.Instance.level.MessageAppear( "born point opened", Color.blue, DataBaseController.Instance.ItemIcon(ItemId.crystal));
                 isPositionOpend = true;
             }
         }

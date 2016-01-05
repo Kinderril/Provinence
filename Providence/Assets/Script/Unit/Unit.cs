@@ -55,6 +55,10 @@ public class Unit : MonoBehaviour
             action = value;
         }
     }
+    public bool IsDead
+    {
+        get { return isDead; }
+    }
 
     public virtual void Init()
     {
@@ -165,16 +169,7 @@ public class Unit : MonoBehaviour
 
     public virtual void GetHit(Bullet bullet)
     {
-        float power = 0;
-        switch (bullet.weapon.Parameters.type)
-        {
-            case WeaponType.magic:
-                power = bullet.weapon.owner.Parameters.Parameters[ParamType.MPower];
-                break;
-            case WeaponType.physics:
-                power = bullet.weapon.owner.Parameters.Parameters[ParamType.PPower];
-                break;
-        }
+        float power = bullet.weapon.GetPower();
         float mdef = Parameters.Parameters[ParamType.MDef];
         float pdef = Parameters.Parameters[ParamType.PDef];
 

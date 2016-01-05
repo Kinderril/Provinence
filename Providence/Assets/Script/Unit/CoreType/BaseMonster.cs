@@ -141,7 +141,7 @@ public class BaseMonster : Unit
         {
             if (aiStatus != AIStatus.returnHome && !isHome)
             {
-                Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>Start go home 1111111111111 prevStatus " + aiStatus + "    mainHeroDist " + mainHeroDist + "   aiDist:" + aiDist);
+//                Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>Start go home 1111111111111 prevStatus " + aiStatus + "    mainHeroDist " + mainHeroDist + "   aiDist:" + aiDist);
 //                aiStatus = AIStatus.disable;
                 //                Action = null;
                 EndAttack();
@@ -204,7 +204,7 @@ public class BaseMonster : Unit
 
     private void EndAttack()
     {
-        Debug.Log("Run AWAY  " + Parameters.AttackType);
+//        Debug.Log("Run AWAY  " + Parameters.AttackType);
         aiStatus = AIStatus.returnHome;
         if (Action != null)
         {

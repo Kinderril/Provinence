@@ -406,5 +406,10 @@ public class PlayerData
     {
         return listOfOpendBornPositions[mission];
     }
+
+    internal bool IsPositionOpen(int misson,int index)
+    {
+        return listOfOpendBornPositions[misson].Contains(index);
+    }
 }
 

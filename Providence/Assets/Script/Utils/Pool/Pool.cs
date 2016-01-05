@@ -7,12 +7,17 @@ using UnityEngine;
 
 public class Pool
 {
-    private List<PoolElement> FlyNumberInUIpool = new List<PoolElement>();
-    private List<PoolElement> FlyNumberInGamepool = new List<PoolElement>();
+//    private List<PoolElement> FlyNumberInUIpool = new List<PoolElement>();
+//    private  FlyNumberInGamepool = new List<PoolElement>();
+    private Dictionary<PoolType,List<PoolElement>> poolOfElements = new Dictionary<PoolType, List<PoolElement>>();
     private DataBaseController dataBaseController;
 
     public Pool(DataBaseController dataBaseController)
     {
+        foreach (PoolType pType in Enum.GetValues(typeof(PoolType)))
+        {
+            poolOfElements.Add(pType,new List<PoolElement>());
+        }
         this.dataBaseController = dataBaseController;
         Prewarm();
     }
@@ -23,43 +28,40 @@ public class Pool
         {
             var element = dataBaseController.GetItem(dataBaseController.FlyNumberWIthDependence);
             element.gameObject.SetActive(false);
-            FlyNumberInGamepool.Add(element);
+            poolOfElements[PoolType.flyNumberInGame].Add(element);
         }
         for (int i = 0; i < 10; i++)
         {
 
             var element = dataBaseController.GetItem(dataBaseController.FlyingNumber);
             element.gameObject.SetActive(false);
-            FlyNumberInUIpool.Add(element);
+            poolOfElements[PoolType.flyNumberInUI].Add(element);
         }
     }
 
-    public T GetItemFromPool<T>(PoolType poolType,Vector3 pos = default(Vector3)) where T :PoolElement
+    public T GetItemFromPool<T>(PoolType poolType, Vector3 pos = default(Vector3)) where T : PoolElement
     {
         PoolElement element = null;
-        switch (poolType)
+        var dic = poolOfElements[poolType];
+        element = GetNoUsed(dic);
+        if (element == null)
         {
-            case PoolType.flyNumberInGame:
-                element = GetNoUsed(FlyNumberInGamepool);
-                //element = FlyNumberInGamepool.FirstOrDefault(x => !x.IsUsing);
-                if (element == null)
-                {
-                    Debug.Log("Creat new");
+            switch (poolType)
+            {
+                case PoolType.flyNumberInGame:
                     element = dataBaseController.GetItem(dataBaseController.FlyNumberWIthDependence);
-                    FlyNumberInGamepool.Add(element );
-                }
+                  break;
+                case PoolType.flyNumberInUI:
+                     element = dataBaseController.GetItem(dataBaseController.FlyingNumber);
+                    break;
+                case PoolType.flyNumberWithPicture:
+                    element = dataBaseController.GetItem(dataBaseController.FlyingNumberWithPicture);
                 break;
-            case PoolType.flyNumberInUI:
-                element = GetNoUsed(FlyNumberInUIpool);
-                //element = FlyNumberInUIpool.FirstOrDefault(x => !x.IsUsing) ;
-                if (element == null)
-                {
-                    Debug.Log("Creat new");
-                    element = dataBaseController.GetItem(dataBaseController.FlyingNumber);
-                    FlyNumberInUIpool.Add(element );
-                }
-                break;
+            }
+
+            dic.Add(element);
         }
+
         element.transform.localPosition = pos;
         element.Init();
         return element as T;

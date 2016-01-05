@@ -24,6 +24,7 @@ public class Hero : Unit
     public float moneyBonusFromItem = 0.0f;
     public float damageBonusFromItem = 0.0f;
     private HeroControl heorControl;
+    public bool isRegenHP = false;
 
     public float CurrenthBonus
     {
@@ -80,6 +81,7 @@ public class Hero : Unit
 
     void FixedUpdate()
     {
+        RegenHP();
         if (currenthBonusTimeLeft > 0)
         {
             currenthBonusTimeLeft -= Time.deltaTime;
@@ -126,6 +128,19 @@ public class Hero : Unit
 
         OnGetItems.Play();
         MainController.Instance.level.AddItem(type, count);
+    }
+
+    private void RegenHP()
+    {
+        if (isRegenHP)
+        {
+            var p = Time.deltaTime * 0.2f;
+            CurHp = CurHp + p;
+            if (OnGetHit != null)
+            {
+                OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], p);
+            }
+        }
     }
 
     public void GetItems(Dictionary<ItemId,int> chest)

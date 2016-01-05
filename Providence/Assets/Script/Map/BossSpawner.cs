@@ -10,12 +10,13 @@ public class BossSpawner
     private int ToSpawnBossOnStart;
     private Action OnSpawnBoss;
     private bool isBossSpawned = false;
+    private const float PRECENT_TO_KILL = 0.05f;
 
     public BossSpawner(int count, Action SpawnBoss)
     {
         OnSpawnBoss = SpawnBoss;
         this.EnemiesOnStart = count;
-        ToSpawnBossOnStart =(int)( EnemiesOnStart*0.99f );
+        ToSpawnBossOnStart =(int)( EnemiesOnStart*(1f-PRECENT_TO_KILL) );
     }
 
     public void EnemieDead()

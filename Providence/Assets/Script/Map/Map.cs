@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Map : Singleton<Map>
 {
-    public List<BornPosition> appearPos;
+    public List<MonsterBornPosition> appearPos;
     public List<BossBornPosition> BossAppearPos;
     private Transform bornPositions;
     public Transform enemiesContainer;
@@ -27,7 +27,7 @@ public class Map : Singleton<Map>
         hero.Init();
         bornPositions = transform.Find("BornPos");
         enemiesContainer = transform.Find("Enemies");
-        appearPos = new List<BornPosition>();
+        appearPos = new List<MonsterBornPosition>();
         BossAppearPos = new List<BossBornPosition>();
         List<ChestBornPosition> chestPositions = new List<ChestBornPosition>();
         foreach (Transform bornPosition in bornPositions)
@@ -42,7 +42,7 @@ public class Map : Singleton<Map>
                         chestPositions.Add(cBP);
                         break;
                     case BornPositionType.monster:
-                        var mBP = (bp as BornPosition);
+                        var mBP = (bp as MonsterBornPosition);
                         appearPos.Add(mBP);
                         mBP.Init(this, OnEnemyDead, lvl, hero);
                         break;
@@ -69,6 +69,8 @@ public class Map : Singleton<Map>
     private Vector3 GetHeroBoenPos(int index)
     {
         Vector3 vector3s = Vector3.zero;
+        var playerData =  MainController.Instance.PlayerData;
+       
         foreach (Transform v in heroBornPositions)
         {
             v.GetComponent<MeshRenderer>().enabled = false;
@@ -78,6 +80,7 @@ public class Map : Singleton<Map>
                 vector3s = v.position;
 //                break;
             }
+            heroBP.Init(this,playerData.IsPositionOpen(level.MissionIndex,index));
 //            vector3s = v.position;
         }
         return vector3s;
@@ -92,6 +95,7 @@ public class Map : Singleton<Map>
             boss = DataBaseController.Instance.GetItem<BossUnit>(bossPrefab, pos);
             boss.Init(MainController.Instance.level.MainHero);
             boss.transform.SetParent(enemiesContainer);
+            MainController.Instance.level.MessageAppear("Boss have appear", Color.red, DataBaseController.Instance.ItemIcon(ItemId.crystal));
             if (level.OnBossAppear != null)
             {
                 level.OnBossAppear(boss);
@@ -154,12 +158,12 @@ public class Map : Singleton<Map>
         return unit;
     }
 
-    public void LeaveEffect(ParticleSystem ps)
+    public void LeaveEffect(BaseEffectAbsorber ps)
     {
         ps.transform.SetParent(effectsContainer, true);
         StartCoroutine(DestroyPS(ps));
     }
-    public IEnumerator DestroyPS(ParticleSystem ps)
+    public IEnumerator DestroyPS(BaseEffectAbsorber ps)
     {
         yield return new WaitForSeconds(4);
         Destroy(ps.gameObject);

@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
     private float nexAttackTime;
     public Bullet bullet;
     public Unit owner;
-    public ParticleSystem pSystemOnShot;
+    public BaseEffectAbsorber pSystemOnShot;
     public WeaponParameters Parameters;
     public PlayerItem PlayerItem;
     public Transform bulletComeOut;
@@ -19,10 +19,6 @@ public class Weapon : MonoBehaviour
     {
         nexAttackTime = 0;
         this.PlayerItem = PlayerItem;
-        if (pSystemOnShot == null)
-        {
-            pSystemOnShot = GetComponentInChildren<ParticleSystem>();
-        }
         if (pSystemOnShot != null)
         {
             pSystemOnShot.Stop();
@@ -40,10 +36,41 @@ public class Weapon : MonoBehaviour
         nexAttackTime = Time.time + Parameters.attackCooldown;
     }
 
-    public void DoShoot(Vector3 v)
+    public virtual float GetPower()
+    {  
+        float val = 0;
+        switch (Parameters.type)
+        {
+            case WeaponType.magic:
+                val = owner.Parameters.Parameters[ParamType.MPower];
+                break;
+            case WeaponType.physics:
+                val = owner.Parameters.Parameters[ParamType.PPower];
+                break;
+        }
+        return val;
+    }
+
+    protected Vector3 GetStartPos()
+    {
+
+        Vector3 outPosVector3;
+        if (bulletComeOut != null)
+        {
+            outPosVector3 = bulletComeOut.position;
+        }
+        else
+        {
+            outPosVector3 = owner.transform.position;
+        }
+        return outPosVector3;
+    }
+
+    public virtual void DoShoot(Vector3 v)
     {
 //        v = new Vector3(v.x,transform.position.y, v.z);
-            
+
+        Vector3 outPosVector3 = GetStartPos();
         if (Parameters.isHoming)
         {
             Unit potentialTarget = null;
@@ -54,15 +81,6 @@ public class Weapon : MonoBehaviour
             else
             {
                 potentialTarget = MainController.Instance.level.MainHero;
-            }
-            Vector3 outPosVector3;
-            if (bulletComeOut != null)
-            {
-                outPosVector3 = bulletComeOut.position;
-            }
-            else
-            {
-                outPosVector3 = owner.transform.position;
             }
 
             var dist = (outPosVector3  - potentialTarget.transform.position).sqrMagnitude;
@@ -80,7 +98,7 @@ public class Weapon : MonoBehaviour
         else
         {
             Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
-            bullet1.transform.position = transform.position;
+            bullet1.transform.position = outPosVector3;
             bullet1.Init(v, this);
         }
         if (pSystemOnShot != null)

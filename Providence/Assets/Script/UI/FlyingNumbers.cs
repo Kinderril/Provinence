@@ -8,22 +8,24 @@ using UnityEngine.UI;
 
 public class FlyingNumbers : PoolElement
 {
-    private Text text;
+    public Text text;
+    public Image image;
     private Action OnDead;
+
     public void Init(float Count, Color textColor, string add = "", Action OnDead = null)
     {
         base.Init();
         this.OnDead = OnDead;
-        if (text == null)
-        {
-            text = GetComponent<Text>();
-            if (text == null)
-            {
-                text = GetComponentInChildren<Text>();
-            }
-        }
         text.text = add + (Mathf.Abs(Count)).ToString("0");
         text.color = textColor;
+    }
+    public void Init(string txt, Color textColor,  Sprite spr,Action OnDead = null)
+    {
+        base.Init();
+        this.OnDead = OnDead;
+        text.text = txt;
+        text.color = textColor;
+        image.sprite = spr;
     }
 
     public void EndAnimation()

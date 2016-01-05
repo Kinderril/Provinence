@@ -14,8 +14,8 @@ public class Bullet : MonoBehaviour
     public Unit targetUnit;
     public Weapon weapon;
     private Action updateAction;
-    public ParticleSystem TrailParticleSystem;
-    public ParticleSystem HitParticleSystem;
+    public BaseEffectAbsorber TrailParticleSystem;
+    public BaseEffectAbsorber HitParticleSystem;
     protected List<Unit> AffecttedUnits = new List<Unit>();
     public bool rebuildY = true;
 //    private UnitType ownerType;
@@ -49,7 +49,10 @@ public class Bullet : MonoBehaviour
         trg = dir.normalized * weapon.Parameters.range + start;
         time = 0;
         updateAction = updateVector;
+        transform.LookAt(target);
     }
+
+    
 
     public void Init(Unit target, Weapon weapon)
     {
@@ -59,6 +62,7 @@ public class Bullet : MonoBehaviour
         this.weapon = weapon;
         time = 0;
         updateAction = updateTargetUnit;
+        transform.LookAt(targetUnit.transform.position);
     }
 
     void OnTriggerEnter(Collider other)

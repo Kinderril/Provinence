@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class BornPosition : BaseBornPosition
+public class MonsterBornPosition : BaseBornPosition
 {
     public BaseMonster monsterPrebaf;
     public int difficulty = 1;
@@ -12,7 +12,7 @@ public class BornPosition : BaseBornPosition
     private TimerManager.ITimer timer;
     private Action<Unit> OnEnemyDead;
     private Hero hero;
-    private bool isReborned;
+    private bool isReborned = false;
 
     public void Init(Map map, Action<Unit> OnEnemyDead,Level level, Hero hero)
     {
@@ -46,6 +46,7 @@ public class BornPosition : BaseBornPosition
     public void BornEnemy(Vector3 pos, Action<Unit> OnEnemyDead, Hero hero)
     {
         var monster = DataBaseController.Instance.mosntersLevel[difficulty].RandomElement();
+        totalUnits = 0;
         if (monster != null)
         {
             var unit = DataBaseController.Instance.GetItem(monster, pos);
@@ -66,6 +67,7 @@ public class BornPosition : BaseBornPosition
     {
         unit.OnDead -= OnDead;
         totalUnits--;
+        Debug.Log("OnDead  " + totalUnits + "    " + isReborned) ;
         if (totalUnits <= 0)
         {
             StartReborn();
@@ -77,8 +79,10 @@ public class BornPosition : BaseBornPosition
         if (!isReborned)
         {
             int sec = UnityEngine.Random.Range(15, 30);
-            if (UnityEngine.Random.Range(0, 100) < 85)
+//            Debug.Log("Start reborn in " + sec);
+            if (UnityEngine.Random.Range(0, 100) < 95)
             {
+                Debug.Log("Start reborn in " + sec);
                 timer = MainController.Instance.TimerManager.MakeTimer(TimeSpan.FromSeconds(sec));
                 timer.OnTimer += OnReborn;
             }

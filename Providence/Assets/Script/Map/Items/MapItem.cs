@@ -9,7 +9,7 @@ public class MapItem : MonoBehaviour
 {
     private ItemId type;
     private int count;
-    public ParticleSystem OpenEffect;
+    public BaseEffectAbsorber OpenEffect;
     public Animator animator;
     private bool canBeTaken = false;
 

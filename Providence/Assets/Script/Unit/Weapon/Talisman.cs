@@ -63,9 +63,12 @@ public class Talisman
 
     public void AddEnergy(float val)
     {
-        currentEnergy = Mathf.Clamp(currentEnergy - val, 0, (float)sourseItem.costShoot + 1);
-        //Debug.Log("add energy " + currentEnergy + "/" + sourseItem.costShoot);
-        DoCallback();
+        if (val < 0)
+        {
+            currentEnergy = Mathf.Clamp(currentEnergy - val, 0, sourseItem.costShoot + 1);
+            //Debug.Log("add energy " + currentEnergy + "/" + sourseItem.costShoot);
+            DoCallback();
+        }
     }
 
     private void DoCallback()

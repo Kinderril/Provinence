@@ -7,6 +7,7 @@ using UnityStandardAssets.Effects;
 
 public class HeroControl : BaseControl
 {
+    private const float CPNST_BACK_WALK = 0.62f;
     private const float CONST_SEC_WALK = 1.4f;
     private const float CONST_SEC_LOOK = 1.4f;
     private float RemainBackWalkTimeSec = 0;
@@ -36,6 +37,11 @@ public class HeroControl : BaseControl
     {
         if (v != Vector3.zero)
             TargetDirection = v;
+        if (isBackDir)
+        {
+            v = v * CPNST_BACK_WALK;
+        }
+
         m_Rigidbody.velocity = v;
         UpdateAnimator(v);
         return true;
