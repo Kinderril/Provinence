@@ -25,6 +25,7 @@ public class Hero : Unit
     public float damageBonusFromItem = 0.0f;
     private HeroControl heorControl;
     public bool isRegenHP = false;
+    private ShootContainer shootContainer;
 
     public float CurrenthBonus
     {
@@ -54,8 +55,22 @@ public class Hero : Unit
         Parameters.Parameters[ParamType.MPower] *= damageBonusFromItem + 1f;
         OnGetItems.Stop(true);
         heorControl = Control as HeroControl;
-        heorControl.Init();
+        heorControl.Init(OnRotationEnds);
         Utils.GroundTransform(transform);
+    }
+
+    private void OnRotationEnds()
+    {
+        if (shootContainer != null)
+        {
+            var can = curWeapon.CanShoot();
+            if (can)
+            {
+                var dir = shootContainer.trg - transform.position;
+                base.TryAttack(dir);
+            }
+            shootContainer = null;
+        }
     }
 
 
@@ -97,12 +112,25 @@ public class Hero : Unit
 
     public override void TryAttack(Vector3 target)
     {
-        if (curWeapon.CanShoot())
+        var can = curWeapon.CanShoot();
+        Debug.Log("hero try attack " + can);
+        var dir = target - transform.position;
+        heorControl.SetDir(dir);
+        var isLookToTarget = heorControl.SetLookDir(dir);
+        if (can)
         {
-            var dir = target - transform.position;
-            heorControl.SetLookDir(dir);
-            heorControl.SetDir(dir);
-            base.TryAttack(target);
+            if (isLookToTarget)
+            {
+                base.TryAttack(target);
+            }
+            else
+            {
+                shootContainer = new ShootContainer(target);
+            }
+        }
+        else
+        {
+            shootContainer = new ShootContainer(target);
         }
     }
 
@@ -215,4 +243,13 @@ public class Hero : Unit
         yield return new WaitForSeconds(3.5f);
         effect.End();
     } 
+}
+
+class ShootContainer
+{
+    public Vector3 trg;
+    public ShootContainer(Vector3 trg)
+    {
+        this.trg = trg;
+    }
 }

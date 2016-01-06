@@ -17,9 +17,9 @@ public class HeroControl : BaseControl
     public bool isBackDir;
     public RotateByQuaterhnion SpinTransform;
 
-    public void Init()
+    public void Init(Action comeToRotation)
     {
-        SpinTransform.Init(OnLookEnd);
+        SpinTransform.Init(OnLookEnd, comeToRotation);
     }
 
     private void OnLookEnd()
@@ -82,9 +82,15 @@ public class HeroControl : BaseControl
         }
     }
     */
-    public void SetLookDir(Vector3 dir)
+    public bool SetLookDir(Vector3 dir)
     {
-        SpinTransform.SetLookDir(dir);
+        
+        if (m_Rigidbody.velocity.sqrMagnitude < 0.1f)
+        {
+
+            TargetDirection = dir;
+        }
+        return SpinTransform.SetLookDir(dir);
         //lookDir = new Vector3(dir.x,SpinTransform.position.y ,dir.z);
         //TimeToGoToDefaultLook = CONST_SEC_LOOK + Time.time;
         //useLookDir = true;

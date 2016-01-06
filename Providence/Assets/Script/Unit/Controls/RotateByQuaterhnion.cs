@@ -18,11 +18,13 @@ public class RotateByQuaterhnion : MonoBehaviour
     public float angle;
     private Quaternion lastQuaternion;
     private Action endLookRotation;
+    private Action comeToRotation;
 
 
-    public void Init(Action endLookRotation)
+    public void Init(Action endLookRotation, Action comeToRotation)
     {
         this.endLookRotation = endLookRotation;
+        this.comeToRotation = comeToRotation;
     }
     void LateUpdate ()
     {
@@ -41,6 +43,7 @@ public class RotateByQuaterhnion : MonoBehaviour
                 timeToOffWait = waitTime + Time.time;
                 shallWait = true;
                 shallRotate = false;
+                comeToRotation();
             }
         }
         else if (shallWait)
@@ -75,7 +78,7 @@ public class RotateByQuaterhnion : MonoBehaviour
 //    }
 
 
-    public void SetLookDir(Vector3 dir)
+    public bool SetLookDir(Vector3 dir)
     {
         var ang = Vector3.Angle(dir, new Vector3(-1, 0, 0)) ;
         if (dir.z < 0)
@@ -91,8 +94,7 @@ public class RotateByQuaterhnion : MonoBehaviour
         ang = FixAngle(ang);
 
         lookDir = new Vector3(0,ang,0);
-           lastLookDir =
-                transform.rotation.eulerAngles;
+        lastLookDir = transform.rotation.eulerAngles;
         shallRotate = true;
         shallWait = false;
         var a = lookDir.y;
@@ -124,6 +126,7 @@ public class RotateByQuaterhnion : MonoBehaviour
             }
 
         }
+        return Mathf.Abs(c) < 4;
 
         //Debug.Log("SetNewDir lookDir:" + lookDir + "   last:" + lastLookDir + "   " + side + "   dir:" + dir);
 

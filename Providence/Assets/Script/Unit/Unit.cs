@@ -96,6 +96,7 @@ public class Unit : MonoBehaviour
     
     public virtual void TryAttack(Vector3 target)
     {
+        Debug.Log("Try attack base");
         Control.PlayAttack();
         curWeapon.SetNextTimeShoot();
         animationController.StartPlayAttack(() =>
