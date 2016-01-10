@@ -20,9 +20,19 @@ public class BaseControl : MonoBehaviour
 	float m_ForwardAmount;
     private bool moving = false;
     public Vector3 Direction;
-    public Vector3 TargetDirection;
+    protected Vector3 targetDirection;
+    public RotateByQuaterhnion ThisByQuaterhnion;
 
-	void Awake()
+    public Vector3 TargetDirection
+    {
+        get { return targetDirection; }
+    }
+    public Vector3 Velocity
+    {
+        get { return m_Rigidbody.velocity; }
+    }
+
+    void Awake()
 	{
 	    Init();
 	}
@@ -41,10 +51,17 @@ public class BaseControl : MonoBehaviour
         if (Animator == null)
             Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
-
+        ThisByQuaterhnion = GetComponent<RotateByQuaterhnion>();
+        ThisByQuaterhnion.Init(null,OnComeRotation);
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         
     }
+
+    private void OnComeRotation()
+    {
+
+    }
+
     public virtual bool MoveTo(Vector3 v)
     {
         return true;
@@ -54,14 +71,16 @@ public class BaseControl : MonoBehaviour
     {
     }
 
-    protected virtual void RotateToTarget(Transform tr2rotate,Vector3 dir)
+    protected void RotateToTarget()
     {
+//        ThisByQuaterhnion.UpdateRotate();
+        /*
         dir = tr2rotate.InverseTransformDirection(dir);
         m_TurnAmount = Mathf.Atan2(dir.x, dir.z);
         m_ForwardAmount = dir.z;
         float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
-     //   Debug.Log("m_ForwardAmount: " + m_ForwardAmount + "   turnSpeed:" + turnSpeed + "  m_TurnAmount:"+ m_TurnAmount.ToString("0.000") );
         tr2rotate.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
+         */ 
     }
 
     public void UpdateFromUnit()
@@ -73,9 +92,24 @@ public class BaseControl : MonoBehaviour
     {
     }
 
-    public void SetToDirection(Vector3 dir)
+    public virtual void SetToDirection(Vector3 dir)
     {
-        TargetDirection = dir;
+        var angle = Vector3.Angle(TargetDirection, dir);
+        targetDirection = dir;
+        if (angle > 2)
+        {
+            ThisByQuaterhnion.SetLookDir(targetDirection);
+        }
+    }
+    public void SetToDirection(Vector3 dir,int side)
+    {
+        targetDirection = dir;
+        ThisByQuaterhnion.SetLookDir(targetDirection, side);
+//        var angle = Vector3.Angle(TargetDirection, dir);
+//        targetDirection = dir;
+//        if (angle > 2)
+//        {
+//        }
     }
     
 	protected void UpdateAnimator(Vector3 move)

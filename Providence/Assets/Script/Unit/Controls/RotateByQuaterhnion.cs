@@ -14,11 +14,24 @@ public class RotateByQuaterhnion : MonoBehaviour
     public Vector3 lookDir;
     public Vector3 lastLookDir;
     public bool shallRotate = false;
-    public bool shallWait = false;
-    public float angle;
+    public bool isWaiting = false;
+    private float angle;
     private Quaternion lastQuaternion;
     private Action endLookRotation;
     private Action comeToRotation;
+    public int offset;
+    public bool shallWait = false;
+    public bool shallWait2 = true;
+
+    public int Side
+    {
+        get { return side; }
+    }
+
+    public bool IsRotating
+    {
+        get { return shallRotate; }
+    }
 
 
     public void Init(Action endLookRotation, Action comeToRotation)
@@ -26,33 +39,54 @@ public class RotateByQuaterhnion : MonoBehaviour
         this.endLookRotation = endLookRotation;
         this.comeToRotation = comeToRotation;
     }
-    void LateUpdate ()
+
+    void LateUpdate()
+    {
+        UpdateRotate();
+    }
+    private void UpdateRotate ()
     {
         if (shallRotate)
         {
-            yy = lastLookDir.y + Time.deltaTime*speed* side;
-            yy = FixAngle(yy);
-
-            lastLookDir = new Vector3(0, yy, 0);
-            lastQuaternion = Quaternion.Euler(lastLookDir);
-            transform.rotation = lastQuaternion;
-            angle = Mathf.Abs(lastLookDir.y - lookDir.y);// Vector3.Angle(lastLookDir, lookDir);
-            //Debug.Log("q:" + lastQuaternion + "  angle:" + angle + "  lookDir:" + lookDir + "   lastLookDir:" + lastLookDir);
+            angle = Mathf.Abs(lastLookDir.y - lookDir.y);
             if (angle < 4)
             {
-                timeToOffWait = waitTime + Time.time;
-                shallWait = true;
+
+                lastLookDir = lookDir;
+                lastQuaternion = Quaternion.Euler(lastLookDir);
+                transform.rotation = lastQuaternion;
                 shallRotate = false;
                 comeToRotation();
+                if (shallWait && shallWait2)
+                {
+                    timeToOffWait = Time.time + waitTime;
+                    isWaiting = true;
+                }
+            }
+            else
+            {
+
+                yy = lastLookDir.y + Time.deltaTime * speed * side;
+                yy = FixAngle(yy);
+
+                lastLookDir = new Vector3(0, yy, 0);
+                lastQuaternion = Quaternion.Euler(lastLookDir);
+                transform.rotation = lastQuaternion;
+                angle = Mathf.Abs(lastLookDir.y - lookDir.y);
+//                Debug.Log("SetNewDir lookDir:" + lookDir + "   last:" + lastLookDir + "   " + side + "   angle:" + angle);
             }
         }
-        else if (shallWait)
+        else if (isWaiting)
         {
+            timeToOffWait -= Time.deltaTime;
             transform.rotation = lastQuaternion;
-            if (timeToOffWait < Time.time)
+            if (Time.time > timeToOffWait)
             {
-                shallWait = false;
-                endLookRotation();
+                if (endLookRotation != null)
+                {
+                    endLookRotation();
+                }
+                isWaiting = false;
             }
         }
 
@@ -64,10 +98,12 @@ public class RotateByQuaterhnion : MonoBehaviour
         if (a > border)
         {
             a -= border;
+            a = FixAngle(a);
         }
         else if (a < 0)
         {
             a += border;
+            a = FixAngle(a);
         }
         return a;
     }
@@ -77,28 +113,72 @@ public class RotateByQuaterhnion : MonoBehaviour
 //        transform.rotation = Quaternion.identity;
 //    }
 
-
-    public bool SetLookDir(Vector3 dir)
+    public bool ShallRotate(Vector3 dir)
     {
+        return Vector3.Angle(dir, lastLookDir) < 4;
+    }
+
+    public bool SetLookDir(Vector3 dir, int side)
+    {
+        shallWait2 = true;
+        Debug.Log("SetLookDir:    " + " " + dir + "    isWait:" + isWaiting);
+        var ang = Vector3.Angle(dir, new Vector3(-1, 0, 0));
+        if (dir.z < 0)
+        {
+            ang *= -1;
+            ang -= offset;
+        }
+        else
+        {
+            ang -= offset;
+        }
+        //var ang = Vector3.Angle(dir, new Vector3(1, 0, 0));
+        ang = FixAngle(ang);
+        this.side = side;
+        shallRotate = true;
+        isWaiting = false;
+        lookDir = new Vector3(0, ang, 0);
+        lastLookDir = transform.rotation.eulerAngles;
+        return true;
+    }
+
+    public bool SetLookDir(Vector3 dir,bool shallWait = true)
+    {
+        shallWait2 = shallWait;
+//        Debug.Log("SetLookDir "+ " " + dir);
         var ang = Vector3.Angle(dir, new Vector3(-1, 0, 0)) ;
         if (dir.z < 0)
         {
             ang *= -1;
-            ang -= 57;
+            ang -= offset;
         }
         else
         {
-           ang -= 57;
+            ang -= offset;
         }
+//        this.shallWait = shallWait;
         //var ang = Vector3.Angle(dir, new Vector3(1, 0, 0));
         ang = FixAngle(ang);
 
         lookDir = new Vector3(0,ang,0);
         lastLookDir = transform.rotation.eulerAngles;
-        shallRotate = true;
-        shallWait = false;
-        var a = lookDir.y;
-        var b = lastLookDir.y;
+        
+        float c;
+        side = CalcSide(lastLookDir, lookDir,out c);
+        bool needToRotate = Mathf.Abs(c) < 2;
+        if (!needToRotate)
+        {
+            isWaiting = false;
+            shallRotate = true;
+        }
+        return needToRotate;
+    }
+
+    public static int CalcSide(Vector3 from, Vector3 to, out float angel)
+    {
+        int side;
+        var a = to.y;
+        var b = from.y;
         float c;
         bool v = a > b;
         if (v)
@@ -126,9 +206,7 @@ public class RotateByQuaterhnion : MonoBehaviour
             }
 
         }
-        return Mathf.Abs(c) < 4;
-
-        //Debug.Log("SetNewDir lookDir:" + lookDir + "   last:" + lastLookDir + "   " + side + "   dir:" + dir);
-
+        angel = c;
+        return side;
     }
 }

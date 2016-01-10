@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 
 public class SubUIMain : MonoBehaviour,IPointerDownHandler,IDragHandler,IPointerUpHandler
@@ -13,6 +14,7 @@ public class SubUIMain : MonoBehaviour,IPointerDownHandler,IDragHandler,IPointer
     public bool isDrag;
     private UIMain uiMain;
     public RectTransform Arrow;
+//    public Text debugDir;
     public void Init(UIMain uiMain)
     {
         this.uiMain = uiMain;
@@ -26,10 +28,12 @@ public class SubUIMain : MonoBehaviour,IPointerDownHandler,IDragHandler,IPointer
 
     public void OnDrag(PointerEventData eventData)
     {
+        
         if (isDrag)
         {
             dir = (eventData.position - startPos).normalized;
-            uiMain.UpdateMoveArrow(new Vector3(dir.x, 0, dir.y));
+            var v = new Vector3(dir.x, 0, dir.y);
+            uiMain.UpdateMoveArrow(v.normalized);
             float zRotate = Mathf.Acos(dir.y / (Mathf.Sqrt(dir.x * dir.x + dir.y * dir.y)));
             zRotate *= Mathf.Rad2Deg;
             if (eventData.position.x > startPos.x)
@@ -39,6 +43,7 @@ public class SubUIMain : MonoBehaviour,IPointerDownHandler,IDragHandler,IPointer
             Arrow.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, zRotate));
             //Arrow.LookAt(Direction  + startPos);
         }
+//        debugDir.text = " isDrag:" + isDrag + "   dir:" + dir;
     }
 
     public void OnPointerUp(PointerEventData eventData)

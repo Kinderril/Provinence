@@ -26,6 +26,7 @@ public class Hero : Unit
     private HeroControl heorControl;
     public bool isRegenHP = false;
     private ShootContainer shootContainer;
+    private RotateContainer rotateContainer;
 
     public float CurrenthBonus
     {
@@ -61,15 +62,29 @@ public class Hero : Unit
 
     private void OnRotationEnds()
     {
+//        Debug.Log("OnRotationEnds " + isPlayAttack);
         if (shootContainer != null)
         {
             var can = curWeapon.CanShoot();
-            if (can)
+            if (can && !isPlayAttack)
             {
-                var dir = shootContainer.trg - transform.position;
+//                var dir = shootContainer.trg - (transform.position);
+                var dir = shootContainer.trg - shootContainer.lastPos;
                 base.TryAttack(dir);
             }
             shootContainer = null;
+        }
+    }
+
+    protected override void ShootEnd()
+    {
+        base.ShootEnd();
+//        Debug.Log("ShootEnds");
+
+        if (rotateContainer != null)
+        {
+            TryAttack(rotateContainer.trg);
+            rotateContainer = null;
         }
     }
 
@@ -113,10 +128,11 @@ public class Hero : Unit
     public override void TryAttack(Vector3 target)
     {
         var can = curWeapon.CanShoot();
-        Debug.Log("hero try attack " + can);
         var dir = target - transform.position;
-        heorControl.SetDir(dir);
-        var isLookToTarget = heorControl.SetLookDir(dir);
+
+        var isLookToTarget = heorControl.SpinTransform.ShallRotate(dir);
+//        Debug.Log("hero try attack isLookToTarget: " + isLookToTarget);
+//        heorControl.SetLookDir(dir);
         if (can)
         {
             if (isLookToTarget)
@@ -125,12 +141,28 @@ public class Hero : Unit
             }
             else
             {
-                shootContainer = new ShootContainer(target);
+                subTR(target, dir);
             }
         }
         else
         {
-            shootContainer = new ShootContainer(target);
+            subTR(target, dir);
+        }
+    }
+
+    private void subTR(Vector3 target,Vector3 dir)
+    {
+//        Debug.Log("isPlayAttack:" + isPlayAttack);
+//        shootContainer = new ShootContainer(target, transform.position);
+        if (isPlayAttack)
+        {
+            rotateContainer = new RotateContainer(target);
+        }
+        else
+        {
+            Debug.Log("SetDir ]]]]]  " + dir);
+            heorControl.SetDir(dir, true);
+            shootContainer = new ShootContainer(target, transform.position);
         }
     }
 
@@ -242,14 +274,26 @@ public class Hero : Unit
     {
         yield return new WaitForSeconds(3.5f);
         effect.End();
-    } 
+    }
 }
 
 class ShootContainer
 {
     public Vector3 trg;
-    public ShootContainer(Vector3 trg)
+    public Vector3 lastPos;
+    public ShootContainer(Vector3 trg, Vector3 lastPos)
+    {
+        this.trg = trg;
+        this.lastPos = lastPos;
+    }
+}
+
+class RotateContainer
+{
+    public Vector3 trg;
+    public RotateContainer(Vector3 trg)
     {
         this.trg = trg;
     }
+    
 }

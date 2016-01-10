@@ -29,6 +29,7 @@ public class Unit : MonoBehaviour
     public Action<Weapon> OnWeaponChanged;
     protected float lastWeaponChangse;
     public ParticleSystem HitParticleSystem;
+    protected bool isPlayAttack = false;
 
     public float CurHp
     {
@@ -96,17 +97,29 @@ public class Unit : MonoBehaviour
     
     public virtual void TryAttack(Vector3 target)
     {
-        Debug.Log("Try attack base");
-        Control.PlayAttack();
-        curWeapon.SetNextTimeShoot();
-        animationController.StartPlayAttack(() =>
+        if (!isPlayAttack)
         {
-            curWeapon.DoShoot(target);
-            if (OnShootEnd != null)
+//            Debug.Log("hero try attack isLookToTarget: isPlayAttack = true");
+            isPlayAttack = true;
+//            isPlayAttack = true;
+            Control.PlayAttack();
+            curWeapon.SetNextTimeShoot();
+            animationController.StartPlayAttack(() =>
             {
-                OnShootEnd(this);
-            }
-        });
+                curWeapon.DoShoot(target);
+                ShootEnd();
+            });
+        }
+    }
+
+    protected virtual void ShootEnd()
+    {
+//        Debug.Log("End attack  isPlayAttack = false");
+        isPlayAttack = false;
+        if (OnShootEnd != null)
+        {
+            OnShootEnd(this);
+        }
     }
 
     public void SwitchWeapon()

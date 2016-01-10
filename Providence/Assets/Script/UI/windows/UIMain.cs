@@ -19,6 +19,8 @@ public  class UIMain : MonoBehaviour//,IPointerDownHandler,IPointerUpHandler
     private Vector3 startDrag;
     private bool isPressed;
     private bool isOverUI;
+//    public Text debugText;
+//    public Text debugText2;
 
     public void Init()
     {
@@ -47,33 +49,33 @@ public  class UIMain : MonoBehaviour//,IPointerDownHandler,IPointerUpHandler
 
     void Update()
     {
-#if UNITY_EDITOR
-        var w = Input.GetKey(KeyCode.W);
-        var s = Input.GetKey(KeyCode.S);
-        var d = Input.GetKey(KeyCode.D);
-        var a = Input.GetKey(KeyCode.A);
-        int x = 0;
-        int y = 0;
-        if (w)
-        {
-            x = 1;
-        }
-        else if (s)
-        {
-            x = -1;
-        }
-
-        if (d)
-        {
-            y = 1;
-        }
-        else if (a)
-        {
-            y = -1;
-        }
-        keybordDir = new Vector3(y,0,x);
-        mainHero.MoveToDirection(keybordDir);
-#endif
+//#if UNITY_EDITOR
+//        var w = Input.GetKey(KeyCode.W);
+//        var s = Input.GetKey(KeyCode.S);
+//        var d = Input.GetKey(KeyCode.D);
+//        var a = Input.GetKey(KeyCode.A);
+//        int x = 0;
+//        int y = 0;
+//        if (w)
+//        {
+//            x = 1;
+//        }
+//        else if (s)
+//        {
+//            x = -1;
+//        }
+//
+//        if (d)
+//        {
+//            y = 1;
+//        }
+//        else if (a)
+//        {
+//            y = -1;
+//        }
+//        keybordDir = new Vector3(y,0,x);
+//        mainHero.MoveToDirection(keybordDir);
+//#endif
     }
     
     private Vector3 RayCast(PointerEventData eventData)
@@ -125,8 +127,8 @@ public  class UIMain : MonoBehaviour//,IPointerDownHandler,IPointerUpHandler
 
         if (Input.GetMouseButtonDown(index))
         {
-            isPressed = true;
             isOverUI = EventSystem.current.IsPointerOverGameObject();
+            isPressed = true;
             startDrag = Input.mousePosition;
         }
 
@@ -136,7 +138,7 @@ public  class UIMain : MonoBehaviour//,IPointerDownHandler,IPointerUpHandler
             {
                 var isOverUI2 = EventSystem.current.IsPointerOverGameObject();
                 var dir = Input.mousePosition - startDrag;
-                if (isOverUI && isOverUI2)
+                if (isOverUI || isOverUI2)
                 {
                     return;
                 }
@@ -146,6 +148,7 @@ public  class UIMain : MonoBehaviour//,IPointerDownHandler,IPointerUpHandler
                     mainHero.TryAttackByDirection(new Vector3(dir.x, 0, dir.y));
             }
         }
+//        debugText2.text = "vel:" + mainHero.Control.Velocity;
 
     }
 
@@ -153,6 +156,7 @@ public  class UIMain : MonoBehaviour//,IPointerDownHandler,IPointerUpHandler
     {
         if (enable)
             mainHero.MoveToDirection(dir);
+//        debugText.text = "vel:" + mainHero.Control.Velocity + "  dir:" + dir;
 
     }
 

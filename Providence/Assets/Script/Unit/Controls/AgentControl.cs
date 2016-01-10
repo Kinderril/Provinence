@@ -17,10 +17,15 @@ public class AgentControl : BaseControl
 
     public override bool MoveTo(Vector3 v)
     {
-        this.TargetDirection = (v - transform.position).normalized;
+        SetToDirection((v - transform.position).normalized);
         var movingOk = agent.SetDestination(v);
         //Debug.Log("AGENT control move to:" + v + " from:" + transform.position + "   movingOk:" + movingOk);
         return movingOk;
+    }
+    public override void SetToDirection(Vector3 dir)
+    {
+        targetDirection = dir;
+        ThisByQuaterhnion.SetLookDir(targetDirection);
     }
 
     public override bool IsPathComplete()
@@ -37,7 +42,7 @@ public class AgentControl : BaseControl
 
 //        if (angel > 3)
 //        Debug.Log("TargetDirection" + TargetDirection);
-        RotateToTarget(transform,TargetDirection);
+        RotateToTarget();
 
         UpdateAnimator(agent.velocity);
     }

@@ -69,7 +69,7 @@ public class Weapon : MonoBehaviour
     public virtual void DoShoot(Vector3 v)
     {
 //        v = new Vector3(v.x,transform.position.y, v.z);
-
+        Debug.Log("DoShoot attack >>>>>>>>>>>>>>>");
         Vector3 outPosVector3 = GetStartPos();
         if (Parameters.isHoming)
         {
