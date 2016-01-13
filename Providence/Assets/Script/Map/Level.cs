@@ -33,6 +33,8 @@ public class Level
     private PortalsController PortalsController = new PortalsController();
     public Action OnEndLevel;
     public int MissionIndex = 1;
+    public bool IsGoodEnd;
+    public int EnemiesKills = 0;
 
     public Level(int index)
     {
@@ -111,10 +113,16 @@ public class Level
         }
     }
 
-    public void EndLevel(PlayerData PlayerData)
+    public void EndLevel(PlayerData PlayerData,bool isGood)
     {
+        IsGoodEnd = isGood;
         PortalsController.Stop();
         MainHero.Control.enabled = false;
+        if (!isGood)
+        {
+            inventory.Remove(ItemId.crystal);
+            inventory[ItemId.money] /= 2;
+        }
         PlayerData.AddInventory(inventory);
         PlayerData.Save();
         if (OnEndLevel != null)
@@ -126,6 +134,11 @@ public class Level
     public DictionaryOfItemAndInt GetAllCollectedItems()
     {
         return inventory;
+    }
+
+    public void EnemieDead()
+    {
+        EnemiesKills++;
     }
 }
 
