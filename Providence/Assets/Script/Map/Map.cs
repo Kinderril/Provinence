@@ -93,7 +93,9 @@ public class Map : Singleton<Map>
         if (bossPrefab != null)
         {
             boss = DataBaseController.Instance.GetItem<BossUnit>(bossPrefab, pos);
-            boss.Init(MainController.Instance.level.MainHero);
+            var hero = MainController.Instance.level.MainHero;
+            boss.Init(hero);
+            hero.ArrowTarget.Init(boss);
             boss.transform.SetParent(enemiesContainer);
             MainController.Instance.level.MessageAppear("Boss have appear", Color.red, DataBaseController.Instance.ItemIcon(ItemId.crystal));
             if (level.OnBossAppear != null)
@@ -130,6 +132,7 @@ public class Map : Singleton<Map>
         obj.OnDead -= OnEnemyDead;
         enemies.Remove(obj);
         bossSpawner.EnemieDead();
+        level.EnemieDead();
     }
 
     public List<BaseMonster> GetEnimiesInRadius(float rad)

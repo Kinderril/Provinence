@@ -25,6 +25,7 @@ public class Hero : Unit
     public float damageBonusFromItem = 0.0f;
     private HeroControl heorControl;
     public bool isRegenHP = false;
+    public ArrowTarget ArrowTarget;
     private ShootContainer shootContainer;
     private RotateContainer rotateContainer;
 
@@ -108,7 +109,7 @@ public class Hero : Unit
             inventoryWeapon.Init(this,additionItem);
         }
     }
-
+    
     void FixedUpdate()
     {
         RegenHP();
@@ -123,6 +124,7 @@ public class Hero : Unit
         Control.UpdateFromUnit();
         if (Action != null)
             Action.Update();
+
     }
 
     public override void TryAttack(Vector3 target)

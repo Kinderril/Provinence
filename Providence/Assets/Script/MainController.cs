@@ -45,8 +45,8 @@ public class MainController : Singleton<MainController>
 
     public void EndLevel(bool goodEnd)
     {
-        Debug.Log("EndLevel>>");
-        level.EndLevel(PlayerData);
+        Debug.Log("EndLevel>> goodEnd:" + goodEnd);
+        level.EndLevel(PlayerData, goodEnd);
         Map.Instance.EndLevel();
         StartCoroutine(w4death());
     }
