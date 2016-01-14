@@ -17,7 +17,7 @@ public class HeroControl : BaseControl
     private Vector3 lookDir;
     private Vector3 lastMoveDir;
     public bool isBackDir;
-    public RotateByQuaterhnion SpinTransform;
+    public QueaternionFromTo SpinTransform;
     
     public void Init(Action comeToRotation)
     {
@@ -27,7 +27,7 @@ public class HeroControl : BaseControl
     private void OnLookEnd()
     {
         Debug.Log("OnLookEnd");
-        SpinTransform.SetLookDir(targetDirection,false);
+        SpinTransform.SetLookDir(targetDirection);
 //        Animator.SetBool(ANIM_ATTACK, false);
     }
 
@@ -69,7 +69,7 @@ public class HeroControl : BaseControl
 //            Debug.Log("SetToDirection " + "  SpinTransform.IsRotating: " + SpinTransform.IsRotating + "   dir:" + dir + "   SpinTransform.Side:" + SpinTransform.Side);
             if (SpinTransform.IsRotating)
             {
-                base.SetToDirection(dir, SpinTransform.Side);
+                base.SetToDirection(dir);
             }
             else
             {

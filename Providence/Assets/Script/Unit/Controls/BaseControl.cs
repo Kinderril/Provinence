@@ -21,7 +21,7 @@ public class BaseControl : MonoBehaviour
     private bool moving = false;
     public Vector3 Direction;
     protected Vector3 targetDirection;
-    public RotateByQuaterhnion ThisByQuaterhnion;
+    public QueaternionFromTo ThisByQuaterhnion;
 
     public Vector3 TargetDirection
     {
@@ -51,7 +51,7 @@ public class BaseControl : MonoBehaviour
         if (Animator == null)
             Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
-        ThisByQuaterhnion = GetComponent<RotateByQuaterhnion>();
+        ThisByQuaterhnion = GetComponent<QueaternionFromTo>();
         ThisByQuaterhnion.Init(null,OnComeRotation);
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         
@@ -94,22 +94,8 @@ public class BaseControl : MonoBehaviour
 
     public virtual void SetToDirection(Vector3 dir)
     {
-        var angle = Vector3.Angle(TargetDirection, dir);
         targetDirection = dir;
-        if (angle > 2)
-        {
-            ThisByQuaterhnion.SetLookDir(targetDirection);
-        }
-    }
-    public void SetToDirection(Vector3 dir,int side)
-    {
-        targetDirection = dir;
-        ThisByQuaterhnion.SetLookDir(targetDirection, side);
-//        var angle = Vector3.Angle(TargetDirection, dir);
-//        targetDirection = dir;
-//        if (angle > 2)
-//        {
-//        }
+        ThisByQuaterhnion.SetLookDir(targetDirection);
     }
     
 	protected void UpdateAnimator(Vector3 move)

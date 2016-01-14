@@ -49,33 +49,33 @@ public  class UIMain : MonoBehaviour//,IPointerDownHandler,IPointerUpHandler
 
     void Update()
     {
-//#if UNITY_EDITOR
-//        var w = Input.GetKey(KeyCode.W);
-//        var s = Input.GetKey(KeyCode.S);
-//        var d = Input.GetKey(KeyCode.D);
-//        var a = Input.GetKey(KeyCode.A);
-//        int x = 0;
-//        int y = 0;
-//        if (w)
-//        {
-//            x = 1;
-//        }
-//        else if (s)
-//        {
-//            x = -1;
-//        }
-//
-//        if (d)
-//        {
-//            y = 1;
-//        }
-//        else if (a)
-//        {
-//            y = -1;
-//        }
-//        keybordDir = new Vector3(y,0,x);
-//        mainHero.MoveToDirection(keybordDir);
-//#endif
+#if UNITY_EDITOR
+        var w = Input.GetKey(KeyCode.W);
+        var s = Input.GetKey(KeyCode.S);
+        var d = Input.GetKey(KeyCode.D);
+        var a = Input.GetKey(KeyCode.A);
+        int x = 0;
+        int y = 0;
+        if (w)
+        {
+            x = 1;
+        }
+        else if (s)
+        {
+            x = -1;
+        }
+
+        if (d)
+        {
+            y = 1;
+        }
+        else if (a)
+        {
+            y = -1;
+        }
+        keybordDir = new Vector3(y,0,x);
+        mainHero.MoveToDirection(keybordDir);
+#endif
     }
     
     private Vector3 RayCast(PointerEventData eventData)
