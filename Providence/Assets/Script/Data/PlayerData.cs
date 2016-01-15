@@ -26,7 +26,7 @@ public class PlayerData
     public int AllocatedPoints;
     private int CurrentLevel;
     public Dictionary<MainParam,int> MainParameters;
-    private readonly Dictionary<Slot,int> slotsCount = new Dictionary<Slot, int>() { {Slot.Talisman, 2} };
+    private readonly Dictionary<Slot,int> slotsCount = new Dictionary<Slot, int>() { {Slot.Talisman, 2}, { Slot.none, 0 } };
     private readonly Dictionary<int, List<int>> listOfOpendBornPositions = new Dictionary<int, List<int>>(); 
 
     public event Action<BaseItem> OnNewItem;
@@ -249,14 +249,15 @@ public class PlayerData
 
     }
 
-    public void AddItem(BaseItem item)
+    public void AddItem(BaseItem item,bool withSave = true)
     {
         if (OnNewItem != null)
         {
             OnNewItem(item);
         }
         playerItems.Add(item);
-        Save();
+        if (withSave)
+            Save();
     }
 
     public List<BaseItem> GetAllItems()

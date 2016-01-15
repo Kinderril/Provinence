@@ -31,6 +31,7 @@ public class Level
     public int difficult = 1;
     public bool isPLaying = true;
     private PortalsController PortalsController = new PortalsController();
+    private List<BaseItem> collectedItems = new List<BaseItem>();
     public Action OnEndLevel;
     public int MissionIndex = 1;
     public bool IsGoodEnd;
@@ -122,6 +123,10 @@ public class Level
         {
             inventory.Remove(ItemId.crystal);
             inventory[ItemId.money] /= 2;
+            foreach (var collectedItem in collectedItems)
+            {
+                PlayerData.AddItem(collectedItem,false);
+            }
         }
         PlayerData.AddInventory(inventory);
         PlayerData.Save();

@@ -26,7 +26,8 @@ public enum Slot
     body,
     helm,
     bonus,
-    Talisman
+    Talisman,
+    none,
 }
 
 public class PlayerItem : BaseItem

@@ -18,6 +18,7 @@ public class HeroControl : BaseControl
     private Vector3 lastMoveDir;
     public bool isBackDir;
     public QueaternionFromTo SpinTransform;
+    public GameObject DebuGameObject;
     
     public void Init(Action comeToRotation)
     {
@@ -132,6 +133,10 @@ public class HeroControl : BaseControl
 //        SpinTransform.UpdateRotate();
         CheckRemainBackDir();
         RotateToTarget();
+        if (DebuGameObject != null)
+        {
+            DebuGameObject.SetActive(isBackDir);
+        }
     }
 
     private void CheckRemainBackDir()

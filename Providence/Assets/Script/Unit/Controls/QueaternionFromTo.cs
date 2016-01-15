@@ -119,10 +119,7 @@ public class QueaternionFromTo : MonoBehaviour
 
     public bool ShallRotate(Vector3 dir)
     {
-        qFrom = transform.rotation;
-        qTo = Quaternion.LookRotation(dir);
-        ang = Quaternion.Angle(qFrom, qTo);
-        return ang < 4;
+        return Quaternion.Angle(transform.rotation, Quaternion.LookRotation(dir)) < 4;
     }
 
 }
