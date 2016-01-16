@@ -7,27 +7,31 @@ using UnityEngine;
 
 public class QueaternionFromTo : MonoBehaviour
 {
-//    public Vector3 to;
-//    public Vector3 from;
-    private Quaternion qTo;
-    private Quaternion qFrom;
+    //    public Vector3 to;
+    //    public Vector3 from;
+    public Quaternion qTo;
+    public Quaternion qFrom;
     private Quaternion qCur;
     private float time;
     public float totalSpeed;
     private float curSpeed;
     private float ang;
     private float remainAngel;
-    private bool isRotating;
+    public bool isRotating;
     public QueaternionFromTo BlockingFromTo;
     public float waitTimeSec;
     private Action endLookRotation;
     private Action comeToRotation;
-    private bool isWaiting;
-    private float endWAitTime;
+    public bool isWaiting;
+    public float endWaitTime;
 
     public bool IsRotating
     {
         get { return isRotating; }
+    }
+    public bool IsWaiting
+    {
+        get { return isWaiting; }
     }
 
     public float RemainAngel
@@ -53,6 +57,7 @@ public class QueaternionFromTo : MonoBehaviour
             isRotating = true;
             isWaiting = false;
         }
+//        Debug.Log("ang:"+ ang);
         return IsRotating;
     }
 
@@ -81,7 +86,7 @@ public class QueaternionFromTo : MonoBehaviour
             if (NoBlocking())
             {
                 transform.rotation = qCur;
-                if (Time.time > endWAitTime)
+                if (Time.time > endWaitTime)
                 {
                     isWaiting = false;
                     if (endLookRotation != null)
@@ -92,6 +97,8 @@ public class QueaternionFromTo : MonoBehaviour
             }
             else
             {
+//                Debug.Log("By block: " + BlockingFromTo.RemainAngel + "  " +BlockingFromTo.qFrom.eulerAngles + "  " + BlockingFromTo.qTo.eulerAngles + "  " + BlockingFromTo.qCur.eulerAngles);
+                
                 isWaiting = false;
             }
         }
@@ -99,7 +106,18 @@ public class QueaternionFromTo : MonoBehaviour
 
     private bool NoBlocking()
     {
-        return !(BlockingFromTo != null && BlockingFromTo.IsRotating && BlockingFromTo.RemainAngel > 45);
+        if (BlockingFromTo == null)
+            return true;
+
+        if (!BlockingFromTo.IsRotating)
+            return true;
+
+        if (Quaternion.Angle(BlockingFromTo.qTo, qTo) < 90)
+            return true;
+
+        return false;
+        
+//        return !(BlockingFromTo != null && BlockingFromTo.IsRotating && BlockingFromTo.RemainAngel > 45);
     }
 
     private void StartWait()
@@ -107,7 +125,7 @@ public class QueaternionFromTo : MonoBehaviour
         if (waitTimeSec > 0)
         {
             isWaiting = true;
-            endWAitTime = waitTimeSec + Time.time;
+            endWaitTime = waitTimeSec + Time.time;
         }
     }
 
@@ -115,6 +133,10 @@ public class QueaternionFromTo : MonoBehaviour
     {
         this.comeToRotation = onComeRotation;
         this.endLookRotation = onLookEnd;
+        if (BlockingFromTo != null)
+        {
+            totalSpeed = BlockingFromTo.totalSpeed*1.3f;
+        }
     }
 
     public bool ShallRotate(Vector3 dir)

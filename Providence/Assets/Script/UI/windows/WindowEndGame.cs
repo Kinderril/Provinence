@@ -20,6 +20,7 @@ public class WindowEndGame : BaseWindow
         var level = MainController.Instance.level;
         bool isGoodEnd = level.IsGoodEnd;
         var items = level.GetAllCollectedItems();
+        crystalField.SetActive(false);
         foreach (var item in items)
         {
             Text t = null;
@@ -29,7 +30,8 @@ public class WindowEndGame : BaseWindow
                     t = moneyField;
                     break;
                 case ItemId.crystal:
-                   crystalField.SetActive(true);
+                    if (item.Value > 0)
+                        crystalField.SetActive(true);
                     break;
             }
             if (t != null)

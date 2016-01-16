@@ -36,14 +36,6 @@ public class AgentControl : BaseControl
 
     protected override void UpdateCharacter()
     {
-
-//        this.TargetDirection = (agent.destination - transform.position).normalized;
-//        var angel = Vector3.Angle(TargetDirection, this.Direction);
-
-//        if (angel > 3)
-//        Debug.Log("TargetDirection" + TargetDirection);
-        RotateToTarget();
-
         UpdateAnimator(agent.velocity);
     }
     public override void SetSpped(float speed)

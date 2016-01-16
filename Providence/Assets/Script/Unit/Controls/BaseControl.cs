@@ -69,19 +69,9 @@ public class BaseControl : MonoBehaviour
 
     protected virtual void UpdateRotation(Vector3 d)
     {
-    }
 
-    protected void RotateToTarget()
-    {
-//        ThisByQuaterhnion.UpdateRotate();
-        /*
-        dir = tr2rotate.InverseTransformDirection(dir);
-        m_TurnAmount = Mathf.Atan2(dir.x, dir.z);
-        m_ForwardAmount = dir.z;
-        float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
-        tr2rotate.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
-         */ 
     }
+    
 
     public void UpdateFromUnit()
     {
@@ -94,6 +84,7 @@ public class BaseControl : MonoBehaviour
 
     public virtual void SetToDirection(Vector3 dir)
     {
+//        Debug.Log("2 " + dir + "   prev: " + targetDirection);
         targetDirection = dir;
         ThisByQuaterhnion.SetLookDir(targetDirection);
     }
@@ -107,6 +98,7 @@ public class BaseControl : MonoBehaviour
 
     public void SetDeath()
     {
+        ThisByQuaterhnion.enabled = false;
         Animator.SetBool(ANIM_DEATH,true);
     }
 

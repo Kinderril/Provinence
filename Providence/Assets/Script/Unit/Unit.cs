@@ -144,7 +144,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (!isDead)
         {
@@ -271,6 +271,7 @@ public class Unit : MonoBehaviour
             rigbody.isKinematic = true;
         isDead = true;
         Control.SetDeath();
+        
         StartCoroutine(PLayDeath());
     }
 

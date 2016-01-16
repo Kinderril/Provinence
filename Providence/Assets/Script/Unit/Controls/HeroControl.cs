@@ -27,26 +27,37 @@ public class HeroControl : BaseControl
 
     private void OnLookEnd()
     {
-        Debug.Log("OnLookEnd");
-        SpinTransform.SetLookDir(targetDirection);
+//        Debug.Log("OnLookEnd");
+//        SpinTransform.SetLookDir(targetDirection);
 //        Animator.SetBool(ANIM_ATTACK, false);
     }
-
-//    public override void PlayAttack()
-//    {
-//        Animator.SetBool(ANIM_ATTACK,true);
-//    }
 
     public override bool MoveTo(Vector3 v)
     {
         if (v != Vector3.zero)
         {
-            if (isBackDir)
+            var ang = Quaternion.Angle(Quaternion.LookRotation(v), SpinTransform.qTo);
+            if (IsMoving() && SpinTransform.IsWaiting)
             {
-                var ang = Vector3.Angle(v, lookDir);
-                if (ang < 90)
+                if (ang > 110)
                 {
-                    SetBackDir(false);
+                    SetBackDir(true);
+                }
+                if (isBackDir)
+                {
+                    v = v * CPNST_BACK_WALK;
+                    SetToDirection(-v);
+                }
+                else
+                {
+                    SetToDirection(v);
+                }
+            }
+            else  if (isBackDir)
+            {
+                if (ang < 110)
+                {
+                    SetBackDir(false,"diffff a");
                 }
 //                Debug.Log("dir back1 " + (-v));
                 v = v * CPNST_BACK_WALK;
@@ -67,64 +78,52 @@ public class HeroControl : BaseControl
         if (lastMoveDir != dir)
         {
             lastMoveDir = dir;
-//            Debug.Log("SetToDirection " + "  SpinTransform.IsRotating: " + SpinTransform.IsRotating + "   dir:" + dir + "   SpinTransform.Side:" + SpinTransform.Side);
-            if (SpinTransform.IsRotating)
-            {
-                base.SetToDirection(dir);
-            }
-            else
-            {
-
-                base.SetToDirection(dir);
-            }
+            base.SetToDirection(dir);
         }
     }
 
-    private void SetBackDir(bool value)
+    private void SetBackDir(bool value,string cause = "")
     {
+        //CHeck on look. maybe we wait here
 //        Debug.Log("SetBackDir " + value);
+//        if (value == isBackDir)
+//
+//        if (SpinTransform.IsWaiting)
+//        {
+//            
+//        }
+
         if (value)
         {
             RemainBackWalkTimeSec = CONST_SEC_WALK;
         }
-        if (m_Rigidbody.velocity.sqrMagnitude > 0.1f)
+        if (IsMoving())
         {
             isBackDir = value;
-//            if (isBackDir != value)
-//            {
-
-//                SetToDirection(targetDirection);
-//                float ang;
-//                var side = RotateByQuaterhnion.CalcSide(targetDirection, lookDir, out ang);
-//                isBackDir = value;
-//                if (ang > 2)
-//                {
-//                    SetToDirection(targetDirection, side);
-//                }
-
-//            }
-
         }
         else
         {
             isBackDir = false;
         }
+//        Debug.Log("Set backl dir " + value + "   " + Time.time + "   cause:" + cause);
     }
 
-
+    private bool IsMoving()
+    {
+        return m_Rigidbody.velocity.sqrMagnitude > 0.1f;
+    }
+    
     private bool SetLookDir(Vector3 dir)
     {
-        Debug.Log("Look with spin");
+//        Debug.Log("Look with spin -----  >>>>");
         var doRotate = SpinTransform.SetLookDir(dir);
-        lookDir = dir;
+//        Debug.Log("Look with spin ----- <<<<<");
+//        lookDir = dir;
         if (m_Rigidbody.velocity.sqrMagnitude < 0.1f)
         {
             SetToDirection(dir);
         }
         return doRotate;
-        //lookDir = new Vector3(dir.x,SpinTransform.position.y ,dir.z);
-        //TimeToGoToDefaultLook = CONST_SEC_LOOK + Time.time;
-        //useLookDir = true;
     }
 
     protected override void UpdateCharacter()
@@ -132,7 +131,6 @@ public class HeroControl : BaseControl
         base.UpdateCharacter();
 //        SpinTransform.UpdateRotate();
         CheckRemainBackDir();
-        RotateToTarget();
         if (DebuGameObject != null)
         {
             DebuGameObject.SetActive(isBackDir);
@@ -146,11 +144,11 @@ public class HeroControl : BaseControl
             RemainBackWalkTimeSec -= Time.deltaTime;
             if (RemainBackWalkTimeSec < 0)
             {
-                if (m_Rigidbody.velocity.sqrMagnitude < 0.1f)
-                {
+//                if (m_Rigidbody.velocity.sqrMagnitude < 0.1f)
+//                {
                     SetBackDir(false);
-                }
-                isBackDir = false;
+//                }
+//                isBackDir = false;
             }
         }
     }
@@ -163,7 +161,7 @@ public class HeroControl : BaseControl
     public void SetDir(Vector3 nDir,bool withLook)
     {
         var angel = Vector3.Angle(nDir, TargetDirection);
-        if (angel > 90)
+        if (angel > 115)
         {
             SetBackDir(true);
         }

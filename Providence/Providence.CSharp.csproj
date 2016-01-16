@@ -57,12 +57,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -141,8 +135,10 @@
     <Compile Include="Assets\Script\Unit\Bullets\HeroBullet.cs" />
     <Compile Include="Assets\Script\Unit\Bullets\MonsterBullet.cs" />
     <Compile Include="Assets\Script\Unit\Controls\AgentControl.cs" />
+    <Compile Include="Assets\Script\Unit\Controls\ArrowTarget.cs" />
     <Compile Include="Assets\Script\Unit\Controls\BaseControl.cs" />
     <Compile Include="Assets\Script\Unit\Controls\HeroControl.cs" />
+    <Compile Include="Assets\Script\Unit\Controls\QueaternionFromTo.cs" />
     <Compile Include="Assets\Script\Unit\Controls\RotateByQuaterhnion.cs" />
     <Compile Include="Assets\Script\Unit\CoreType\BaseMonster.cs" />
     <Compile Include="Assets\Script\Unit\CoreType\BossUnit.cs" />

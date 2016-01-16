@@ -110,7 +110,8 @@ public class Hero : Unit
         }
     }
     
-    void FixedUpdate()
+
+    protected override void UpdateUnit()
     {
         RegenHP();
         if (currenthBonusTimeLeft > 0)
@@ -124,7 +125,6 @@ public class Hero : Unit
         Control.UpdateFromUnit();
         if (Action != null)
             Action.Update();
-
     }
 
     public override void TryAttack(Vector3 target)
@@ -162,7 +162,7 @@ public class Hero : Unit
         }
         else
         {
-            Debug.Log("SetDir ]]]]]  " + dir);
+//            Debug.Log("SetDir ]]]]]  " + dir);
             heorControl.SetDir(dir, true);
             shootContainer = new ShootContainer(target, transform.position);
         }
@@ -170,6 +170,8 @@ public class Hero : Unit
 
     public void TryAttackByDirection(Vector3 dir)
     {
+
+//                    Debug.Log("TryAttackByDirection ]]]]]  " + dir);
         var trg = transform.position + dir;
 
         
