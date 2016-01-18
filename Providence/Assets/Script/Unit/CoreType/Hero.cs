@@ -154,16 +154,13 @@ public class Hero : Unit
 
     private void subTR(Vector3 target,Vector3 dir)
     {
-//        Debug.Log("isPlayAttack:" + isPlayAttack);
-//        shootContainer = new ShootContainer(target, transform.position);
         if (isPlayAttack)
         {
             rotateContainer = new RotateContainer(target);
         }
         else
         {
-//            Debug.Log("SetDir ]]]]]  " + dir);
-            heorControl.SetDir(dir, true);
+            heorControl.SetLookDir(dir);
             shootContainer = new ShootContainer(target, transform.position);
         }
     }
