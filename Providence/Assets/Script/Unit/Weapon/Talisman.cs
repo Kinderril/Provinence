@@ -57,13 +57,13 @@ public class Talisman
                 //TimeEffect.Creat(MainController.Instance.level.MainHero, EffectType.doubleDamage);
                 break;
         }
-        AddEnergy(sourseItem.costShoot);
+        AddEnergy(sourseItem.costShoot,true);
         DoCallback();
     }
 
-    public void AddEnergy(float val)
+    public void AddEnergy(float val, bool canBePositive = false)
     {
-        if (val < 0)
+        if (canBePositive || val < 0)
         {
             currentEnergy = Mathf.Clamp(currentEnergy - val, 0, sourseItem.costShoot + 1);
             //Debug.Log("add energy " + currentEnergy + "/" + sourseItem.costShoot);

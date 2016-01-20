@@ -27,11 +27,11 @@ public class Bullet : MonoBehaviour
             HitParticleSystem.Stop();
         }
     }
-    public virtual void Init(Vector3 target,Weapon weapon)
+    public virtual void Init(Vector3 direction,Weapon weapon)
     {
         if (rebuildY)
         {
-            target = new Vector3(target.x, transform.position.y, target.z);
+            direction = new Vector3(direction.x, transform.position.y, direction.z);
         }
         speed = weapon.Parameters.bulletSpeed;
 //        ownerType = weapon.owner.unitType;
@@ -45,11 +45,10 @@ public class Bullet : MonoBehaviour
             start = transform.position;
             
         }
-        var dir = target - start;
-        trg = dir.normalized * weapon.Parameters.range + start;
+        trg = direction.normalized * weapon.Parameters.range + start;
         time = 0;
         updateAction = updateVector;
-        transform.LookAt(target);
+        transform.rotation = Quaternion.LookRotation(direction);
     }
 
     

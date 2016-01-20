@@ -66,7 +66,7 @@ public class Weapon : MonoBehaviour
         return outPosVector3;
     }
 
-    public virtual void DoShoot(Vector3 v)
+    public virtual void DoShoot(Vector3 dir)
     {
 //        v = new Vector3(v.x,transform.position.y, v.z);
 //        Debug.Log("DoShoot attack >>>>>>>>>>>>>>>");
@@ -76,7 +76,7 @@ public class Weapon : MonoBehaviour
             Unit potentialTarget = null;
             if (owner is Hero)
             {
-                potentialTarget = Map.Instance.FindClosesEnemy(v);
+                potentialTarget = Map.Instance.FindClosesEnemy(owner.transform.position);
             }
             else
             {
@@ -99,7 +99,7 @@ public class Weapon : MonoBehaviour
         {
             Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
             bullet1.transform.position = outPosVector3;
-            bullet1.Init(v, this);
+            bullet1.Init(dir, this);
         }
         if (pSystemOnShot != null)
         {

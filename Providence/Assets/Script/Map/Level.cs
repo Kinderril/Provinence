@@ -36,6 +36,7 @@ public class Level
     public int MissionIndex = 1;
     public bool IsGoodEnd;
     public int EnemiesKills = 0;
+    private const float speedEnergyFall = 1.5f;
 
     public Level(int index)
     {
@@ -109,7 +110,7 @@ public class Level
     {
         if (isPLaying)
         {
-            powerLeft += Time.deltaTime;
+            powerLeft += Time.deltaTime*speedEnergyFall;
             ActionPOwerLeft();
         }
     }
