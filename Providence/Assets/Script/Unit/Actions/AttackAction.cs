@@ -120,8 +120,12 @@ public class AttackAction : BaseAction
 
     protected void DoShoot(bool shallStop = false)
     {
-        owner.TryAttack(target.transform.position);
-        owner.Control.SetToDirection(target.transform.position - owner.transform.position);
+        var dir = target.transform.position - owner.transform.position;
+        dir.y = 0;
+        Debug.Log("shhot dir: " + dir);
+        owner.Control.SetToDirection(dir);
+        //dir = new Vector3(dir.x,owner.transform.position.y,dir.z);
+        owner.TryAttack(dir, target);
         owner.OnShootEnd += OnShootEnd;
         attackStatus = AttackStatus.shoot;
         if (shallStop)

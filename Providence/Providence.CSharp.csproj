@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.3.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -71,6 +73,7 @@
     <Compile Include="Assets\Script\Data\BaseItem.cs" />
     <Compile Include="Assets\Script\Data\BonusItem.cs" />
     <Compile Include="Assets\Script\Data\DataStructs.cs" />
+    <Compile Include="Assets\Script\Data\ExecutableItem.cs" />
     <Compile Include="Assets\Script\Data\PlayerData.cs" />
     <Compile Include="Assets\Script\Data\PlayerItem.cs" />
     <Compile Include="Assets\Script\Data\ShopItem.cs" />
@@ -78,11 +81,13 @@
     <Compile Include="Assets\Script\DataBaseController.cs" />
     <Compile Include="Assets\Script\MainController.cs" />
     <Compile Include="Assets\Script\Map\BornPositions\BaseBornPosition.cs" />
+    <Compile Include="Assets\Script\Map\BornPositions\BonusBornPosition.cs" />
     <Compile Include="Assets\Script\Map\BornPositions\BossBornPosition.cs" />
     <Compile Include="Assets\Script\Map\BornPositions\ChestBornPosition.cs" />
     <Compile Include="Assets\Script\Map\BornPositions\HeroBornPosition.cs" />
     <Compile Include="Assets\Script\Map\BornPositions\MonsterBornPosition.cs" />
     <Compile Include="Assets\Script\Map\BossSpawner.cs" />
+    <Compile Include="Assets\Script\Map\Items\Bonus\BaseBonusMapElement.cs" />
     <Compile Include="Assets\Script\Map\Items\Bush.cs" />
     <Compile Include="Assets\Script\Map\Items\Chest.cs" />
     <Compile Include="Assets\Script\Map\Items\MapItem.cs" />

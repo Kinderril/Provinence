@@ -125,7 +125,7 @@ public class Hero : Unit
             Action.Update();
     }
 
-    public override void TryAttack(Vector3 target)
+    public override void TryAttack(Vector3 target, Unit unit = null)
     {
         var can = curWeapon.CanShoot();
         var dir = target - transform.position;

@@ -31,6 +31,7 @@ public class DataBaseController : Singleton<DataBaseController>
 
     public List<IShopExecute> allShopElements;
     public Chest chestPrefab;
+    
     public DataStructs DataStructs;
     public GameObject debugCube;
     public FlyingNumbers FlyingNumber;

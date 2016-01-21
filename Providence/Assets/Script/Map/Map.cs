@@ -51,6 +51,10 @@ public class Map : Singleton<Map>
                         BossAppearPos.Add(bBP);
                         bBP.Init(this);
                         break;
+                    case BornPositionType.bonus:
+                        var bnBP = (bp as BonusBornPosition);
+                        bnBP.Init(this,lvl);
+                        break;
                 }
             }
         }

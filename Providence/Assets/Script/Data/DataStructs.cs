@@ -64,6 +64,7 @@ public class DataStructs : MonoBehaviour
     public EffectVisuals[] EffectVisuals;
     public int[] costParameterByLvl;
     public const int MISSION_LAST_INDEX = 2;
+    public List<BaseBonusMapElement> BaseBonusMapElement;
     public int GetRespawnPointsCountByMission(int mission)
     {
         return 4;

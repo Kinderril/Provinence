@@ -30,6 +30,8 @@ public class Unit : MonoBehaviour
     protected float lastWeaponChangse;
     public ParticleSystem HitParticleSystem;
     protected bool isPlayAttack = false;
+    public float _shield;
+    public event Action<bool> OnShieldOn;
 
     public float CurHp
     {
@@ -59,6 +61,18 @@ public class Unit : MonoBehaviour
     public bool IsDead
     {
         get { return isDead; }
+    }
+
+    public float Shield
+    {
+        set
+        {
+            _shield = value;
+            if (_shield > 0 && OnShieldOn != null)
+            {
+                OnShieldOn(true);
+            }
+        }
     }
 
     public virtual void Init()
@@ -95,7 +109,7 @@ public class Unit : MonoBehaviour
         }
     }
     
-    public virtual void TryAttack(Vector3 target)
+    public virtual void TryAttack(Vector3 direction, Unit target = null)
     {
         if (!isPlayAttack)
         {
@@ -106,7 +120,7 @@ public class Unit : MonoBehaviour
             curWeapon.SetNextTimeShoot();
             animationController.StartPlayAttack(() =>
             {
-                curWeapon.DoShoot(target);
+                curWeapon.DoShoot(direction, target);
                 ShootEnd();
             });
         }
@@ -247,6 +261,23 @@ public class Unit : MonoBehaviour
                 break;
         }
         power = GreatRandom.RandomizeValue(power);
+        if (_shield > 0)
+        {
+            if (_shield > power)
+            {
+                _shield -= power;
+                return;
+            }
+            else
+            {
+                power -= _shield;
+                _shield = 0;
+                if (OnShieldOn != null)
+                {
+                    OnShieldOn(false);
+                }
+            }
+        }
         CurHp = CurHp - power;
         if (this is Hero)
         {
@@ -256,6 +287,8 @@ public class Unit : MonoBehaviour
             }
         }
     }
+
+    
 
     protected virtual void Dead()
     {

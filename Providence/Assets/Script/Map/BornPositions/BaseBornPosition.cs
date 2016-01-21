@@ -10,6 +10,7 @@ public enum BornPositionType
     chest,
     monster,
     boss,
+    bonus,
     none,
 }
 

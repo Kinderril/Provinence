@@ -106,17 +106,17 @@ public class QueaternionFromTo : MonoBehaviour
 
     private bool NoBlocking()
     {
-        if (BlockingFromTo == null)
-            return true;
-
-        if (!BlockingFromTo.IsRotating)
-            return true;
-
-        if (Quaternion.Angle(BlockingFromTo.qTo, qTo) < 90)
-            return true;
-
-        return false;
-        
+//        if (BlockingFromTo == null)
+//            return true;
+//
+//        if (!BlockingFromTo.IsRotating)
+//            return true;
+//
+//        if (Quaternion.Angle(BlockingFromTo.qTo, qTo) < 90)
+//            return true;
+//
+//        return false;
+        return true;
 //        return !(BlockingFromTo != null && BlockingFromTo.IsRotating && BlockingFromTo.RemainAngel > 45);
     }
 

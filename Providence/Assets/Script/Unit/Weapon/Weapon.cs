@@ -66,7 +66,7 @@ public class Weapon : MonoBehaviour
         return outPosVector3;
     }
 
-    public virtual void DoShoot(Vector3 dir)
+    public virtual void DoShoot(Vector3 dir, Unit target = null)
     {
 //        v = new Vector3(v.x,transform.position.y, v.z);
 //        Debug.Log("DoShoot attack >>>>>>>>>>>>>>>");
@@ -99,7 +99,16 @@ public class Weapon : MonoBehaviour
         {
             Bullet bullet1 = Instantiate(bullet.gameObject).GetComponent<Bullet>();
             bullet1.transform.position = outPosVector3;
-            bullet1.Init(dir, this);
+            if (target == null || (target != null && target.IsDead))
+            {
+                bullet1.Init(dir, this);
+            }
+            else
+            {
+                dir = target.transform.position - outPosVector3;
+                dir.y = 0;
+                bullet1.Init(dir, this);
+            }
         }
         if (pSystemOnShot != null)
         {
