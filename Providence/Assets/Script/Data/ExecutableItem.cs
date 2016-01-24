@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 public enum ExecutableType
 {
@@ -14,25 +15,33 @@ public enum ExecutableType
 public class ExecutableItem : BaseItem
 {
     public ExecutableType ExecutableType;
+    public const char FIRSTCHAR = '©';
 
-    public ExecutableItem()
+    public ExecutableItem(ExecutableType type)
     {
-        Slot = Slot.none;
+        ExecutableType = type;
+        Slot = Slot.executable;
     }
 
     public override char FirstChar()
     {
-        return '©';
+        return FIRSTCHAR;
     }
 
     public override void Activate(Hero hero)
     {
-
+        Debug.LogWarning("cannot be activate");
     }
 
     public override string Save()
     {
-        return "";
+        return ExecutableType.ToString();
+    }
+
+    public static ExecutableItem Creat(string subStr)
+    {
+        ExecutableType t = (ExecutableType)Enum.Parse(typeof (ExecutableType), subStr);
+        return new ExecutableItem(t);
     }
 }
 

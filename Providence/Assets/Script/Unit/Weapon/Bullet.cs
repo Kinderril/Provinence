@@ -36,33 +36,41 @@ public class Bullet : MonoBehaviour
         speed = weapon.Parameters.bulletSpeed;
 //        ownerType = weapon.owner.unitType;
         this.weapon = weapon;
-        if (weapon.bulletComeOut)
+        if (weapon.bulletComeOut != null)
         {
             start = weapon.bulletComeOut.position;
         }
         else
         {
             start = transform.position;
-            
+            Debug.Log("wrong bullet start position");
         }
         trg = direction.normalized * weapon.Parameters.range + start;
-        time = 0;
+        subInit();
         updateAction = updateVector;
         transform.rotation = Quaternion.LookRotation(direction);
     }
-
     
-
     public void Init(Unit target, Weapon weapon)
     {
         speed = weapon.Parameters.bulletSpeed;
         targetUnit = target;
         start = transform.position;
         this.weapon = weapon;
-        time = 0;
+        subInit();
         updateAction = updateTargetUnit;
         transform.LookAt(targetUnit.transform.position);
     }
+
+    private void subInit()
+    {
+        time = 0;
+        if (TrailParticleSystem != null)
+        {
+            TrailParticleSystem.Play();
+        }
+    }
+
 
     void OnTriggerEnter(Collider other)
     {

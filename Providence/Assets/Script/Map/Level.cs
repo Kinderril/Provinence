@@ -106,6 +106,11 @@ public class Level
         }
     }
 
+    public void AddItem(BaseItem item)
+    {
+        collectedItems.Add(item);
+    }
+
     public void Update()
     {
         if (isPLaying)
@@ -124,9 +129,13 @@ public class Level
         {
             inventory.Remove(ItemId.crystal);
             inventory[ItemId.money] /= 2;
+        }
+        else
+        {
+            AddRandomGift();
             foreach (var collectedItem in collectedItems)
             {
-                PlayerData.AddItem(collectedItem,false);
+                PlayerData.AddItem(collectedItem, false);
             }
         }
         PlayerData.AddInventory(inventory);
@@ -134,6 +143,38 @@ public class Level
         if (OnEndLevel != null)
         {
             OnEndLevel();
+        }
+    }
+
+    private void AddRandomGift()
+    {
+        if (UnityEngine.Random.Range(0, 10) <= 5)
+        {
+            int lvl = MainController.Instance.PlayerData.Level;
+            var slot = ShopController.RandomAfterLevelGift();
+            BaseItem item = null;
+            switch (slot)
+            {
+                case Slot.physical_weapon:
+                case Slot.magic_weapon:
+                case Slot.body:
+                case Slot.helm:
+                    item = HeroShopRandomItem.CreatMainSlot(slot, lvl);
+                    break;
+                case Slot.Talisman:
+                    item = HeroShopRandomItem.CreaTalic(lvl);
+                    break;
+                case Slot.executable:
+                    item = HeroShopExecutableItem.CreatExecutableItem(lvl);
+                    break;
+                case Slot.bonus:
+                    item = HeroShopBonusItem.CreatBonusItem(lvl);
+                    break;
+            }
+            if (item != null)
+            {
+                collectedItems.Add(item);
+            }
         }
     }
 

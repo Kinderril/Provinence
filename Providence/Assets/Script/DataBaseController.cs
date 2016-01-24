@@ -16,6 +16,7 @@ public enum PoolType
     flyNumberInGame,
     flyNumberInUI,
     flyNumberWithPicture,
+    effectVisual,
 }
 
 public class DataBaseController : Singleton<DataBaseController>
@@ -26,8 +27,8 @@ public class DataBaseController : Singleton<DataBaseController>
     private readonly Dictionary<MainParam, Sprite> MainParamSprites = new Dictionary<MainParam, Sprite>();
     private readonly Dictionary<ParamType, Sprite> ParamTypeSprites = new Dictionary<ParamType, Sprite>();
     private readonly Dictionary<Slot, Sprite> SlotSprites = new Dictionary<Slot, Sprite>();
-    private readonly Dictionary<EffectType, VisualEffect> visualEffects = new Dictionary<EffectType, VisualEffect>();
     private readonly Dictionary<ItemId, Color> itemsColors = new Dictionary<ItemId, Color>();
+    private readonly Dictionary<EffectType, VisualEffectBehaviour> visualEffectBehaviours = new Dictionary<EffectType, VisualEffectBehaviour>();
 
     public List<IShopExecute> allShopElements;
     public Chest chestPrefab;
@@ -86,24 +87,16 @@ public class DataBaseController : Singleton<DataBaseController>
         {
             TalismansSprites.Add(mp.type,  mp.path);
         }
-        foreach (var ef in DataStructs.EffectVisuals)
-        {
-            visualEffects.Add(ef.type,ef.path);
-        }
         foreach (var colorUi in DataStructs.ColorsOfUI)
         {
             itemsColors.Add(colorUi.type,colorUi.color);
         }
+        foreach (var effectVisualsBehaviour in DataStructs.EffectVisualsBehaviours)
+        {
+            visualEffectBehaviours.Add(effectVisualsBehaviour.type, effectVisualsBehaviour.beh);
+        }
     }
-
-    public VisualEffect GetEffect(EffectType ef,Transform tr)
-    {
-        var effect =  GetItem(visualEffects[ef]);
-        effect.transform.SetParent(tr);
-        effect.transform.localPosition = Vector3.zero;
-        return effect;
-    }
-
+    
     public Sprite MainParameterIcon(MainParam mp)
     {
         return MainParamSprites[mp];
@@ -112,6 +105,10 @@ public class DataBaseController : Singleton<DataBaseController>
     public Sprite SlotIcon(Slot mp)
     {
         return SlotSprites[mp];
+    }
+    public VisualEffectBehaviour VisualEffectBehaviour(EffectType mp)
+    {
+        return visualEffectBehaviours[mp];
     }
 
     public Sprite ItemIcon(ItemId itemId)

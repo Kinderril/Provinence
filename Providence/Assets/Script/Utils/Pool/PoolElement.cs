@@ -14,7 +14,7 @@ public class PoolElement : MonoBehaviour
         get { return isUsing; }
     }
 
-    public void Init()
+    public virtual void Init()
     {
         isUsing = true;
         gameObject.SetActive(IsUsing);

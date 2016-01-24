@@ -11,13 +11,12 @@ public class SpeedEffect : TimeEffect
         : base(targetUnit)
     {
         targetUnit.Parameters.Parameters[ParamType.Speed] *= 2f;
-        effect = DataBaseController.Instance.GetEffect(EffectType.speed, targetUnit.transform);
-        effect.Action(targetUnit);
+        var effect = DataBaseController.Instance.Pool.GetItemFromPool(EffectType.speed);
+        effect.Init(targetUnit,endEffect);
     }
 
     protected override void OnTimer()
     {
-        effect.End();
         targetUnit.Parameters.Parameters[ParamType.Speed] /= 2f;
         base.OnTimer();
     }

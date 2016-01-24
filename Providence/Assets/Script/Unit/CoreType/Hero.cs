@@ -17,7 +17,7 @@ public class Hero : Unit
     public float coefVisibility = 1f;
     private bool isCrouch = false;
     private bool isBush = false;
-    public ParticleSystem OnGetItems;
+    public PSAbsorber GetItemEffect;
     private float currenthBonus = 0f;
     private float currenthBonusTimeLeft = 0f;
     public Action<float> CurrentBonusUpdateX;
@@ -55,7 +55,7 @@ public class Hero : Unit
 
         Parameters.Parameters[ParamType.PPower] *= damageBonusFromItem + 1f;
         Parameters.Parameters[ParamType.MPower] *= damageBonusFromItem + 1f;
-        OnGetItems.Stop(true);
+//        GetItemEffect.Stop(true);
         heorControl = Control as HeroControl;
         heorControl.Init(OnRotationEnds);
         Utils.GroundTransform(transform);
@@ -185,7 +185,7 @@ public class Hero : Unit
         CurrenthBonus += moneyBonusCoef;
         currenthBonusTimeLeft += moneyBonusCoefTime;
 
-        OnGetItems.Play();
+        GetItemEffect.Play();
         MainController.Instance.level.AddItem(type, count);
     }
 
@@ -258,22 +258,16 @@ public class Hero : Unit
 
     public void GetHeal(float currentPower)
     {
-        var effect = DataBaseController.Instance.GetEffect(EffectType.heal, transform);
-        effect.Action(this);
+        var effect = DataBaseController.Instance.Pool.GetItemFromPool(EffectType.heal);
+        effect.Init(this,3.5f);
         var p =  currentPower * 3;
         CurHp += p;
         if (OnGetHit != null)
         {
             OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], p);
         }
-        StartCoroutine(WaitForHeal(effect));
     }
 
-    private IEnumerator WaitForHeal(VisualEffect effect)
-    {
-        yield return new WaitForSeconds(3.5f);
-        effect.End();
-    }
 }
 
 class ShootContainer

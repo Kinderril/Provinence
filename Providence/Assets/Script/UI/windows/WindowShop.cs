@@ -23,6 +23,7 @@ public class WindowShop : BaseWindow
     public Button SellButton;
     public Button EquipButton;
     public Button UnEquipButton;
+    public Button UpgradeButton;
 
     public override void Init()
     {
@@ -60,25 +61,66 @@ public class WindowShop : BaseWindow
     {
 
         ItemInfoElement.gameObject.SetActive(false);
+        EquipButton.gameObject.SetActive(false);
+        UnEquipButton.gameObject.SetActive(false);
+        UpgradeButton.gameObject.SetActive(false);
+        SellButton.gameObject.SetActive(false);
         selectedShopElement = null;
         selectedPlayerItem = null;
     }
 
-    private void OnItemInit(ItemOwner obj)
+    private void OnItemInit(BaseItem info,ItemOwner obj)
     {
         Debug.Log(obj);
-        bool val = false;
-        switch (obj)
-        {
-            case ItemOwner.Shop:
-                val = true;
-                break;
-        }
+        bool val = info == null;
         BuyButton.gameObject.SetActive(val);
-        EquipButton.gameObject.SetActive(!val);
-        UnEquipButton.gameObject.SetActive(!val);
+
+
+        EquipButton.gameObject.SetActive(false);
+        UnEquipButton.gameObject.SetActive(false);
+        UpgradeButton.gameObject.SetActive(false);
+        if (!val)
+        {
+            bool isEquiped = info.IsEquped;
+            if (info.Slot != Slot.executable)
+            {
+
+                EquipButton.gameObject.SetActive(!isEquiped);
+                UnEquipButton.gameObject.SetActive(isEquiped);
+                var canBeupgraded = canBeUpgraded(info);
+                UpgradeButton.gameObject.SetActive(canBeupgraded);
+            }
+        }
+
         SellButton.gameObject.SetActive(!val);
         ItemInfoElement.gameObject.SetActive(true);
+    }
+
+    private bool canBeUpgraded(BaseItem info)
+    {
+        switch (info.Slot)
+        {
+            case Slot.physical_weapon:
+            case Slot.magic_weapon:
+                return HaveExecutableItem(ExecutableType.weaponUpdate);
+            case Slot.body:
+            case Slot.helm:
+                return HaveExecutableItem(ExecutableType.armorUpdate);
+            case Slot.Talisman:
+                return HaveExecutableItem(ExecutableType.powerUpdate);
+        }
+        return false;
+    }
+
+    public void OnUpgradeClick()
+    {
+        
+    }
+
+    private bool HaveExecutableItem(ExecutableType t)
+    {
+        var allItems = MainController.Instance.PlayerData.GetAllItems();
+        return allItems.FirstOrDefault(x => x.Slot == Slot.executable && ((ExecutableItem)x).ExecutableType == t) != null;
     }
 
     public void OnBuySimpleChest()
@@ -164,6 +206,9 @@ public class WindowShop : BaseWindow
         if (item != null)
         {
             item.Equip(val);
+            EquipButton.gameObject.SetActive(!val);
+            UnEquipButton.gameObject.SetActive(val);
+
         }
         AllParametersContainer.UpgradeValues();
     }

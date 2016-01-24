@@ -40,6 +40,10 @@ public class BonusItem : BaseItem
                 hero.moneyBonusFromItem = power;
                 break;
         }
+        if (remainUsetime <= 0)
+        {
+            MainController.Instance.PlayerData.RemoveItem(this);
+        }
     }
 
     public override string Save()

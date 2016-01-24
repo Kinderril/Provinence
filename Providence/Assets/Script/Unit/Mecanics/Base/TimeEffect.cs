@@ -12,6 +12,7 @@ public enum EffectType
     heal,
     freez,
     fire,
+    shield,
 }
 
 public class TimeEffect
@@ -19,8 +20,8 @@ public class TimeEffect
     public float totalTime = 10;
     protected Unit targetUnit;
     protected TimerManager.ITimer timer;
-    protected VisualEffect effect;
-    //    protected EffectType EffectType;
+//    public Action effectEnd;
+    public IEndEffect endEffect;
 
     public static TimeEffect Creat(Unit targetUnit, EffectType EffectType,float power = 0)
     {
@@ -54,6 +55,7 @@ public class TimeEffect
         timer.OnTimer += OnTimer;
         MainController.Instance.level.OnEndLevel += OnEndLevel;
         targetUnit.OnDead += OnTargetDead;
+        endEffect = new IEndEffect();
     }
 
     private void OnTargetDead(Unit obj)
@@ -70,6 +72,8 @@ public class TimeEffect
     {
         MainController.Instance.level.OnEndLevel -= OnEndLevel;
         timer.Stop();
+        Debug.Log("Effect UnSET ");
+        endEffect.Do();
     }
 }
 

@@ -47,10 +47,10 @@ public struct TalismanImage
     public Sprite path;
 }
 [Serializable]
-public struct EffectVisuals
+public struct EffectVisualsBehaviour
 {
     public EffectType type;
-    public VisualEffect path;
+    public VisualEffectBehaviour beh;
 }
 public class DataStructs : MonoBehaviour
 {
@@ -61,7 +61,7 @@ public class DataStructs : MonoBehaviour
     public ColorUI[] ColorsOfUI;
     public TalismanImage[] TalismanImage;
     public SpecialAbilityImage[] SpecialAbilityImage;
-    public EffectVisuals[] EffectVisuals;
+    public EffectVisualsBehaviour[] EffectVisualsBehaviours;
     public int[] costParameterByLvl;
     public const int MISSION_LAST_INDEX = 2;
     public List<BaseBonusMapElement> BaseBonusMapElement;

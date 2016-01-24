@@ -8,6 +8,7 @@ public class ShopController : Singleton<ShopController>
 {
     public static List<TalismanType> AllTalismanstypes = new List<TalismanType>();
     public static List<SpecialAbility> AllSpecialAbilities = new List<SpecialAbility>();
+    public static List<ExecutableType> AllExecutables = new List<ExecutableType>();
     public void Init()
     {
         Connections.Init();
@@ -18,6 +19,10 @@ public class ShopController : Singleton<ShopController>
         foreach (SpecialAbility type in Enum.GetValues(typeof(SpecialAbility)))
         {
             AllSpecialAbilities.Add(type);
+        }
+        foreach (ExecutableType type in Enum.GetValues(typeof(ExecutableType)))
+        {
+            AllExecutables.Add(type);
         }
     }
 
@@ -59,6 +64,21 @@ public class ShopController : Singleton<ShopController>
         });
         return slots.Random();
     }
+    public static Slot RandomAfterLevelGift()
+    {
+        var slots = new WDictionary<Slot>(new Dictionary<Slot, float>()
+        {
+            { Slot.body,1f },
+            { Slot.helm,1f },
+            { Slot.magic_weapon,1f },
+            { Slot.physical_weapon, 1f },
+            { Slot.Talisman, 1f },
+            { Slot.executable, 9f },
+            { Slot.bonus, 9f },
+        });
+        return slots.Random();
+    }
+
 
 
 }

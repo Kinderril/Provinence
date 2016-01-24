@@ -17,7 +17,7 @@
     </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
-    <UnityVersion>5.3.1f1</UnityVersion>
+    <UnityVersion>5.3.1p3</UnityVersion>
     <RootNamespace>
     </RootNamespace>
   </PropertyGroup>
@@ -62,6 +62,12 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Providence.CSharp.Plugins.csproj">
@@ -95,6 +101,7 @@
     <Compile Include="Assets\Script\Map\Map.cs" />
     <Compile Include="Assets\Script\Map\PortalsController.cs" />
     <Compile Include="Assets\Script\Shop\HeroShopBonusItem.cs" />
+    <Compile Include="Assets\Script\Shop\HeroShopExecutableItem.cs" />
     <Compile Include="Assets\Script\Shop\HeroShopRandomItem.cs" />
     <Compile Include="Assets\Script\Shop\IShopExecute.cs" />
     <Compile Include="Assets\Script\Shop\ShopController.cs" />
@@ -149,17 +156,19 @@
     <Compile Include="Assets\Script\Unit\CoreType\BossUnit.cs" />
     <Compile Include="Assets\Script\Unit\CoreType\Hero.cs" />
     <Compile Include="Assets\Script\Unit\CoreType\UnitParameters.cs" />
+    <Compile Include="Assets\Script\Unit\Mecanics\Base\IEndEffect.cs" />
     <Compile Include="Assets\Script\Unit\Mecanics\Base\TimeEffect.cs" />
-    <Compile Include="Assets\Script\Unit\Mecanics\Base\VisualEffect.cs" />
     <Compile Include="Assets\Script\Unit\Mecanics\DDEffect.cs" />
     <Compile Include="Assets\Script\Unit\Mecanics\FireEffect.cs" />
     <Compile Include="Assets\Script\Unit\Mecanics\SpeedEffect.cs" />
     <Compile Include="Assets\Script\Unit\Unit.cs" />
+    <Compile Include="Assets\Script\Unit\VisualEffectBehaviour.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\BaseEffectAbsorber.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\Bullet.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\BulletEffect.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\EffectAbsorbers\PSAbsorber.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\SubWeapons\MagicHeroWeapon.cs" />
+    <Compile Include="Assets\Script\Unit\Weapon\SubWeapons\RandomPosWeapon.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\SubWeapons\TriplsShotWeapon.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\Talisman.cs" />
     <Compile Include="Assets\Script\Unit\Weapon\TalismanParameters.cs" />
@@ -169,6 +178,7 @@
     <Compile Include="Assets\Script\Utils\GreatRandom.cs" />
     <Compile Include="Assets\Script\Utils\Pool\Pool.cs" />
     <Compile Include="Assets\Script\Utils\Pool\PoolElement.cs" />
+    <Compile Include="Assets\Script\Utils\Render\RenderCam.cs" />
     <Compile Include="Assets\Script\Utils\SerializableDictionary.cs" />
     <Compile Include="Assets\Script\Utils\Singleton.cs" />
     <Compile Include="Assets\Script\Utils\TimerManager.cs" />

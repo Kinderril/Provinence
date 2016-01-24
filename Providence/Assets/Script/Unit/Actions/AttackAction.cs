@@ -122,7 +122,7 @@ public class AttackAction : BaseAction
     {
         var dir = target.transform.position - owner.transform.position;
         dir.y = 0;
-        Debug.Log("shhot dir: " + dir);
+//        Debug.Log("shhot dir: " + dir);
         owner.Control.SetToDirection(dir);
         //dir = new Vector3(dir.x,owner.transform.position.y,dir.z);
         owner.TryAttack(dir, target);

@@ -20,13 +20,13 @@ public class PlayerData
     public const string ITEMS = "ITEMS";
     public const string BASE_PARAMS = "BASE_PARAMS";
     public const string BORN_POSITIONS = "BORN_POSITIONS";
-    public const char ITEMS_DELEMETER = ':';
+    public const char ITEMS_DELEMETER = '`';
     public DictionaryOfItemAndInt playerInv = new DictionaryOfItemAndInt();
     private List<BaseItem> playerItems = new List<BaseItem>();
     public int AllocatedPoints;
     private int CurrentLevel;
     public Dictionary<MainParam,int> MainParameters;
-    private readonly Dictionary<Slot,int> slotsCount = new Dictionary<Slot, int>() { {Slot.Talisman, 2}, { Slot.none, 0 } };
+    private readonly Dictionary<Slot,int> slotsCount = new Dictionary<Slot, int>() { {Slot.Talisman, 2}, { Slot.executable, 0 } };
     private readonly Dictionary<int, List<int>> listOfOpendBornPositions = new Dictionary<int, List<int>>(); 
 
     public event Action<BaseItem> OnNewItem;
@@ -130,6 +130,9 @@ public class PlayerData
                         break;
                     case TalismanItem.FIRSTCHAR:
                         itemBase = TalismanItem.Creat(subStr);
+                        break;
+                    case ExecutableItem.FIRSTCHAR:
+                        itemBase = ExecutableItem.Creat(subStr);
                         break;
                 }
                 if (itemBase != null)
@@ -308,6 +311,7 @@ public class PlayerData
     public void Sell(BaseItem playerItem)
     {
         AddCurrensy(ItemId.money, playerItem.cost/3);
+        playerItems.Remove(playerItem);
         playerItem.IsEquped = false;
         if (OnItemSold != null)
         {
@@ -411,6 +415,11 @@ public class PlayerData
     internal bool IsPositionOpen(int misson,int index)
     {
         return listOfOpendBornPositions[misson].Contains(index);
+    }
+
+    public void RemoveItem(BaseItem bonusItem)
+    {
+        playerItems.Remove(bonusItem);
     }
 }
 

@@ -29,6 +29,7 @@ public class Pool
             var element = dataBaseController.GetItem(dataBaseController.FlyNumberWIthDependence);
             element.gameObject.SetActive(false);
             poolOfElements[PoolType.flyNumberInGame].Add(element);
+            element.transform.SetParent(dataBaseController.transform);
         }
         for (int i = 0; i < 10; i++)
         {
@@ -36,6 +37,7 @@ public class Pool
             var element = dataBaseController.GetItem(dataBaseController.FlyingNumber);
             element.gameObject.SetActive(false);
             poolOfElements[PoolType.flyNumberInUI].Add(element);
+            element.transform.SetParent(dataBaseController.transform);
         }
     }
 
@@ -65,6 +67,21 @@ public class Pool
         element.transform.localPosition = pos;
         element.Init();
         return element as T;
+    }
+
+    public VisualEffectBehaviour GetItemFromPool(EffectType effectType)
+    {
+        VisualEffectBehaviour element = null;
+        var dic = poolOfElements[PoolType.effectVisual];
+        for (int i = 0; i < dic.Count; i++)
+        {
+            var e = dic[i] as VisualEffectBehaviour;
+            if (!e.IsUsing && e.EffectType == effectType)
+                return e ;
+        }
+        element = dataBaseController.GetItem(dataBaseController.VisualEffectBehaviour(effectType));
+        dic.Add(element);
+        return element; 
     }
 
     private PoolElement GetNoUsed(List<PoolElement> lis)

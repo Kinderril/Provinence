@@ -32,6 +32,13 @@ public class ProfileControllerInspector : EditorWindow
                 cur += 1000;
                 PlayerPrefs.SetInt(str, cur);
             }
+            if (GUILayout.Button("GIVE 10 crystal"))
+            {
+                var str = PlayerData.INVENTORY + ItemId.crystal.ToString();
+                var cur = PlayerPrefs.GetInt(str, 0);
+                cur += 10;
+                PlayerPrefs.SetInt(str, cur);
+            }
             if (GUILayout.Button("CLEAR ALL"))
             {
                 PlayerPrefs.DeleteAll();

@@ -16,24 +16,30 @@ public class HeroShopRandomItem : IShopExecute
             case Slot.magic_weapon:
             case Slot.body:
             case Slot.helm:
-                Switcher(slot, levelResult);
+                MainController.Instance.PlayerData.AddItem(CreatMainSlot(slot, levelResult));
                 break;
             case Slot.Talisman:
-                CreaTalic(levelResult);
+                MainController.Instance.PlayerData.AddItem(CreaTalic(levelResult));
                 break;
         }
+        randomCreatAdditionalItem();
         base.Execute(level);
     }
 
-    private void CreaTalic(int levelResult)
+    private void randomCreatAdditionalItem()
+    {
+        
+    }
+
+    public static TalismanItem CreaTalic(int levelResult)
     {
         var totalPoints = GetPointsByLvl(levelResult);
         var type = ShopController.AllTalismanstypes.RandomElement();
         TalismanItem item = new TalismanItem(totalPoints, type);
-        MainController.Instance.PlayerData.AddItem(item);
+        return item;
     }
 
-    private void Switcher(Slot slot, int levelResult)
+    public static PlayerItem CreatMainSlot(Slot slot, int levelResult)
     {
         var totalPoints = GetPointsByLvl(levelResult)*GetSlotCoef(slot);
         float diff = Utils.RandomNormal(0.5f, 1f);
@@ -60,15 +66,15 @@ public class HeroShopRandomItem : IShopExecute
             item.specialAbilities = spec;
             Debug.Log("WITH SPEC::: " + item.specialAbilities);
         }
-        MainController.Instance.PlayerData.AddItem(item);
+        return item;
     }
 
-    private int GetPointsByLvl(int lvl)
+    private static int GetPointsByLvl(int lvl)
     {
         return lvl*4 + 20;
     }
 
-    private float GetSlotCoef(Slot slot)
+    private static float GetSlotCoef(Slot slot)
     {
         float val = 1f;
         switch (slot)

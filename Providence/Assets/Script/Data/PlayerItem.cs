@@ -27,7 +27,7 @@ public enum Slot
     helm,
     bonus,
     Talisman,
-    none,
+    executable,
 }
 
 public class PlayerItem : BaseItem
@@ -36,6 +36,7 @@ public class PlayerItem : BaseItem
     public SpecialAbility specialAbilities = SpecialAbility.none; 
     public bool isRare;
     public const char FIRSTCHAR = '%';
+    
 
 
     public PlayerItem(Dictionary<ParamType, float> pparams, Slot slot, bool isRare, float totalPoints)
@@ -44,6 +45,7 @@ public class PlayerItem : BaseItem
         this.parameters = pparams;
         this.Slot = slot;
         this.isRare = isRare;
+        icon = RenderCam.Instance.DoRender(slot);
         isEquped = false;
     }
     public PlayerItem(Dictionary<ParamType, float> pparams, Slot slot, bool isRare, int cost,bool isEquiped,string name,string icon)
@@ -117,7 +119,6 @@ public class PlayerItem : BaseItem
         Debug.Log("Creat from:   " + item);
         var Part1 = item.Split(MDEL);
         var Part2 = Part1[1].Split(DELEM);
-        var Part3 = Part1[2];
         Slot slot = (Slot) Convert.ToInt32(Part2[0]);
         bool isRare = Convert.ToBoolean(Part2[1]);
         string icon = Part2[2];
@@ -139,6 +140,7 @@ public class PlayerItem : BaseItem
         }
         PlayerItem playerItem = new PlayerItem(itemParameters, slot, isRare, cost, isEquped, name, icon);
         //Debug.Log(">>>Part3[0]   :" + Part3.ToString());
+        var Part3 = Part1[2];
         var spec = (SpecialAbility) Convert.ToInt32(Part3.ToString());
         playerItem.specialAbilities = spec;
         

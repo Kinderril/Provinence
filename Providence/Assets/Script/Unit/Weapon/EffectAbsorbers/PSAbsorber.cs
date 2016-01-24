@@ -7,6 +7,18 @@ using UnityEngine;
 public class PSAbsorber : BaseEffectAbsorber
 {
     public ParticleSystem PSystem;
+
+    void Awake()
+    {
+        if (PSystem == null)
+        {
+            PSystem = GetComponent<ParticleSystem>();
+        }
+        if (PSystem != null)
+        {
+            PSystem.Stop();
+        }
+    }
     public override void Play()
     {
         PSystem.Play();

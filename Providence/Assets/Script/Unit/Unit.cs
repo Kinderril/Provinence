@@ -31,7 +31,8 @@ public class Unit : MonoBehaviour
     public ParticleSystem HitParticleSystem;
     protected bool isPlayAttack = false;
     public float _shield;
-    public event Action<bool> OnShieldOn;
+    public Action OnShieldOn;
+    public IEndEffect OnShieldOff;
 
     public float CurHp
     {
@@ -68,9 +69,13 @@ public class Unit : MonoBehaviour
         set
         {
             _shield = value;
-            if (_shield > 0 && OnShieldOn != null)
+            if (_shield > 0)
             {
-                OnShieldOn(true);
+                var effectVisual = DataBaseController.Instance.Pool.GetItemFromPool(EffectType.shield);
+                effectVisual.Init(this, OnShieldOff);
+
+                if (OnShieldOn != null)
+                    OnShieldOn();
             }
         }
     }
@@ -99,6 +104,7 @@ public class Unit : MonoBehaviour
         InitWEapons();
         curWeapon = InventoryWeapons[0];
         curWeapon.gameObject.SetActive(true);
+        OnShieldOff = new IEndEffect();
     }
 
     protected virtual void InitWEapons()
@@ -272,10 +278,7 @@ public class Unit : MonoBehaviour
             {
                 power -= _shield;
                 _shield = 0;
-                if (OnShieldOn != null)
-                {
-                    OnShieldOn(false);
-                }
+                OnShieldOff.Do();
             }
         }
         CurHp = CurHp - power;

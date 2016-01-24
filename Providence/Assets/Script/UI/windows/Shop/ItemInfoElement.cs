@@ -19,9 +19,9 @@ public class ItemInfoElement : MonoBehaviour
     public Image SlotLabel;
     public Image mainIcon;
     public Image SpecIcon;
-    public Action<ItemOwner> OnInitCallback;
+    public Action<BaseItem, ItemOwner> OnInitCallback;
 
-    public void SetCallBack(Action<ItemOwner> OnInitCallback)
+    public void SetCallBack(Action<BaseItem, ItemOwner> OnInitCallback)
     {
         this.OnInitCallback = OnInitCallback;
     }
@@ -31,6 +31,7 @@ public class ItemInfoElement : MonoBehaviour
     {
         Clear();
         SlotLabel.sprite = DataBaseController.Instance.SlotIcon(item.Slot);
+        SpecIcon.gameObject.SetActive(false);
         var playerItem = item as PlayerItem;
         if (playerItem != null)
         {
@@ -65,10 +66,17 @@ public class ItemInfoElement : MonoBehaviour
         {
             var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
             element.Init(ParamType.PPower, bonusItem.power);
+            element.transform.SetParent(layout);
             NameLabel.text = "name (" + bonusItem.remainUsetime + ")";
         }
+        var execItem = item as ExecutableItem;
+        if (execItem != null)
+        {
+
+            NameLabel.text = execItem.ExecutableType.ToString();
+        }
         InitCost(0, item.cost / 3);
-        OnInitCallback(ItemOwner.Player);
+        OnInitCallback(item,ItemOwner.Player);
     }
 
     public void Init(IShopExecute item)
@@ -78,7 +86,7 @@ public class ItemInfoElement : MonoBehaviour
         NameLabel.text = "Level:" + item.Parameter;
         mainIcon.sprite = item.icon;
         InitCost(item.CrystalCost, item.MoneyCost);
-        OnInitCallback(ItemOwner.Shop);
+        OnInitCallback(null,ItemOwner.Shop);
     }
 
     private void InitCost(int crystals,int money)
