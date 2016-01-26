@@ -40,7 +40,6 @@ public class TalismanItem : BaseItem
         this.costShoot = costShoot1;
         this.TalismanType = type;
         Slot = Slot.Talisman;
-        Debug.Log("cost " + costShoot);
     }
 
     public override char FirstChar()

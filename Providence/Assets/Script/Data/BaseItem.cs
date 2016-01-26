@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 
 public abstract class BaseItem
@@ -13,6 +14,7 @@ public abstract class BaseItem
     public string icon = "noicon";
     public string name = "no name";
     protected bool isEquped;
+    public Sprite IconSprite;
     public int cost;
     public Slot Slot;
 
@@ -28,6 +30,11 @@ public abstract class BaseItem
             isEquped = value;
             Save();
         }
+    }
+
+
+    public virtual void LoadTexture()
+    {
     }
 }
 
