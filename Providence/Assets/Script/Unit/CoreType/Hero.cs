@@ -185,7 +185,7 @@ public class Hero : Unit
         CurrenthBonus += moneyBonusCoef;
         currenthBonusTimeLeft += moneyBonusCoefTime;
 
-        GetItemEffect.Play();
+//        GetItemEffect.Play();
         MainController.Instance.level.AddItem(type, count);
     }
 

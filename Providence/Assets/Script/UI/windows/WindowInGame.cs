@@ -14,7 +14,8 @@ public class WindowInGame : BaseWindow
     public WeaponChooserView WeaponChooser;
     public UIMain UiControls;
     public Transform hitTransform;
-    public List<TalismanButton> TalismanButtons; 
+    public List<TalismanButton> TalismanButtons;
+    public Transform moneyContainer;
 
     public override void Init()
     {
@@ -70,22 +71,24 @@ public class WindowInGame : BaseWindow
                 moneyField.text = arg2.ToString("00");
                 item = DataBaseController.Instance.Pool.GetItemFromPool<FlyingNumbers>(PoolType.flyNumberInUI);
                 //item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, moneyField.transform.position);
-                item.transform.SetParent(transform);
-                item.transform.position = moneyField.transform.position;
-                item.Init(delta, DataBaseController.Instance.GetColor(arg1), (delta > 0) ? "+" : "-");
+                item.transform.SetParent(moneyContainer);
+//                item.transform.position = moneyField.transform.position;
+                item.Init(GetDeltaStr(delta) + " Gold", DataBaseController.Instance.GetColor(arg1),FlyNumerDirection.non,26);
                 break;
             case ItemId.crystal:
                 MainController.Instance.level.MessageAppear("You found crystal", Color.green, DataBaseController.Instance.ItemIcon(ItemId.crystal));
                 break;
             case ItemId.energy:
                 item = DataBaseController.Instance.Pool.GetItemFromPool<FlyingNumbers>(PoolType.flyNumberInUI);
-                //item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, moneyField.transform.position);
-                item.transform.SetParent(transform);
-                item.transform.position = moneyField.transform.position;
-                item.Init(delta, DataBaseController.Instance.GetColor(arg1), (delta < 0) ? "+" : "-");
-
+                item.transform.SetParent(moneyContainer);
+                item.Init("+" + Mathf.Abs(delta).ToString("0")+ " Energy", DataBaseController.Instance.GetColor(arg1), FlyNumerDirection.non,30);
                 break;
         }
+    }
+
+    private string GetDeltaStr(float delta)
+    {
+        return ((delta > 0) ? "+" : "") + delta.ToString("0");
     }
 
     private void OnHeroHit(float arg1, float arg2,float delta)
@@ -99,7 +102,7 @@ public class WindowInGame : BaseWindow
             item.transform.position = hitTransform.position;
             Color color = DataBaseController.Instance.GetColor(ItemId.health);
             bool isPlus = (delta > 0);
-            item.Init(delta, color, ((isPlus) ? "-" : "+"));
+            item.Init(GetDeltaStr(delta), color);
         }
         HealthSlider.value = arg1 / arg2;
     }

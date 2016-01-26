@@ -72,7 +72,7 @@ public class BaseMonster : Unit
             var fn = DataBaseController.Instance.Pool.GetItemFromPool<FlyNumberWIthDependence>(PoolType.flyNumberInGame);
             fn.transform.SetParent(WindowManager.Instance.CurrentWindow.TopPanel.transform);
             //fn.transform.position = transform.position;
-            fn.Init(transform,hp,Color.red, "-");
+            fn.Init(transform, "-" + hp.ToString("0"),Color.red);
             //fn.transform.LookAt(MainController.Instance.MainCamera.transform);
         }
         if (attackBehaviour == null)
