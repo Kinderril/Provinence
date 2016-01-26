@@ -35,7 +35,7 @@ public class PlayerItemElement : MonoBehaviour
             rareImage.gameObject.SetActive((item as PlayerItem).isRare);
         }
         equpedImage.gameObject.SetActive(item.IsEquped);
-        iconImage.sprite = Resources.Load<Sprite>(item.icon);
+        iconImage.sprite = item.IconSprite;
         SlotLabel.sprite = DataBaseController.Instance.SlotIcon(item.Slot);
     }
 
