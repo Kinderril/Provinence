@@ -70,7 +70,7 @@ public class WindowInGame : BaseWindow
             case ItemId.money:
                 moneyField.text = arg2.ToString("00");
                 item = DataBaseController.Instance.Pool.GetItemFromPool<FlyingNumbers>(PoolType.flyNumberInUI);
-                //item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, moneyField.transform.position);
+                //item = DataBaseController.GetItem(DataBaseController.Instance.FlyingNumber, moneyField.transform.position);
                 item.transform.SetParent(moneyContainer);
 //                item.transform.position = moneyField.transform.position;
                 item.Init(GetDeltaStr(delta) + " Gold", DataBaseController.Instance.GetColor(arg1),FlyNumerDirection.non,26);
@@ -97,7 +97,7 @@ public class WindowInGame : BaseWindow
         {
             //Debug.Log("OnHeroHit " + arg1 + "/" + arg2  + " d:" + delta);
             var item = DataBaseController.Instance.Pool.GetItemFromPool<FlyingNumbers>(PoolType.flyNumberInUI);
-            //var item = DataBaseController.Instance.GetItem(DataBaseController.Instance.FlyingNumber, hitTransform.position);
+            //var item = DataBaseController.GetItem(DataBaseController.Instance.FlyingNumber, hitTransform.position);
             item.transform.SetParent(transform);
             item.transform.position = hitTransform.position;
             Color color = DataBaseController.Instance.GetColor(ItemId.health);

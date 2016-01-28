@@ -30,7 +30,7 @@ public class AllParametersContainer : MonoBehaviour
     {
         foreach (ParamType v in Enum.GetValues(typeof(ParamType)))
         {
-            var item = DataBaseController.Instance.GetItem(PrefabGameElement);
+            var item = DataBaseController.GetItem(PrefabGameElement);
             item.Init(v);
             item.gameObject.transform.SetParent(layoutGameElements);
             elementsParams.Add(item);

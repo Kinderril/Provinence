@@ -49,7 +49,7 @@ public class WindowMission : BaseWindow
         Utils.ClearTransform(Layout);
         for (int i = 1; i < count; i++)
         {
-            var rpToggle = DataBaseController.Instance.GetItem<RespawnPointToggle>(PrefabRespawnPointToggle, Vector3.zero);
+            var rpToggle = DataBaseController.GetItem<RespawnPointToggle>(PrefabRespawnPointToggle, Vector3.zero);
             RespawnToggles.Add(rpToggle);
             rpToggle.transform.SetParent(Layout);
             rpToggle.Toggle.group = toggleGroup;

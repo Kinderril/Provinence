@@ -22,7 +22,7 @@ public class ChestBornPosition : BaseBornPosition
     {
         var p = transform.position;
         var b = new Vector3(p.x + UnityEngine.Random.Range(-radius, radius), p.y, p.z + UnityEngine.Random.Range(-radius, radius));
-        var chest = DataBaseController.Instance.GetItem<Chest>(DataBaseController.Instance.chestPrefab, b);
+        var chest = DataBaseController.GetItem<Chest>(DataBaseController.Instance.chestPrefab, b);
         chest.Init(withCrystal, level.difficult);
         chest.transform.SetParent(map.miscContainer,true);
     }

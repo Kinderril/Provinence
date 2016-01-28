@@ -49,7 +49,7 @@ public class MonsterBornPosition : BaseBornPosition
         totalUnits = 0;
         if (monster != null)
         {
-            var unit = DataBaseController.Instance.GetItem(monster, pos);
+            var unit = DataBaseController.GetItem(monster, pos);
             map.enemies.Add(unit);
             unit.Init(hero);
             unit.transform.SetParent(map.enemiesContainer);
