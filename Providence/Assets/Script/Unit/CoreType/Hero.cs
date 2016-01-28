@@ -268,6 +268,10 @@ public class Hero : Unit
         }
     }
 
+    public override void GetHit(Bullet bullet)
+    {
+        base.GetHit(bullet);
+    }
 }
 
 class ShootContainer
