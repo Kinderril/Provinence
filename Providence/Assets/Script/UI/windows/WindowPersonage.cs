@@ -83,7 +83,7 @@ public class WindowPersonage : BaseWindow
         var baseParams = MainController.Instance.PlayerData.MainParameters;
         foreach (var baseParam in baseParams)
         {
-            var item = DataBaseController.Instance.GetItem(PrefabParameterUpgrade);
+            var item = DataBaseController.GetItem(PrefabParameterUpgrade);
             item.Init(baseParam.Key);
             item.gameObject.transform.SetParent(layout);
             elements.Add(item);

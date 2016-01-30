@@ -130,12 +130,12 @@ public class DataBaseController : Singleton<DataBaseController>
         return TalismansSprites[mp];
     }
 
-    public T GetItem<T>(T item, Vector3 pos) where T : MonoBehaviour
+    public static T GetItem<T>(T item, Vector3 pos) where T : MonoBehaviour
     {
         return (Instantiate(item.gameObject, pos, Quaternion.identity) as GameObject).GetComponent<T>();
     }
 
-    public T GetItem<T>(T item) where T : MonoBehaviour
+    public static T GetItem<T>(T item) where T : MonoBehaviour
     {
         return (Instantiate(item.gameObject, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<T>();
     }

@@ -21,7 +21,7 @@ public class BonusBornPosition : BaseBornPosition
     {
         var p = transform.position;
         var b = new Vector3(p.x + UnityEngine.Random.Range(-radius, radius), p.y, p.z + UnityEngine.Random.Range(-radius, radius));
-        var bonusMapElement = DataBaseController.Instance.GetItem<BaseBonusMapElement>(DataBaseController.Instance.DataStructs.BaseBonusMapElement.RandomElement(), b);
+        var bonusMapElement = DataBaseController.GetItem<BaseBonusMapElement>(DataBaseController.Instance.DataStructs.BaseBonusMapElement.RandomElement(), b);
         bonusMapElement.Init();
         bonusMapElement.transform.SetParent(map.miscContainer, true);
     }

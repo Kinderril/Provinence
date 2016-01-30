@@ -16,7 +16,7 @@ public class TalismanButton : MonoBehaviour
     public void Init(TalismanItem talic, int countTalismans)
     {
         this.TalismanItem = talic;
-        talicLogic = new Talisman(TalismanItem, countTalismans);
+        talicLogic = Talisman.Creat(TalismanItem, countTalismans);
         talicLogic.OnReady += OnReady;
         gameObject.SetActive(true);
         var spr = DataBaseController.Instance.TalismanIcon(talic.TalismanType);

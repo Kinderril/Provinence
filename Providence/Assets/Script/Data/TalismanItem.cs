@@ -14,7 +14,13 @@ public enum TalismanType
     doubleDamage,
     speed,
     megaArmor,
-    fireBall,
+    chain,
+    trapDamage,
+    trapAOE,
+    trapFreez,
+    bloodDamage,
+    cleave,
+    energyVamp,
 }
 
 public class TalismanItem : BaseItem

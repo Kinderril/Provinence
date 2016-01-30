@@ -26,7 +26,7 @@ public class Pool
     {
         for (int i = 0; i < 10; i++)
         {
-            var element = dataBaseController.GetItem(dataBaseController.FlyNumberWIthDependence);
+            var element = DataBaseController.GetItem(dataBaseController.FlyNumberWIthDependence);
             element.gameObject.SetActive(false);
             poolOfElements[PoolType.flyNumberInGame].Add(element);
             element.transform.SetParent(dataBaseController.transform);
@@ -34,7 +34,7 @@ public class Pool
         for (int i = 0; i < 10; i++)
         {
 
-            var element = dataBaseController.GetItem(dataBaseController.FlyingNumber);
+            var element = DataBaseController.GetItem(dataBaseController.FlyingNumber);
             element.gameObject.SetActive(false);
             poolOfElements[PoolType.flyNumberInUI].Add(element);
             element.transform.SetParent(dataBaseController.transform);
@@ -51,13 +51,13 @@ public class Pool
             switch (poolType)
             {
                 case PoolType.flyNumberInGame:
-                    element = dataBaseController.GetItem(dataBaseController.FlyNumberWIthDependence);
+                    element = DataBaseController.GetItem(dataBaseController.FlyNumberWIthDependence);
                   break;
                 case PoolType.flyNumberInUI:
-                     element = dataBaseController.GetItem(dataBaseController.FlyingNumber);
+                     element = DataBaseController.GetItem(dataBaseController.FlyingNumber);
                     break;
                 case PoolType.flyNumberWithPicture:
-                    element = dataBaseController.GetItem(dataBaseController.FlyingNumberWithPicture);
+                    element = DataBaseController.GetItem(dataBaseController.FlyingNumberWithPicture);
                 break;
             }
 
@@ -79,7 +79,7 @@ public class Pool
             if (!e.IsUsing && e.EffectType == effectType)
                 return e ;
         }
-        element = dataBaseController.GetItem(dataBaseController.VisualEffectBehaviour(effectType));
+        element = DataBaseController.GetItem(dataBaseController.VisualEffectBehaviour(effectType));
         dic.Add(element);
         return element; 
     }

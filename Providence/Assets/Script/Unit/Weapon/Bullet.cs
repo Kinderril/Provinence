@@ -75,11 +75,6 @@ public class Bullet : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         OnBulletHit(other);
-//        var unit = other.GetComponent<Unit>();
-//        if (unit != null && unit != weapon.owner)
-//        {
-//            Hit(unit);
-//        }
     }
 
     protected virtual void OnBulletHit(Collider other)

@@ -38,7 +38,7 @@ public class WindowShop : BaseWindow
         Debug.Log("items count = " + items.Count);
         foreach (var playerItem in items)
         {
-            var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
+            var element = DataBaseController.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
             element.Init(playerItem, OnSelected);
             element.transform.SetParent(layoutMyInventory,false);
             PlayerItemElements.Add(element);
@@ -46,7 +46,7 @@ public class WindowShop : BaseWindow
         var allSell = DataBaseController.Instance.allShopElements;
         foreach (var shopExecute in allSell)
         {
-            var element = DataBaseController.Instance.GetItem<ShopItemElement>(PrefabShopItemElement);
+            var element = DataBaseController.GetItem<ShopItemElement>(PrefabShopItemElement);
             element.Init(shopExecute,OnShopSelected);
             element.transform.SetParent(layoutShopItems,false);
         }
@@ -222,7 +222,7 @@ public class WindowShop : BaseWindow
     private void OnNewItem(BaseItem playerItem)
     {
         //WindowManager.Instance.InfoWindow.Init(null,"you buy new item");
-        var element = DataBaseController.Instance.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
+        var element = DataBaseController.GetItem<PlayerItemElement>(PrefabPlayerItemElement);
         element.Init(playerItem, OnSelected);
         element.transform.SetParent(layoutMyInventory,false);
         PlayerItemElements.Add(element);

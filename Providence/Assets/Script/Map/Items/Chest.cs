@@ -36,7 +36,7 @@ public class Chest : MonoBehaviour
     {
         foreach (var item in items)
         {
-            var mo = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab,
+            var mo = DataBaseController.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab,
                 transform.position);
             mo.Init(item.Key, item.Value);
             mo.transform.SetParent(Map.Instance.miscContainer,true);

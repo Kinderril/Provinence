@@ -37,7 +37,7 @@ public class ItemInfoElement : MonoBehaviour
         {
             foreach (var p in playerItem.parameters)
             {
-                var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
+                var element = DataBaseController.GetItem<ParameterElement>(Prefab);
                 element.Init(p.Key, p.Value);
                 element.transform.SetParent(layout);
             }
@@ -55,7 +55,7 @@ public class ItemInfoElement : MonoBehaviour
         if (talismanItem != null)
         {
             mainIcon.sprite = DataBaseController.Instance.TalismanIcon(talismanItem.TalismanType);
-            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
+            var element = DataBaseController.GetItem<ParameterElement>(Prefab);
             element.Init(ParamType.PPower, talismanItem.power);
             element.Init(ParamType.MDef, talismanItem.costShoot);
             element.transform.SetParent(layout);
@@ -64,7 +64,7 @@ public class ItemInfoElement : MonoBehaviour
         var bonusItem = item as BonusItem;
         if (bonusItem != null)
         {
-            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
+            var element = DataBaseController.GetItem<ParameterElement>(Prefab);
             element.Init(ParamType.PPower, bonusItem.power);
             element.transform.SetParent(layout);
             NameLabel.text = "name (" + bonusItem.remainUsetime + ")";
@@ -94,13 +94,13 @@ public class ItemInfoElement : MonoBehaviour
         Debug.Log("Init cost : " + crystals + "    " + money);
         if (crystals > 0)
         {
-            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
+            var element = DataBaseController.GetItem<ParameterElement>(Prefab);
             element.Init(ItemId.crystal, crystals);
             element.transform.SetParent(moneyLayout);
         }
         if (money > 0)
         {
-            var element = DataBaseController.Instance.GetItem<ParameterElement>(Prefab);
+            var element = DataBaseController.GetItem<ParameterElement>(Prefab);
             element.Init(ItemId.money, money);
             element.transform.SetParent(moneyLayout);
         }

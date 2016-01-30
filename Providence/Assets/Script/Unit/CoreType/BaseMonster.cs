@@ -53,7 +53,7 @@ public class BaseMonster : Unit
     {
         Control.Dead();
         MainController.Instance.level.AddItem(ItemId.energy, -energyadd);
-        var mapItem2 = DataBaseController.Instance.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab, transform.position);
+        var mapItem2 = DataBaseController.GetItem<MapItem>(DataBaseController.Instance.MapItemPrefab, transform.position);
         mapItem2.Init(ItemId.money, moneyCollect);
         mapItem2.transform.SetParent(Map.Instance.miscContainer, true);
         mapItem2.StartFly(transform);

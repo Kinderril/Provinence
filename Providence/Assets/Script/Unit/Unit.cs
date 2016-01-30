@@ -181,24 +181,46 @@ public class Unit : MonoBehaviour
     {
         Control.MoveTo(dir * Parameters.Parameters[ParamType.Speed]);
     }
-    
-//    public void MoveToPosition(Vector3 vector3)
-//    {
-////        Debug.Log("MOve to: " + vector3);
-//        if (action != null)
-//        {
-//            action.End();
-//        }
-//        var moveAction = new MoveAction(this,vector3, () =>
-//        {
-//            action = null;
-//        });
-//        action = moveAction;
-//    }
 
     private float calcResist(float curResist)
     {
         return 1 - curResist/(100 + curResist);
+    }
+
+    public void GetHit(float power,WeaponType type,float mdef,float pdef)
+    {
+        switch (type)
+        {
+            case WeaponType.magic:
+                power *= calcResist(mdef);
+                break;
+            case WeaponType.physics:
+                power *= calcResist(pdef);
+                break;
+        }
+        power = GreatRandom.RandomizeValue(power);
+        if (_shield > 0)
+        {
+            if (_shield > power)
+            {
+                _shield -= power;
+                return;
+            }
+            else
+            {
+                power -= _shield;
+                _shield = 0;
+                OnShieldOff.Do();
+            }
+        }
+        CurHp = CurHp - power;
+        if (this is Hero)
+        {
+            if (OnGetHit != null)
+            {
+                OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], power);
+            }
+        }
     }
 
     public virtual void GetHit(Bullet bullet)
@@ -256,40 +278,9 @@ public class Unit : MonoBehaviour
                 HitParticleSystem.Play();
             }
         }
-
-        switch (bullet.weapon.Parameters.type)
-        {
-            case WeaponType.magic:
-                power *= calcResist(mdef);
-                break;
-            case WeaponType.physics:
-                power *= calcResist(pdef);
-                break;
-        }
-        power = GreatRandom.RandomizeValue(power);
-        if (_shield > 0)
-        {
-            if (_shield > power)
-            {
-                _shield -= power;
-                return;
-            }
-            else
-            {
-                power -= _shield;
-                _shield = 0;
-                OnShieldOff.Do();
-            }
-        }
-        CurHp = CurHp - power;
-        if (this is Hero)
-        {
-            if (OnGetHit != null)
-            {
-                OnGetHit(CurHp, Parameters.Parameters[ParamType.Hp], power);
-            }
-        }
+        GetHit(power, bullet.weapon.Parameters.type, mdef, pdef);
     }
+    
 
     
 

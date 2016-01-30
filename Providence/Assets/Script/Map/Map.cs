@@ -23,7 +23,7 @@ public class Map : Singleton<Map>
     public Hero Init(Level lvl,int heroBornPositionIndex)
     {
         level = lvl;
-        var hero = DataBaseController.Instance.GetItem(DataBaseController.Instance.prefabHero, GetHeroBoenPos(heroBornPositionIndex));
+        var hero = DataBaseController.GetItem(DataBaseController.Instance.prefabHero, GetHeroBoenPos(heroBornPositionIndex));
         hero.Init();
         bornPositions = transform.Find("BornPos");
         enemiesContainer = transform.Find("Enemies");
@@ -100,7 +100,7 @@ public class Map : Singleton<Map>
         var bossPrefab = DataBaseController.Instance.BossUnits.FirstOrDefault(x => x.Parameters.Level == level.difficult);
         if (bossPrefab != null)
         {
-            boss = DataBaseController.Instance.GetItem<BossUnit>(bossPrefab, pos);
+            boss = DataBaseController.GetItem<BossUnit>(bossPrefab, pos);
             var hero = MainController.Instance.level.MainHero;
             boss.Init(hero);
             hero.ArrowTarget.Init(boss);
