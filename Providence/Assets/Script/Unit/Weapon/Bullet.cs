@@ -104,6 +104,7 @@ public class Bullet : MonoBehaviour
                     {
                         AffecttedUnits.Add(unit);
                         unit.GetHit(this);
+                        PlayHit();
                         return;
                     }
                     break;
@@ -118,6 +119,7 @@ public class Bullet : MonoBehaviour
                     {
                         AffecttedUnits.Add(unit);
                         unit.GetHit(this);
+                        PlayHit();
                         return;
                     }
                     break;
@@ -130,19 +132,25 @@ public class Bullet : MonoBehaviour
             {
                 AffecttedUnits.Add(unit);
                 unit.GetHit(this);
+                PlayHit();
             }
         }
         Death();
     }
 
-    private void Death()
+    private void PlayHit()
     {
-        Destroy(gameObject);
+
         if (HitParticleSystem != null)
         {
             HitParticleSystem.Play();
             Map.Instance.LeaveEffect(HitParticleSystem);
         }
+    }
+
+    private void Death()
+    {
+        Destroy(gameObject);
         if (TrailParticleSystem != null)
         {
             TrailParticleSystem.Stop();

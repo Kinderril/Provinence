@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = System.Random;
 
@@ -17,7 +18,19 @@ public static class Utils
             return default(T);
         return list[UnityEngine.Random.Range(0, list.Count)];
     }
-    
+    public static List<T> RandomElements<T>(this List<T> list,int count)
+    {
+        if (list.Count == 0 || list.Count <= count)
+            return list;
+        var nList = new List<T>();
+        list.OrderBy(a => Guid.NewGuid()).ToList();
+        for (int i = 0; i < count; i++)
+        {
+            nList.Add(list[i]);
+        }
+        return nList;
+    }
+
     public static void SetRandomRotation(Transform transform)
     {
         transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(-180, 180), 0);

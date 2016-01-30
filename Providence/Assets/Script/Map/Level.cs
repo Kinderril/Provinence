@@ -51,7 +51,7 @@ public class Level
 
     private void OnPortalOpen()
     {
-        Vector3 placeToBorn;
+//        Vector3 placeToBorn;
         //Find closes bornPositions
     }
 
@@ -138,6 +138,7 @@ public class Level
                 PlayerData.AddItem(collectedItem, false);
             }
         }
+        DataBaseController.Instance.Pool.Clear();
         PlayerData.AddInventory(inventory);
         PlayerData.Save();
         if (OnEndLevel != null)

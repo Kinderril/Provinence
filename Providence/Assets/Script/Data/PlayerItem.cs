@@ -47,6 +47,7 @@ public class PlayerItem : BaseItem
         this.Slot = slot;
         this.isRare = isRare;
         icon = RenderCam.Instance.DoRender(slot);
+        LoadTexture();
         isEquped = false;
     }
     public PlayerItem(Dictionary<ParamType, float> pparams, Slot slot, bool isRare, int cost,bool isEquiped,string name,string icon)

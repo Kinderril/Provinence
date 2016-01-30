@@ -40,6 +40,7 @@ public class Map : Singleton<Map>
                     case BornPositionType.chest:
                         var cBP = (bp as ChestBornPosition);
                         chestPositions.Add(cBP);
+                        
                         break;
                     case BornPositionType.monster:
                         var mBP = (bp as MonsterBornPosition);
@@ -58,8 +59,11 @@ public class Map : Singleton<Map>
                 }
             }
         }
-        var rnd = chestPositions.RandomElement();
-        rnd.SetCrystal();
+        int chestsWithCrysatls = (int)(chestPositions.Count*0.5f);
+        foreach (var chestBornPosition in chestPositions.RandomElements(chestsWithCrysatls))
+        {
+            chestBornPosition.SetCrystal();
+        }
         foreach (var chestBornPosition in chestPositions)
         {
             chestBornPosition.Init(this,lvl);

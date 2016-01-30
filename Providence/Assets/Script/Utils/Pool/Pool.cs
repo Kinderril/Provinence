@@ -94,5 +94,11 @@ public class Pool
         }
         return null;
     }
+
+    public void Clear()
+    {
+        
+
+    }
 }
 
